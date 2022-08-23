@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm run stop && concurrently \"npm run server\" \"npm run expose\"",
+    "start": "npm run stop && concurrently \"npm run server\"",
     "build": "react-scripts build",
     "expose": "ngrok http 8301",
     "server": "react-scripts start",
@@ -14,7 +14,10 @@
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
+    "antd": "^4.22.7",
+    "axios": "^0.27.2",
     "eslint-config-react-app": "^7.0.1",
+    "moment": "^2.29.4",
     "monday-sdk-js": "^0.1.2",
     "monday-ui-react-core": "^1.54.0",
     "react": "^18.2.0",

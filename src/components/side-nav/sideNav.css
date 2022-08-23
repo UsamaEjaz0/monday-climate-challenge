@@ -1,0 +1,10 @@
+.side-nav{
+    /*position: fixed;*/
+    position: fixed;
+    padding: 16px;
+    background-color: #f6f6fb;
+    height: 100%;
+    top:0; left:0; width:20%;
+    overflow:auto;
+}
+

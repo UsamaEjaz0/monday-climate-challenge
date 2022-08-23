@@ -1,0 +1,42 @@
+
+.board {
+    overflow: auto;
+}
+
+.board .board-groups .group .item, .board .board-groups .group .group-title {
+    display: flex;
+    min-width: 100%;
+}
+
+.group-title {
+    text-align: center;
+}
+
+.task {
+    flex: 1 0 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 8px;
+    margin-left: 1px;
+    margin-bottom: 1px;
+    background-color: #f5f6f8;
+    box-sizing: border-box;
+}
+
+.sentiment {
+    flex: 1 0 30%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 8px;
+    margin-left: 1px;
+    margin-bottom: 1px;
+    background-color: #f5f6f8;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+. center {
+    text-align: center;
+}
