@@ -15,37 +15,31 @@ class SideNav extends React.Component {
         // TODO: set up event listeners
     }
 
+
     render() {
         return <div className="side-nav">
                 <Heading type={Heading.types.h1} value="App Name"/>
 
-                <List>
+                {/*<Divider></Divider>*/}
                     <Search
-                        placeholder="Placeholder text here"
-                        wrapperClassName="monday-storybook-search_size"
+                        placeholder="Search"
                     />
-                    <ListItem>
-                        <ListItemIcon icon={Add} />
 
-                    </ListItem>
-                    <ListItem>
-                        <ListItemIcon icon={Filter} />
-                        Filter
-                    </ListItem>
-                </List>
-                <Divider />
                 <List>
                     <ListItem>
-                        <ListItemIcon icon={Board} />
-                        Board name
+                        Analyze Work
                     </ListItem>
                     <ListItem>
-                        <ListItemIcon icon={Board} />
-                        Board name
+                        Carbon Footprint
                     </ListItem>
                     <ListItem>
-                        <ListItemIcon icon={Board} />
-                        Board name
+                        Eco Points
+                    </ListItem>
+                    <ListItem>
+                        FAQs
+                    </ListItem>
+                    <ListItem>
+                        Others
                     </ListItem>
                 </List>
             </div>;
