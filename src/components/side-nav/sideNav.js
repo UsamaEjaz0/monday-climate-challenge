@@ -18,31 +18,31 @@ class SideNav extends React.Component {
 
     render() {
         return <div className="side-nav">
-                <Heading type={Heading.types.h1} value="App Name"/>
+            <Heading type={Heading.types.h1} value="App Name"/>
 
-                {/*<Divider></Divider>*/}
-                    <Search
-                        placeholder="Search"
-                    />
+            {/*<Divider></Divider>*/}
+            <Search
+                placeholder="Search"
+            />
 
-                <List>
-                    <ListItem>
-                        Analyze Work
-                    </ListItem>
-                    <ListItem>
-                        Carbon Footprint
-                    </ListItem>
-                    <ListItem>
-                        Eco Points
-                    </ListItem>
-                    <ListItem>
-                        FAQs
-                    </ListItem>
-                    <ListItem>
-                        Others
-                    </ListItem>
-                </List>
-            </div>;
+            <List>
+                <ListItem>
+                    Analyze Work
+                </ListItem>
+                <ListItem>
+                    Carbon Footprint
+                </ListItem>
+                <ListItem>
+                    Eco Points
+                </ListItem>
+                <ListItem>
+                    FAQs
+                </ListItem>
+                <ListItem>
+                    Others
+                </ListItem>
+            </List>
+        </div>;
     }
 }
 

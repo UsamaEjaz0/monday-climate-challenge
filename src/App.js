@@ -40,18 +40,18 @@ class App extends React.Component {
 
             {/*</Flex>*/}
 
-            {/*<div className="column left">*/}
-            {/*    <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>*/}
-            {/*        <SideNav></SideNav>*/}
-            {/*    </Flex>*/}
-            {/*</div>*/}
-            {/*<div className="column right">*/}
-            {/*        <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>*/}
-            {/*            /!*<Heading style={{textAlign: "center"}} type={Heading.types.h1} value="Is my work eco-friendly?"/>*!/*/}
-            {/*            <BoardList></BoardList>*/}
-            {/*        </Flex>*/}
-            {/*</div>*/}
-            <CFPCalculator></CFPCalculator>
+            <div className="column left-nav">
+                <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>
+                    <SideNav></SideNav>
+                </Flex>
+            </div>
+            <div className="column right-nav">
+                    <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>
+                        {/*<Heading style={{textAlign: "center"}} type={Heading.types.h1} value="Is my work eco-friendly?"/>*/}
+                        <BoardList></BoardList>
+                    </Flex>
+            </div>
+            {/*<CFPCalculator></CFPCalculator>*/}
 
 
         </div>;

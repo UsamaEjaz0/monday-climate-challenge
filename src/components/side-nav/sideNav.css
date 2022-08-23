@@ -1,6 +1,6 @@
 .side-nav{
     /*position: fixed;*/
-    position: fixed;
+    position: absolute;
     padding: 16px;
     background-color: #f6f6fb;
     height: 100%;
