@@ -7,6 +7,7 @@ import {Avatar, Divider, Flex, Heading, Icon, List, ListItem, ListItemIcon, Sear
 import BoardList from "./components/board-list/boardList";
 import {Add, Board, DropdownChevronDown, Filter} from "monday-ui-react-core/icons";
 import SideNav from "./components/side-nav/sideNav";
+import CFPCalculator from "./components/CFPCalculator";
 
 const monday = mondaySdk();
 
@@ -39,17 +40,18 @@ class App extends React.Component {
 
             {/*</Flex>*/}
 
-            <div className="column left">
-                <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>
-                    <SideNav></SideNav>
-                </Flex>
-            </div>
-            <div className="column right">
-                    <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>
-                        {/*<Heading style={{textAlign: "center"}} type={Heading.types.h1} value="Is my work eco-friendly?"/>*/}
-                        <BoardList></BoardList>
-                    </Flex>
-            </div>
+            {/*<div className="column left">*/}
+            {/*    <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>*/}
+            {/*        <SideNav></SideNav>*/}
+            {/*    </Flex>*/}
+            {/*</div>*/}
+            {/*<div className="column right">*/}
+            {/*        <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>*/}
+            {/*            /!*<Heading style={{textAlign: "center"}} type={Heading.types.h1} value="Is my work eco-friendly?"/>*!/*/}
+            {/*            <BoardList></BoardList>*/}
+            {/*        </Flex>*/}
+            {/*</div>*/}
+            <CFPCalculator></CFPCalculator>
 
 
         </div>;
