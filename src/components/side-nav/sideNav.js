@@ -17,6 +17,7 @@ class SideNav extends React.Component {
 
 
     render() {
+        var handleToUpdate = this.props.handleToUpdate;
         return <div className="side-nav">
             <Heading type={Heading.types.h1} value="App Name"/>
 
@@ -26,10 +27,10 @@ class SideNav extends React.Component {
             />
 
             <List>
-                <ListItem>
+                <ListItem onClick={() => handleToUpdate(1)}>
                     Analyze Work
                 </ListItem>
-                <ListItem>
+                <ListItem onClick={() => handleToUpdate(2)}>
                     Carbon Footprint
                 </ListItem>
                 <ListItem>
