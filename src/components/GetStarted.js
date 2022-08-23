@@ -20,7 +20,7 @@ export default function GetStarted() {
         <label>2. How many people live in your household?</label>
         <Box margin={Box.margins.SMALL}></Box>
         <Slider 
-          defaultValue={[2.5, 6]} 
+          defaultValue={2.5} 
           size={Slider.sizes.SMALL} 
           min={1} 
           max={6}
@@ -33,7 +33,6 @@ export default function GetStarted() {
             } 
             return `${value} People`
           }}
-          ranged={true}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
@@ -53,7 +52,6 @@ export default function GetStarted() {
             }
             return `${value*10}K`
           }}
-          ranged={true}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>

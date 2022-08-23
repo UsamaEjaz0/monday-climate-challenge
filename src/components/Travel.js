@@ -8,25 +8,36 @@ import {
   TextField,
 } from "monday-ui-react-core";
 
-export default function Travel() {
+export default function Travel({ setTravel }) {
+  function handleChange(event) {
+
+    let x
+    let travel = 0.63
+    if (x === "Diesel") {
+      travel 
+    } else if (x === "Gasoline") {
+
+    }
+    setTravel(travel)
+  }
+
 
   const CarsDropdown = () => {
     const optionsIcons = useMemo(() => [{
-      value: "email",
+      value: "Diesel",
       label: "Diesel",
     }, {
-      value: "attach",
+      value: "Gasoline",
       label: "Gasoline",
     },
     {
-      value: "1",
+      value: "Electric",
       label: "Electric"
     }], []);
     return (<div style={{width: "200px"}}>
       <Dropdown defaultValue={[optionsIcons[0]]} options={optionsIcons} />
     </div>)
   }
-
 
   return(
     <>
@@ -36,20 +47,21 @@ export default function Travel() {
           <Flex>
             {CarsDropdown()}
             <TextField 
-            placeholder="600 (miles/year)" 
+            placeholder="966 (km/year)" 
             size={TextField.sizes.MEDIUM}
             />
           </Flex> 
           <Box marginBottom={Box.marginBottoms.LARGE}></Box>
           <TextField 
             title="Public Transit"
-            placeholder="33 (miles/year)" 
+            placeholder="53 (km/year)" 
             size={TextField.sizes.MEDIUM}
+            onChange={handleChange}
             />
           <Box marginBottom={Box.marginBottoms.LARGE}></Box>
           <TextField 
           title="Air Field"
-          placeholder="300 (miles/year)" 
+          placeholder="483 (km/year)" 
           size={TextField.sizes.MEDIUM}
           />
       </Box>
