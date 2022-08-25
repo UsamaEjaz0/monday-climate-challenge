@@ -1,5 +1,5 @@
-import { 
-  Slider, 
+import {
+  Slider,
   Box,
   Button,
   Label,
@@ -13,11 +13,11 @@ export default function Food() {
         <label>Meat, Fish, Eggs&nbsp;
           <Label kind={Label.kinds.LINE} text="2.6 daily servings per person"/>
         </label>
-        <Box margin={Box.margins.SMALL}></Box>
-        <Slider 
-          defaultValue={[0, 1]} 
-          size={Slider.sizes.SMALL} 
-          min={0} 
+        <Box margin={Box.margins.SMALL}/>
+        <Slider
+          defaultValue={[0, 1]}
+          size={Slider.sizes.SMALL}
+          min={0}
           max={3}
           valueFormatter={value => {
             if (value === 1) {
@@ -34,10 +34,10 @@ export default function Food() {
           <Label kind={Label.kinds.LINE} text="4.5 daily servings per person"/>
         </label>
         <Box margin={Box.margins.SMALL}></Box>
-        <Slider 
-          defaultValue={[0, 1]} 
-          size={Slider.sizes.SMALL} 
-          min={0} 
+        <Slider
+          defaultValue={[0, 1]}
+          size={Slider.sizes.SMALL}
+          min={0}
           max={3}
           valueFormatter={value => {
             if (value === 1) {
@@ -54,10 +54,10 @@ export default function Food() {
           <Label kind={Label.kinds.LINE} text="2.4 daily servings per person"/>
         </label>
         <Box margin={Box.margins.SMALL}></Box>
-        <Slider 
-          defaultValue={[0, 1]} 
-          size={Slider.sizes.SMALL} 
-          min={0} 
+        <Slider
+          defaultValue={[0, 1]}
+          size={Slider.sizes.SMALL}
+          min={0}
           max={3}
           valueFormatter={value => {
             if (value === 1) {
@@ -74,10 +74,10 @@ export default function Food() {
           <Label kind={Label.kinds.LINE} text="3.7 daily servings per person"/>
         </label>
         <Box margin={Box.margins.SMALL}></Box>
-        <Slider 
-          defaultValue={[0, 1]} 
-          size={Slider.sizes.SMALL} 
-          min={0} 
+        <Slider
+          defaultValue={[0, 1]}
+          size={Slider.sizes.SMALL}
+          min={0}
           max={3}
           valueFormatter={value => {
             if (value === 1) {
@@ -94,10 +94,10 @@ export default function Food() {
           <Label kind={Label.kinds.LINE} text="5.1 daily servings per person"/>
         </label>
         <Box margin={Box.margins.SMALL}></Box>
-        <Slider 
-          defaultValue={[0, 1]} 
-          size={Slider.sizes.SMALL} 
-          min={0} 
+        <Slider
+          defaultValue={[0, 1]}
+          size={Slider.sizes.SMALL}
+          min={0}
           max={3}
           valueFormatter={value => {
             if (value === 1) {
