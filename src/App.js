@@ -7,9 +7,9 @@ import {Avatar, Divider, Flex, Heading, Icon, List, ListItem, ListItemIcon, Sear
 import BoardList from "./components/board-list/boardList";
 import {Add, Board, DropdownChevronDown, Filter} from "monday-ui-react-core/icons";
 import SideNav from "./components/side-nav/sideNav";
-import CFPCalculator from "./components/CFPCalculator";
 import View from "./enums/view";
 import Leaderboard from "./components/leaderboard/leaderboard";
+import CFPCalculator from "./components/CFPCalculator/CFPCalculator";
 
 const monday = mondaySdk();
 
@@ -64,13 +64,13 @@ class App extends React.Component {
 
             {/*</Flex>*/}
 
-            {/*<div className="column left-nav">*/}
-            {/*    <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>*/}
-            {/*        <SideNav handleToUpdate = {handleToUpdate.bind(this)}></SideNav>*/}
-            {/*    </Flex>*/}
-            {/*</div>*/}
-            {/*{this.renderView()}*/}
-            <Leaderboard></Leaderboard>
+            <div className="column left-nav">
+                <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>
+                    <SideNav handleToUpdate = {handleToUpdate.bind(this)}></SideNav>
+                </Flex>
+            </div>
+            {this.renderView()}
+            {/*<Leaderboard></Leaderboard>*/}
 
 
         </div>;
