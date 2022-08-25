@@ -1,0 +1,38 @@
+.CFPCalculator {
+  width: 100%;
+  padding: 40px;
+}
+
+.Tag-list {
+  display: flex;
+  /* margin-left: 19%; */
+  justify-content: center;
+}
+
+.Body-left {
+  /* margin-left: 19%; */
+  float: left;
+  max-width:45%;
+  width: 45%;
+  border: 1px solid rgb(195, 198, 212);
+  padding: 20px;
+}
+
+.Body-right {
+  float: left;
+  max-width:45%;
+  width: 45%;
+  height: 355px;
+  padding: 20px;
+  margin-left: 20px;
+  border: 1px solid rgb(195, 198, 212);
+}
+
+h3 {
+  text-align: center;
+}
+
+label {
+  display: flex;
+  justify-content: space-between;
+}
