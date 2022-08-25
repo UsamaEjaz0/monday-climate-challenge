@@ -3,50 +3,66 @@ import {
   TextField,
   Slider,
   Button,
+  Label
 } from "monday-ui-react-core"
 
+import { ElECTRICITY_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER, NATURAL_GAS_MULTIPLIER } from "./data"
 
-export default function Home() {
+export default function Home({home, setHome}) {
+
   return(
     <>
       <h3>HOW MUCH DO YOU USE IN YOUR HOME?</h3>
       <Box padding={Box.paddings.MEDIUM}>
         <TextField 
           title="Electricity"
-          placeholder="60 ($ per year)" 
+          placeholder={`${home.electricity[0]} ($ per year) `}
           size={TextField.sizes.MEDIUM}
+          onChange={
+            (value) => setHome(prevHome => ({...prevHome, electricity: [value, value*ElECTRICITY_MULTIPLIER]}))
+          }
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM} >
-        <label>Percent purchased from a clean energy program:</label>
+        <label>Percent purchased from a clean energy program:
+          <Label text="0%"/></label>
         <Box margin={Box.margins.SMALL}></Box>
         <Slider 
           size={Slider.sizes.SMALL} 
           min={0} 
           max={100}
           step={20}
-          ranged={true}
+          defaulValue={0}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
         <TextField 
           title="Natural Gas"
-          placeholder="20 ($ per year)" 
+          placeholder={`${home.naturalGas[0]} ($ per year)`} 
           size={TextField.sizes.MEDIUM}
+          onChange={
+            (value) => { setHome(prevHome => ({...prevHome, naturalGas: [value, value*NATURAL_GAS_MULTIPLIER]}))
+          }}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
         <TextField 
           title="Heating Oil & Other Fuels"
-          placeholder="10 ($ per year)" 
+          placeholder={`${home.heatingOil[0]} ($ per year)`} 
           size={TextField.sizes.MEDIUM}
+          onChange={
+            (value) => { setHome(prevHome => ({...prevHome, heatingOil: [value, value*HEATING_OIL_MULTIPLIER]}))
+          }}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
         <TextField 
           title="Living Space Area"
-          placeholder="1850 (ft2)" 
+          placeholder={`${home.livingSpace[0]} m2`} 
           size={TextField.sizes.MEDIUM}
+          onChange={
+            (value) => { setHome(prevHome => ({...prevHome, livingSpace: [value, value*LIVING_AREA_MULTIPLIER]}))
+          }}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>

@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import "monday-ui-react-core/dist/main.css"
-import CFPCalculator from "./components/CFPCalculator"
+import CFPCalculator from "./components/CFPCalculator/CFPCalculator"
 
 class App extends React.Component {
   constructor(props) {
