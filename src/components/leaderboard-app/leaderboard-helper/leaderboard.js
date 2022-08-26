@@ -16,10 +16,8 @@ class Leaderboard extends React.Component {
             item_ids: [],
             boards: [],
             success: false
-
         }
     }
-
 
     data = {
         "users": [
@@ -43,7 +41,6 @@ class Leaderboard extends React.Component {
     };
 
     syncBoardData = () => {
-        // const {context} = this.state;
         monday.api(
             `query {
                   users {
@@ -131,31 +128,6 @@ class Leaderboard extends React.Component {
 
     }
 
-    // createColumns = () => {
-    //     const query = `mutation{
-    //                   person: create_column(board_id: ${parseInt(this.state.boardId)}, title:"Person", description: "Person's profile picture", column_type:people) {
-    //                     id
-    //                   }
-    //                   name: create_column(board_id: ${parseInt(this.state.boardId)}, title:"Name", description: "Person' name", column_type:text) {
-    //                     id
-    //                   }
-    //                   eco_points: create_column(board_id: ${parseInt(this.state.boardId)}, title:"Eco Points", description: "Points gained by being green", column_type:text) {
-    //                     id
-    //                   }
-    //                   carbon_emissions:create_column(board_id: ${parseInt(this.state.boardId)}, title:"Carbon Emissions", description: "Carbon emissions", column_type:text) {
-    //                     id
-    //                   }
-    //                }`
-    //     monday.api(query).then((res) => {
-    //         console.log(res);
-    //         this.setState({column_ids: res.data}, () => {
-    //             this.state.users.map((user) => this.createItem(user));
-    //             this.setState({success: true})
-    //         })
-    //     });
-    // }
-
-
     createGroupAndColumns = () => {
         const query = `mutation {
                     create_group: create_group (board_id: ${this.state.boardId}, group_name: "Ranking") {
@@ -164,9 +136,7 @@ class Leaderboard extends React.Component {
                     person: create_column(board_id: ${parseInt(this.state.boardId)}, title:"Person", description: "Person's profile picture", column_type:people) {
                         id
                       }
-                      name: create_column(board_id: ${parseInt(this.state.boardId)}, title:"Name", description: "Person' name", column_type:text) {
-                        id
-                      }
+                     
                       eco_points: create_column(board_id: ${parseInt(this.state.boardId)}, title:"Eco Points", description: "Points gained by being green", column_type:text) {
                         id
                       }
@@ -193,7 +163,7 @@ class Leaderboard extends React.Component {
     createItem = (user) => {
         const query = `mutation {
                 create_item (board_id: ${this.state.boardId}, group_id: "${this.state.groupId}", item_name: "Ranking", 
-                        column_values: "{ \\"${this.state.column_ids.person.id}\\" : {\\"personsAndTeams\\":[{\\"id\\":${user.id},\\"kind\\":\\"person\\"}]}, \\"${this.state.column_ids.name.id}\\": \\"${user.name}\\"  }" ) {
+                        column_values: "{ \\"${this.state.column_ids.person.id}\\" : {\\"personsAndTeams\\":[{\\"id\\":${user.id},\\"kind\\":\\"person\\"}]} }" ) {
                             id
                 }
         }`

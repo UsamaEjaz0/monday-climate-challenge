@@ -1,0 +1,27 @@
+.task-leaderboard {
+    flex: 1 0 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 8px;
+    margin-left: 1px;
+    margin-bottom: 1px;
+    background-color: #f5f6f8;
+    box-sizing: border-box;
+}
+
+ .cell-leaderboard {
+    flex: 1 0 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 8px;
+    margin-left: 1px;
+    margin-bottom: 1px;
+    background-color: #f5f6f8;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+
+

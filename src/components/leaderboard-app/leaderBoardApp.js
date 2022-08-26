@@ -1,48 +1,64 @@
 import React from "react";
-import "./leaderboardApp.css";
+import './leaderboardApp.css'
 import mondaySdk from "monday-sdk-js";
-import {Box, Clickable, Flex, Heading, Label, List, ListItem} from "monday-ui-react-core";
-import Board from "../board/board";
-import {Col, Row} from "antd";
+import {Box, Clickable, Flex, Heading} from "monday-ui-react-core";
 
 const monday = mondaySdk();
 
 class LeaderBoardApp extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {settings: {}, context: {}, me: {}, boards: []};
+        this.state = {settings: {}, context: {}, me: {}, boards: [], boardId: -1};
     }
 
     componentDidMount() {
         monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
-        monday.listen("context", this.getContext);
+        monday.listen("settings", this.getSettings);
+        // monday.listen("context", this.getContext);
+        this.findBoardId()
     }
 
     getSettings = (res) => {
         this.setState({settings: res.data});
     };
 
-    getContext = (res) => {
-        this.setState({context: res.data}, this.fetchBoard);
-    };
+    // getContext = (res) => {
+    //     this.setState({context: res.data}, this.findBoardId);
+    // };
 
-    isBoardCreated = () => {
-        const boardId = 3148729906;
-        const {context} = this.state;
-        return context.boardIds.include(boardId)
+    findBoardId = () => {
+        monday.api(
+            `query {
+                  boards {
+                    id
+                    name
+                    
+                  }
+                }`
+        ).then((res) => {
+            const board = res.data.boards.find(board => board.name === "Green Board");
+            if (typeof board !== 'undefined') {
+                this.setState({boardId: board.id,}, this.fetchBoard)
+                console.log(`Board Exists with ID: ${board.id}`);
+
+
+            } else {
+                console.log(`Board Doesn't exist}`);
+            }
+
+        });
+
+
     }
 
     fetchBoard = () => {
-        const {context} = this.state;
-
-        if (this.isBoardCreated()){
-            monday.api(
-                `query {
+        const query = `
+                query {
                   me {
                     name
                   }
                   
-                  boards(ids:[${context.boardIds}]) {
+                  boards(ids: ${this.state.boardId}) {
                     name
                     
                     columns {
@@ -58,48 +74,58 @@ class LeaderBoardApp extends React.Component {
                     }
                     
                     items {
-                      id
                       name
                       group {
                         id
                       }
-                     
+                      
+                      column_values {
+                        id
+                        value
+                        text
+                      }
                     }
                   }
                 } 
-    `
-            )
-                .then((res) => this.setState({me: res.data.me, boards: res.data.boards}));
-        }
-        else{
-            console.log("Board doesn't exist")
-        }
-
-
+                
+                `;
+        monday.api(query)
+            .then((res) => this.setState({me: res.data.me, boards: res.data.boards}));
     };
 
+    renderCell = (board, column, item) => {
+        const columnValue = item.column_values.find((columnValue) => columnValue.id === column.id);
+        return column.type === "name" ? item.name : columnValue && columnValue.text;
+    };
 
     renderItem = (color, board, item) => {
-
+        const {columns} = board;
         return (
-            <Clickable className="item" onClick={() => monday.execute('openItemCard', {itemId: item.id})}>
 
-                <div className="task" style={{borderLeft: `thick solid ${color}`}} >{item.name}</div>
-                <Label className="sentiment" text="Neutral" color={Label.colors.POSITIVE}/>
-                {/*{<div className="sentiment">Neutral</div>}*/}
+            <Clickable className="item" onClick={() => monday.execute('openItemCard', {itemId: item.id})}>
+                <div className="item">
+                    {columns.map((column) => (
+                        column.type === "name" ?
+                            <div className="task-leaderboard"
+                                 style={{borderLeft: `thick solid ${color}`}}>{this.renderCell(board, column, item)}</div>
+                            :
+                            <div className="cell-leaderboard">{this.renderCell(board, column, item)}</div>
+                    ))}
+                </div>
             </Clickable>
         );
     };
 
     renderGroup = (board, group) => {
+        const {columns} = board;
         return (
             <div className="group">
-                <Heading className={{}} style={{color: group.color}} type={Heading.types.h5} value={group.title}/>
-                <Flex direction={Flex.directions.ROW}>
-                    {<div className="task">Task</div>}
-                    {<div className="sentiment">Sentiment</div>}
+                <Flex>
+                    {columns.map((column) => (
+                        column.type === "name" ?
+                            <div className="task-leaderboard">{group.title}</div> : <div className="cell-leaderboard">{column.title}</div>
+                    ))}
                 </Flex>
-
                 <div
                     className="group-items">{group.items.map((item) => this.renderItem(group.color, board, item))}</div>
             </div>
@@ -107,19 +133,20 @@ class LeaderBoardApp extends React.Component {
     };
 
     getColumnValue(item, columnId) {
-        return item.column_values.find((columnValue) => columnValue.id == columnId) || {};
+        return item.column_values.find((columnValue) => columnValue.id === columnId) || {};
     }
 
     getGroups = (board) => {
-        const {groupByColumn} = this.props.settings;;
+        const {settings} = this.state;
+        const {groupByColumn} = settings;
         const groupByColumnId = groupByColumn ? Object.keys(groupByColumn)[0] : null;
 
         const groups = {};
         for (const item of board.items) {
             const groupId = groupByColumnId ? this.getColumnValue(item, groupByColumnId).text : item.group.id;
             if (!groups[groupId]) {
-                const groupTitle = groupByColumnId ? groupId : board.groups.find((group) => group.id == groupId).title;
-                const groupColor = groupByColumnId ? groupId : board.groups.find((group) => group.id == groupId).color;
+                const groupTitle = groupByColumnId ? groupId : board.groups.find((group) => group.id === groupId).title;
+                const groupColor = groupByColumnId ? groupId : board.groups.find((group) => group.id === groupId).color;
                 groups[groupId] = {items: [], id: groupId, title: groupTitle, color: groupColor};
             }
             groups[groupId].items.push(item);
@@ -128,39 +155,32 @@ class LeaderBoardApp extends React.Component {
         return Object.values(groups);
     };
 
+    renderBoard = (board) => {
+        const {settings} = this.state;
+        const groups = this.getGroups(board);
+
+        return (
+            <div className="board" style={{background: settings.color}}>
+                <Heading type={Heading.types.h2} value={board.name}/>
+                <div className="board-groups">{groups.map((group) => this.renderGroup(board, group))}</div>
+            </div>
+        );
+    };
+
     render() {
         return (
             <div className="monday-app">
 
-                {/*<Row gutter={[16, 16]}>*/}
-                {/*    {this.state.boards.map((board) => {*/}
-                {/*        return <Col span={8}> <Box padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM}*/}
-                {/*                    margin={Box.margins.LARGE}>*/}
-                {/*            {<Board board={board} settings={this.state.settings}/>}*/}
-                {/*        </Box> </Col>;*/}
-                {/*    })}*/}
-                {/*</Row>*/}
-                {/*<Row gutter={[16, 16]}>*/}
-                {/*    <Col span={6} />*/}
-                {/*    <Col span={6} />*/}
-                {/*    <Col span={6} />*/}
-                {/*    <Col span={6} />*/}
-                {/*</Row>*/}
-                {/*<Flex direction={Flex.directions.ROW}>*/}
-                    {this.state.boards.map((board) => {
-                        return <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM}
-                                    margin={Box.margins.LARGE}>
-                            {<Board board={board} settings={this.state.settings}/>}
-                        </Box>;
-                    })}
-                {/*</Flex>*/}
-
-
+                {this.state.boards.map((board) => {
+                    return <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT}
+                                rounded={Box.roundeds.MEDIUM}
+                                margin={Box.margins.LARGE}>
+                        {this.renderBoard(board)}
+                    </Box>;
+                })}
             </div>
         );
     }
-
-
 }
 
 export default LeaderBoardApp;

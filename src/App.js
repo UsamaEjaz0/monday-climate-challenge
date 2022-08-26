@@ -8,8 +8,9 @@ import BoardList from "./components/board-list/boardList";
 import {Add, Board, DropdownChevronDown, Filter} from "monday-ui-react-core/icons";
 import SideNav from "./components/side-nav/sideNav";
 import View from "./enums/view";
-import Leaderboard from "./components/leaderboard/leaderboard";
+import Leaderboard from "./components/leaderboard-app/leaderboard-helper/leaderboard";
 import CFPCalculator from "./components/CFPCalculator/CFPCalculator";
+import LeaderBoardApp from "./components/leaderboard-app/leaderBoardApp";
 
 const monday = mondaySdk();
 
@@ -71,6 +72,7 @@ class App extends React.Component {
             {/*</div>*/}
             {/*{this.renderView()}*/}
             <Leaderboard></Leaderboard>
+            <LeaderBoardApp></LeaderBoardApp>
 
 
         </div>;
