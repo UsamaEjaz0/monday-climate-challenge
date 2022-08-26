@@ -34,7 +34,6 @@ class Leaderboard extends React.Component {
         monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
         monday.listen("context", this.getContext);
         this.setState({boardId: this.data.board_id})
-
     }
     getContext = (res) => {
         this.setState({context: res.data});
@@ -223,6 +222,7 @@ class Leaderboard extends React.Component {
                 <button onClick={this.syncBoardData}>Create Board</button>
                 <p>Board Created: {this.state.boardId}</p>
                 <p>Board Successfully Created: {this.state.success.toString()}</p>
+
             </div>
         );
     }

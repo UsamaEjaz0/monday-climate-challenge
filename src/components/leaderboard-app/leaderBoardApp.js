@@ -2,6 +2,7 @@ import React from "react";
 import './leaderboardApp.css'
 import mondaySdk from "monday-sdk-js";
 import {Box, Clickable, Flex, Heading} from "monday-ui-react-core";
+import Leaderboard from "./leaderboard-helper/leaderboard";
 
 const monday = mondaySdk();
 
@@ -38,12 +39,13 @@ class LeaderBoardApp extends React.Component {
         ).then((res) => {
             const board = res.data.boards.find(board => board.name === "Green Board");
             if (typeof board !== 'undefined') {
-                this.setState({boardId: board.id,}, this.fetchBoard)
+                this.setState({boardId: board.id}, this.fetchBoard)
                 console.log(`Board Exists with ID: ${board.id}`);
 
 
             } else {
                 console.log(`Board Doesn't exist}`);
+                this.setState({boardId: 0})
             }
 
         });
@@ -167,10 +169,30 @@ class LeaderBoardApp extends React.Component {
         );
     };
 
-    render() {
+    renderLoadingScreen = () => {
         return (
-            <div className="monday-app">
+            <div>
 
+                <Heading className="center" type={Heading.types.h1} value="Finding leaderboard..."/>
+
+            </div>
+        );
+    }
+
+    renderBoardCreationScreen = () => {
+        return (
+            <div>
+                <Heading className="center" type={Heading.types.h1} value="Create leaderboard!"/>
+                <Leaderboard/>
+
+            </div>
+        );
+    }
+
+    renderGreenBoard = () => {
+        return (
+            <div>
+                <Heading className="center" type={Heading.types.h1} value="Green leaderboard"/>
                 {this.state.boards.map((board) => {
                     return <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT}
                                 rounded={Box.roundeds.MEDIUM}
@@ -178,6 +200,19 @@ class LeaderBoardApp extends React.Component {
                         {this.renderBoard(board)}
                     </Box>;
                 })}
+            </div>
+
+        )
+    }
+
+    render() {
+        return (
+            <div className="monday-app">
+                {this.state.boardId === -1 ?
+                    this.renderLoadingScreen() : this.state.boardId === 0 ? this.renderBoardCreationScreen() :
+                       this.renderGreenBoard()
+                }
+
             </div>
         );
     }

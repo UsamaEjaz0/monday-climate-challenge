@@ -4,6 +4,7 @@ import "monday-ui-react-core/dist/main.css"
 
 import {Divider, Heading, List, ListItem, ListItemIcon, Search} from "monday-ui-react-core";
 import {Add, Board, Filter} from "monday-ui-react-core/icons";
+import View from "../../enums/view";
 
 
 class SideNav extends React.Component {
@@ -27,13 +28,17 @@ class SideNav extends React.Component {
             />
 
             <List>
-                <ListItem onClick={() => handleToUpdate(1)}>
+                <ListItem onClick={() => handleToUpdate(View.SENTIMENT_ANALYSIS)}>
                     Analyze Work
                 </ListItem>
-                <ListItem onClick={() => handleToUpdate(2)}>
+                <ListItem onClick={() => handleToUpdate(View.CFP_CALCULATOR)}>
                     Carbon Footprint
+
+                </ListItem >
+                <ListItem onClick={() => handleToUpdate(View.GREEN_BOARD)}>
+                    Green Board
                 </ListItem>
-                <ListItem>
+                <ListItem >
                     Eco Points
                 </ListItem>
                 <ListItem>
