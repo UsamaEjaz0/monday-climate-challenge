@@ -64,13 +64,13 @@ class App extends React.Component {
 
             {/*</Flex>*/}
 
-            <div className="column left-nav">
-                <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>
-                    <SideNav handleToUpdate = {handleToUpdate.bind(this)}></SideNav>
-                </Flex>
-            </div>
-            {this.renderView()}
-            {/*<Leaderboard></Leaderboard>*/}
+            {/*<div className="column left-nav">*/}
+            {/*    <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>*/}
+            {/*        <SideNav handleToUpdate = {handleToUpdate.bind(this)}></SideNav>*/}
+            {/*    </Flex>*/}
+            {/*</div>*/}
+            {/*{this.renderView()}*/}
+            <Leaderboard></Leaderboard>
 
 
         </div>;
