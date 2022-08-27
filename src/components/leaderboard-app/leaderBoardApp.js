@@ -1,7 +1,7 @@
 import React from "react";
 import './leaderboardApp.css'
 import mondaySdk from "monday-sdk-js";
-import {Box, Clickable, Flex, Heading} from "monday-ui-react-core";
+import {AttentionBox, Box, Clickable, Flex, Heading, Loader} from "monday-ui-react-core";
 import Leaderboard from "./leaderboard-helper/leaderboard";
 
 const monday = mondaySdk();
@@ -9,7 +9,7 @@ const monday = mondaySdk();
 class LeaderBoardApp extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {settings: {}, context: {}, me: {}, boards: [], boardId: -1};
+        this.state = {settings: {}, context: {}, boards: [], boardId: -1};
     }
 
     componentDidMount() {
@@ -56,9 +56,7 @@ class LeaderBoardApp extends React.Component {
     fetchBoard = () => {
         const query = `
                 query {
-                  me {
-                    name
-                  }
+                  
                   
                   boards(ids: ${this.state.boardId}) {
                     name
@@ -92,7 +90,7 @@ class LeaderBoardApp extends React.Component {
                 
                 `;
         monday.api(query)
-            .then((res) => this.setState({me: res.data.me, boards: res.data.boards}));
+            .then((res) => this.setState({boards: res.data.boards}));
     };
 
     renderCell = (board, column, item) => {
@@ -171,9 +169,11 @@ class LeaderBoardApp extends React.Component {
 
     renderLoadingScreen = () => {
         return (
-            <div>
-
-                <Heading className="center" type={Heading.types.h1} value="Finding leaderboard..."/>
+            <div className="center-item">
+                <Flex direction={Flex.directions.COLUMN}>
+                    <Heading type={Heading.types.h1} value="Loading leaderboard..."/>
+                    <Loader  size={40} />
+                </Flex>
 
             </div>
         );
@@ -182,7 +182,7 @@ class LeaderBoardApp extends React.Component {
     renderBoardCreationScreen = () => {
         return (
             <div>
-                <Heading className="center" type={Heading.types.h1} value="Create leaderboard!"/>
+
                 <Leaderboard/>
 
             </div>
@@ -192,7 +192,7 @@ class LeaderBoardApp extends React.Component {
     renderGreenBoard = () => {
         return (
             <div>
-                <Heading className="center" type={Heading.types.h1} value="Green leaderboard"/>
+                <Heading className="center-item" type={Heading.types.h1} value="Green leaderboard"/>
                 {this.state.boards.map((board) => {
                     return <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT}
                                 rounded={Box.roundeds.MEDIUM}

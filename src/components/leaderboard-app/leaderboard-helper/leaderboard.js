@@ -1,6 +1,7 @@
 import React from "react";
 import "./leaderboard.css";
 import mondaySdk from "monday-sdk-js";
+import {AttentionBox, Box, Button, Flex, LinearProgressBar, Toast} from "monday-ui-react-core";
 
 const monday = mondaySdk();
 
@@ -15,8 +16,11 @@ class Leaderboard extends React.Component {
             column_ids: [],
             item_ids: [],
             boards: [],
-            success: false
+            success: false,
+            loading: false,
+            progressVal: 0
         }
+
     }
 
     data = {
@@ -40,6 +44,7 @@ class Leaderboard extends React.Component {
     };
 
     syncBoardData = () => {
+        this.setState({loading: true})
         monday.api(
             `query {
                   users {
@@ -54,11 +59,11 @@ class Leaderboard extends React.Component {
                 }`
 
         ).then((res) => {
+                this.setState({progressVal: 20})
                 this.setState({boards: res.data.boards,  users: res.data.users}, () => {
                     console.log(this.state.boards);
                     const board = this.state.boards.find(board => board.name === "Green Board");
                     if (typeof board !== 'undefined'){
-
                         this.setState({boardId: board.id,}, this.createBoard)
                         console.log(`Board Exists with ID: ${board.id}`);
 
@@ -70,7 +75,9 @@ class Leaderboard extends React.Component {
                     }
 
                 })
-            });
+            }).catch((res) => {
+            setTimeout(this.syncBoardData, 60000);
+        });
 
 
 
@@ -91,8 +98,12 @@ class Leaderboard extends React.Component {
             monday.api(query)
                 .then((res) => {
                     console.log(res);
+                    this.setState({progressVal: 40})
                     this.setState({boardId: res.data.create_board.id}, this.getTopGroup);
-                });
+                }).catch((res) => {
+                this.setState({success: false});
+                setTimeout(this.createBoard, 60000);
+            });
         }
     };
 
@@ -107,9 +118,12 @@ class Leaderboard extends React.Component {
 
         monday.api(query)
             .then((res) => {
+                this.setState({progressVal: 50})
                 this.deleteGroup(res.data.boards[0].top_group.id);
-            })
-            // .catch((err) => {this.createGroup()});
+            }).catch((res) => {
+            this.setState({success: false});
+            setTimeout(this.getTopGroup, 60000);
+        });
     }
 
     deleteGroup = (groupId) => {
@@ -121,9 +135,13 @@ class Leaderboard extends React.Component {
 
         monday.api(query)
             .then((res) => {
+                this.setState({progressVal: 60})
                 console.log(res);
                 this.createGroupAndColumns();
-            });
+            }).catch((res) => {
+            this.setState({success: false});
+            setTimeout(this.deleteGroup, 60000);
+        });
 
     }
 
@@ -146,18 +164,22 @@ class Leaderboard extends React.Component {
         monday.api(query)
             .then((res) => {
                 console.log(res);
+                this.setState({progressVal: 70})
                 this.setState({groupId: res.data.create_group.id, column_ids: res.data}, () => {
-                    this.state.users.map((user) => this.createItem(user));
-                    this.setState({success: true})
+                    this.state.users.map((user) => {
+                            this.createItem(user)
+                    });
                 });
 
-            });
+            }).catch((res) => {
+            this.setState({success: false});
+            setTimeout(this.createGroupAndColumns, 60000);
+        });
     }
 
     saveBoard = () => {
 
     }
-
 
     createItem = (user) => {
         const query = `mutation {
@@ -172,9 +194,12 @@ class Leaderboard extends React.Component {
                 this.state.users.map((u) => {
                     if (u.id === user.id) u.itemId = itemId
                 })
-                console.log(this.state.users)
                 this.updateItem(user.id, itemId)
-            });
+            }).catch((res) => {
+            this.setState({success: false});
+
+            setTimeout(() => {this.createItem(user)}, 60000);
+        });
     }
 
     updateItem = (userId, itemId) => {
@@ -189,8 +214,16 @@ class Leaderboard extends React.Component {
 
             monday.api(query)
                 .then((res) => {
+                    const insertionProgress = 30/this.state.users.length
+                    this.setState({progressVal: this.state.progressVal + insertionProgress})
                     console.log(res)
-                });
+                }).catch((res) => {
+                this.setState({success: false});
+                setTimeout(() => {this.updateItem(userId, itemId)}, 60000);
+            });
+        }else{
+            const insertionProgress = 30/this.state.users.length
+            this.setState({progressVal: this.state.progressVal + insertionProgress})
         }
 
     }
@@ -219,10 +252,32 @@ class Leaderboard extends React.Component {
     render() {
         return (
             <div className="leaderboard">
-                <button onClick={this.syncBoardData}>Create Board</button>
-                <p>Board Created: {this.state.boardId}</p>
-                <p>Board Successfully Created: {this.state.success.toString()}</p>
+                <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM}
+                     margin={Box.margins.LARGE}>
+                    <AttentionBox className="attention-box"
+                        description="Danger"
+                        onClose={function noRefCheck(){}}
+                        text="You have not created a leaderboard. Please create a leaderboard and try again."
+                        title="Leaderboard not found"
+                    />
+                    {this.state.progressVal < 99.5 ?
+                    <Flex>
+                        {this.state.loading ?
 
+                         <LinearProgressBar
+                            className="linear-progress-bar_small-wrapper"
+                            size="large"
+                            value={this.state.progressVal}
+                        />: <Button onClick={this.syncBoardData} loading={this.state.loading}>
+                                Create Board
+                            </Button>}
+                    </Flex>
+                        : <Toast open type={Toast.types.POSITIVE}  autoHideDuration={5000} >
+                            Board created successfully
+                        </Toast>
+
+                    }
+                </Box>
             </div>
         );
     }

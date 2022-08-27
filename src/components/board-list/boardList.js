@@ -31,9 +31,6 @@ class BoardList extends React.Component {
         const {context} = this.state;
         monday.api(
             `query {
-                  me {
-                    name
-                  }
                   
                   boards(ids:[${context.boardIds}]) {
                     name
@@ -62,7 +59,7 @@ class BoardList extends React.Component {
                 } 
     `
         )
-            .then((res) => this.setState({me: res.data.me, boards: res.data.boards}));
+            .then((res) => this.setState({ boards: res.data.boards}));
     };
 
 

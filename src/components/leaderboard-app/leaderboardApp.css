@@ -24,6 +24,7 @@
 }
 
 
-.center{
-    text-align: center;
+.center-item{
+    display: flex;
+    justify-content: center;
 }
