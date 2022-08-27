@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { 
-  GOODS, SERVICES, TRAVEL, HOME, AVERAGES, 
+  GOODS, SERVICES, TRAVEL, HOME, AVERAGES, TOTAL_AVERAGES, 
   ElECTRICITY_MULTIPLIER, NATURAL_GAS_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER
 } from "./data"
 import GetStarted from "./GetStarted";
@@ -15,7 +15,8 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Tab
+  Tab,
+  Flex
 } from "monday-ui-react-core"
 
 import "monday-ui-style/dist/index.min.css";
@@ -61,6 +62,35 @@ export default function CFPCalculator() {
     })
   }, [annualIncome])
 
+  function totalCFP() {
+    return (
+      (travel.personalVehicle[1]+travel.airTravel[1]+travel.publicTransit[1]+
+      home.electricity[1] + home.heatingOil[1] + home.naturalGas[1] + home.livingSpace[1]+
+      food+shopping.goods[1]+shopping.services[1]).toPrecision(3)
+    )
+  }
+
+  function compareWithAverage() {
+    let average = TOTAL_AVERAGES[annualIncome]
+    let current = totalCFP()
+
+    if (average < current) {
+      return(
+        <>
+          <b>{(current-average).toPrecision(2)} %</b>
+          <span style={{fontSize: "14px"}}>Worse than Average</span>
+        </>
+      )
+    }
+
+    return(
+      <>
+        <b>{(average-current).toPrecision(2)} %</b>
+        <span style={{fontSize: "14px"}}>Better than Average</span>
+      </>
+    )
+  }
+
   return(
     <div className="CFPCalculator">
       <TabsContext>
@@ -92,16 +122,32 @@ export default function CFPCalculator() {
           </TabPanel>
         </TabPanels>
         <div className="Body-right">
-          <Graph 
-            travel={
-              travel.personalVehicle[1]+travel.airTravel[1]+travel.publicTransit[1]
-            }
-            home={home.electricity[1] + home.heatingOil[1] + home.naturalGas[1] + home.livingSpace[1]} 
-            food={food}
-            goods={shopping.goods}
-            services={shopping.services}
-            averages={AVERAGES[annualIncome]}
-          />
+          <h3>YOUR CARBON FOOTPRINT</h3>
+          <Flex justify={Flex.justify.CENTER} gap={Flex.gaps.MEDIUM}>
+            <Flex 
+              direction={Flex.directions.COLUMN}
+              >
+              <b>{totalCFP()}</b>
+              <span style={{fontSize: "14px"}}>tons CO2eq/year</span>
+            </Flex>
+            <Flex
+              direction={Flex.directions.COLUMN} 
+             >
+              {compareWithAverage()}
+            </Flex>
+          </Flex>
+          <div className="Graph">
+            <Graph 
+              travel={
+                travel.personalVehicle[1]+travel.airTravel[1]+travel.publicTransit[1]
+              }
+              home={home.electricity[1] + home.heatingOil[1] + home.naturalGas[1] + home.livingSpace[1]} 
+              food={food}
+              goods={shopping.goods}
+              services={shopping.services}
+              averages={AVERAGES[annualIncome]}
+            />
+          </div>
         </div>
       </ TabsContext>
     </div>   

@@ -15,6 +15,7 @@
   max-width:45%;
   width: 45%;
   border: 1px solid rgb(195, 198, 212);
+  border-radius: 10px;
   padding: 20px;
 }
 
@@ -22,10 +23,15 @@
   float: left;
   max-width:45%;
   width: 45%;
-  height: 355px;
+  height: 450px;
   padding: 20px;
   margin-left: 20px;
   border: 1px solid rgb(195, 198, 212);
+  border-radius: 10px;
+}
+
+.Graph {
+  height: 315px;
 }
 
 h3 {

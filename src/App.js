@@ -45,7 +45,6 @@ class App extends React.Component {
                 <CFPCalculator></CFPCalculator>
             </div>
         }
-
     }
 
     render() {
@@ -63,7 +62,6 @@ class App extends React.Component {
             {/*/!*</div>*!/*/}
 
             {/*</Flex>*/}
-
             <div className="column left-nav">
                 <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} justify={Flex.justify.STRETCH}>
                     <SideNav handleToUpdate = {handleToUpdate.bind(this)}></SideNav>
