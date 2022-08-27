@@ -3,7 +3,6 @@ import "./boardList.css";
 import mondaySdk from "monday-sdk-js";
 import {Box, Clickable, Flex, Heading, Label, List, ListItem} from "monday-ui-react-core";
 import Board from "../board/board";
-import {Col, Row} from "antd";
 
 const monday = mondaySdk();
 

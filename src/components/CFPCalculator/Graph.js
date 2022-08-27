@@ -21,8 +21,7 @@ ChartJS.register(
 const options = {
   plugins: {
     title: {
-      display: true,
-      text: 'Your Carbon FootPrint',
+      display: false,
     },
     legend: {
       display: false
@@ -43,37 +42,43 @@ const options = {
 
 const labels = ['Travel', 'Food', 'Home', 'Goods', 'Services'];
 
-export default function Graph(props) {
+export default function Graph({travel, home, food, goods, services, averages}) {
 
   const BLUE = "rgb(53, 162, 235)";
   const GREEN = "rgb(75, 192, 192)";
   const RED = "rgb(255, 99, 132)";
   let barColors = [BLUE, BLUE, BLUE, BLUE, BLUE]
   
-  if (Math.round(props.travel) > props.averages[0]) {
+  if (Math.round(travel) > averages[0]) {
     barColors[0] = RED
-  } else if (Math.round(props.travel) < props.averages[0]) {
+  } else if (Math.round(travel) < averages[0]) {
     barColors[0] = GREEN
   } else {
     barColors[0] = BLUE
   }
 
-  console.log(props.travel, Math.round(props.travel))
-  console.log(props.averages[0])
+  if (Math.round(home) > averages[1]) {
+    barColors[2] = RED
+  } else if (Math.round(home) < averages[1]) {
+    console.log(home)
+    barColors[2] = GREEN
+  } else {
+    barColors[2] = BLUE
+  }
 
-  if (Math.round(props.food*10) > 28) {
+  if (Math.round(food*10) > 28) {
     barColors[1] = RED
-  } else if (Math.round(props.food*10) < 28) {
+  } else if (Math.round(food*10) < 28) {
     barColors[1] = GREEN
   } else {
     barColors[1] = BLUE
   }
 
-  if (props.goods[1] > props.averages[1]) {
+  if (goods[1] > averages[2]) {
     barColors[3] = RED
   }
   
-  if (props.services[1] > props.averages[2]) {
+  if (services[1] > averages[3]) {
     barColors[4] = RED
   }
 
@@ -81,23 +86,23 @@ export default function Graph(props) {
     labels,
     datasets: [
       {
-        data: [props.travel],
+        data: [travel],
         backgroundColor: barColors[0],
       },
       {
-        data: [0, props.food],
+        data: [0, food],
         backgroundColor: barColors[1],
       },
       {
-        data: [0, 0, props.home],
+        data: [0, 0, home],
         backgroundColor: barColors[2],
       },
       {
-        data: [0, 0, 0, props.goods[1]],
+        data: [0, 0, 0, goods[1]],
         backgroundColor: barColors[3],
       },
       {
-        data: [0, 0, 0, 0, props.services[1]],
+        data: [0, 0, 0, 0, services[1]],
         backgroundColor: barColors[4],
       },
     ],
