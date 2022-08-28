@@ -86,7 +86,7 @@ class BoardList extends React.Component {
                         return <Box key={board.id} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM}
                                     margin={Box.margins.LARGE}>
 
-                            {<Board board={board.id} settings={this.state.settings}/>}
+                            {<Board board={board} settings={this.state.settings}/>}
                         </Box>;
                     })}
                 {/*</Flex>*/}
