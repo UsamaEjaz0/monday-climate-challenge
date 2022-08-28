@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 
 import {Flex} from "monday-ui-react-core";

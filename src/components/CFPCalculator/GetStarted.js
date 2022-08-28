@@ -14,13 +14,14 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
         <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Start with a quick estimate?" /></Flex>
 
         <Box padding={Box.paddings.MEDIUM}>
-        <label>2. What is your gross annual household income?</label>
+        <label>What is your gross annual household income?</label>
         <Box margin={Box.margins.SMALL}></Box>
         <Slider
           defaultValue={0}
           size={Slider.sizes.SMALL}
           min={0}
           max={10}
+          indicateSelection={true}
           valueFormatter = { value => {
               if (value === 0) {
                 return "Avg"

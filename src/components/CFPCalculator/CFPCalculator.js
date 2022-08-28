@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { updateRecord } from "../../services/userDataService";
 import {
   GOODS, SERVICES, TRAVEL, HOME, AVERAGES, TOTAL_AVERAGES,
   ElECTRICITY_MULTIPLIER, NATURAL_GAS_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER
@@ -17,7 +18,8 @@ import {
   TabPanels,
   Tab,
   Flex,
-  Heading
+  Button,
+  Heading,
 } from "monday-ui-react-core"
 
 import "monday-ui-style/dist/index.min.css";
@@ -25,6 +27,8 @@ import './CFPCalculator.css'
 
 export default function CFPCalculator() {
   const [annualIncome, setAnnualIncome] = useState(0)
+  const [activeTab, setActiveTab] = useState(0)
+  const [loading, setLoading] = useState(false);
 
   const [travel, setTravel] = useState({
     vehicleType: 'Diesel',
@@ -39,8 +43,6 @@ export default function CFPCalculator() {
     heatingOil: 200,
     livingSpace: 148,
   })
-
-  const [activeTab, setActiveTab] = useState(0)
 
   const [food, setFood] = useState(2.8)
 
@@ -65,22 +67,19 @@ export default function CFPCalculator() {
     })
   }, [annualIncome])
 
-  function totalCFP() {
-    return (
-      (travel.personalVehicle[1]+travel.airTravel[1]+travel.publicTransit[1]+
+  function calculateTotalCFP() {
+    return((travel.personalVehicle[1]+travel.airTravel[1]+travel.publicTransit[1]+
       home.electricity[1] + home.heatingOil[1] + home.naturalGas[1] + home.livingSpace[1]+
-      food+shopping.goods[1]+shopping.services[1]).toPrecision(3)
-    )
+      food+shopping.goods[1]+shopping.services[1]).toPrecision(3))
   }
 
   function compareWithAverage() {
-    let average = TOTAL_AVERAGES[annualIncome]
-    let current = totalCFP()
-
-    if (average < current) {
+    const  averageCFP= TOTAL_AVERAGES[annualIncome]
+    const currentCFP = calculateTotalCFP()
+    if (averageCFP < currentCFP) {
       return(
         <>
-          <b>{(current-average).toPrecision(2)} %</b>
+          <b>{(currentCFP - averageCFP).toPrecision(2)} %</b>
           <span style={{fontSize: "14px"}}>Worse than Average</span>
         </>
       )
@@ -88,11 +87,23 @@ export default function CFPCalculator() {
 
     return(
       <>
-        <b>{(average-current).toPrecision(2)} %</b>
+        <b>{(averageCFP - currentCFP).toPrecision(2)} %</b>
         <span style={{fontSize: "14px"}}>Better than Average</span>
       </>
     )
   }
+
+  function saveToDatabase() {
+    setLoading(true)
+    const user = {
+      id: "33386038",
+      cfp: calculateTotalCFP()
+    }
+    updateRecord(user).then(() => {
+      setLoading(false)
+    })
+  }
+
 
   return(
     <div className="CFPCalculator">
@@ -108,7 +119,7 @@ export default function CFPCalculator() {
           <TabPanel><GetStarted setActiveTab={setActiveTab} setAnnualIncome={setAnnualIncome}/></TabPanel>
           <TabPanel>
             <Travel
-                setActiveTab={setActiveTab}
+              setActiveTab={setActiveTab}
               travel={travel}
               setTravel={setTravel}
             />
@@ -126,12 +137,17 @@ export default function CFPCalculator() {
           </TabPanel>
         </TabPanels>
         <div className="Body-right">
-          <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Your carbon footprint" /></Flex>
+          <Flex justify={Flex.justify.SPACE_BETWEEN}>
+            <Heading type={Heading.types.h2} value="Your carbon footprint" />
+              <Button loading={loading} onClick={saveToDatabase}>
+                Save
+              </Button>
+          </Flex>
           <Flex justify={Flex.justify.CENTER} gap={Flex.gaps.MEDIUM}>
             <Flex
               direction={Flex.directions.COLUMN}
               >
-              <b>{totalCFP()}</b>
+              <b>{ calculateTotalCFP() }</b>
               <span style={{fontSize: "14px"}}>tons CO2eq/year</span>
             </Flex>
             <Flex
