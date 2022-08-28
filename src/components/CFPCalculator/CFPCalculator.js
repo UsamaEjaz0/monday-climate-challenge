@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { 
-  GOODS, SERVICES, TRAVEL, HOME, AVERAGES, TOTAL_AVERAGES, 
+import {
+  GOODS, SERVICES, TRAVEL, HOME, AVERAGES, TOTAL_AVERAGES,
   ElECTRICITY_MULTIPLIER, NATURAL_GAS_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER
 } from "./data"
 import GetStarted from "./GetStarted";
@@ -11,7 +11,7 @@ import Shopping from "./Shopping";
 import Graph from "./Graph";
 
 import {
-  TabsContext, 
+  TabsContext,
   TabList,
   TabPanel,
   TabPanels,
@@ -38,7 +38,9 @@ export default function CFPCalculator() {
     heatingOil: 200,
     livingSpace: 148,
   })
-  
+
+  const [activeTab, setActiveTab] = useState(0)
+
   const [food, setFood] = useState(2.8)
 
   const [shopping, setShopping] = useState({
@@ -93,26 +95,28 @@ export default function CFPCalculator() {
 
   return(
     <div className="CFPCalculator">
-      <TabsContext>
-        <TabList className="Tag-list">
-          <Tab>Get Started</Tab>  
+      <TabsContext activeTabId={activeTab}>
+        <TabList activeTabId={activeTab} className="Tag-list">
+          <Tab>Get Started</Tab>
           <Tab>Travel</Tab>
           <Tab>Home</Tab>
           <Tab>Food</Tab>
           <Tab>Shopping</Tab>
         </TabList>
-        <TabPanels className="Body-left">
-          <TabPanel><GetStarted setAnnualIncome={setAnnualIncome}/></TabPanel>
+        <TabPanels activeTabId={activeTab} className="Body-left" >
+          <TabPanel><GetStarted setActiveTab={setActiveTab} setAnnualIncome={setAnnualIncome}/></TabPanel>
           <TabPanel>
-            <Travel 
-              travel={travel} 
-              setTravel={setTravel} 
+            <Travel
+                setActiveTab={setActiveTab}
+              travel={travel}
+              setTravel={setTravel}
             />
           </TabPanel>
-          <TabPanel><Home home={home} setHome={setHome} /></TabPanel>
-          <TabPanel><Food setFood={setFood} /></TabPanel>
+          <TabPanel ><Home setActiveTab={setActiveTab} home={home} setHome={setHome} /></TabPanel>
+          <TabPanel><Food setActiveTab={setActiveTab} setFood={setFood} /></TabPanel>
           <TabPanel>
-            <Shopping 
+            <Shopping
+                setActiveTab={setActiveTab}
               shopping={shopping}
               setShopping={setShopping}
               goods={GOODS[annualIncome]}
@@ -123,24 +127,24 @@ export default function CFPCalculator() {
         <div className="Body-right">
           <h3>YOUR CARBON FOOTPRINT</h3>
           <Flex justify={Flex.justify.CENTER} gap={Flex.gaps.MEDIUM}>
-            <Flex 
+            <Flex
               direction={Flex.directions.COLUMN}
               >
               <b>{totalCFP()}</b>
               <span style={{fontSize: "14px"}}>tons CO2eq/year</span>
             </Flex>
             <Flex
-              direction={Flex.directions.COLUMN} 
+              direction={Flex.directions.COLUMN}
              >
               {compareWithAverage()}
             </Flex>
           </Flex>
           <div className="Graph">
-            <Graph 
+            <Graph
               travel={
                 travel.personalVehicle[1]+travel.airTravel[1]+travel.publicTransit[1]
               }
-              home={home.electricity[1] + home.heatingOil[1] + home.naturalGas[1] + home.livingSpace[1]} 
+              home={home.electricity[1] + home.heatingOil[1] + home.naturalGas[1] + home.livingSpace[1]}
               food={food}
               goods={shopping.goods}
               services={shopping.services}
@@ -149,6 +153,6 @@ export default function CFPCalculator() {
           </div>
         </div>
       </ TabsContext>
-    </div>   
+    </div>
   )
 }

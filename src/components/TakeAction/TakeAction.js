@@ -48,24 +48,24 @@ export default function TakeAction() {
       fetch("https://www.car7parts.ae/monday/user-data/find", {
         method: "POST",
         headers: {
-            'Content-Type': 'application/json',  
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             id: res.data.me.id.toString(),
         })
       }).then(res => res.json()).then(data => setPoints(data.data.document.points))
-    }) 
+    })
   }, [])
 
   function updatePoints(saves, index) {
     fetch("https://www.car7parts.ae/monday/user-data/update", {
         method: "POST",
         headers: {
-            'Content-Type': 'application/json',  
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             id,
-            points: points + Math.round(saves) 
+            points: points + Math.round(saves)
         })
     }).then(res => res.json()).then(data => setPoints(prevPoints => prevPoints + Math.round(saves)))
 
@@ -81,53 +81,61 @@ export default function TakeAction() {
     {
       id: 1,
       task: "Print double sided",
-      saves: 0.82,  
+      saves: 0.82,
     },
     {
       id: 2,
       task: "Turn off extra lights",
-      saves: 0.55,  
+      saves: 0.55,
     },
     {
       id: 3,
       task: "Carpool to work",
-      saves: 2.5,  
+      saves: 2.5,
     },
     {
       id: 4,
       task: "Take public transportation",
-      saves: 1,  
+      saves: 1,
     },
     {
       id: 5,
       task: "Telecommute to work",
-      saves: 2.74,  
+      saves: 2.74,
     },
   ]
 
   const displayActions = actions.map((action, index) => {
     return(
-      <Box
-        padding={Box.paddings.MEDIUM} 
-        rounded={Box.roundeds.SMALL} 
-        border={Box.borders.DEFAULT}
-        key={action.id}
-      >
-        <Flex gap={Flex.gaps.MEDIUM} justify={Flex.justify.SPACE_BETWEEN}>
-          <span>{action.task} & save <b>{action.saves} kg CO<sub>2</sub></b></span>
-          <Button disabled={dailyRewards.isClaimed[index]} onClick={() => updatePoints(action.saves, index)}>I did this today</Button>
-        </Flex>
-      </Box>
+        <div style={{backgroundColor: "#f5f6f8"}}>
+          <Box
+              padding={Box.paddings.MEDIUM}
+              rounded={Box.roundeds.SMALL}
+              // border={Box.borders.DEFAULT}
+              key={action.id}
+          >
+            <Flex  gap={Flex.gaps.MEDIUM} justify={Flex.justify.SPACE_BETWEEN}>
+              <span>{action.task} & save <b>{action.saves} kg CO<sub>2</sub></b></span>
+              <Button disabled={dailyRewards.isClaimed[index]} onClick={() => updatePoints(action.saves, index)}>I did this today</Button>
+            </Flex>
+          </Box>
+        </div>
+
     )
   })
 
   return (
-    <Box padding={Box.paddings.XL} margin={Box.margins.XL}>
+    <Box padding={Box.paddings.MEDIUM} margin={Box.margins.XL} >
       <Heading type={Heading.types.h1} value="Take action" brandFont />
       <Box marginY={Box.marginYs.MEDIUM}>
-        <Flex align={Flex.align.END}><Globe />&nbsp;ECO Points:&nbsp;{points === -1 ? <Loader size={20} /> : points}</Flex>
+        <Flex align={Flex.align.END}>
+          <Globe/>
+          {/*<Heading type={Heading.types.h4} value="Eco-points" brandFont />*/}
+          &nbsp; Eco Points &nbsp;
+          {points === -1 ? <Loader size={15} /> : points}
+        </Flex>
       </Box>
-      <Flex gap={Flex.gaps.LARGE} direction={Flex.directions.COLUMN} align={Flex.align.STRETCH}>
+      <Flex gap={Flex.gaps.MEDIUM} direction={Flex.directions.COLUMN} align={Flex.align.STRETCH}>
         {displayActions}
       </Flex>
     </Box>

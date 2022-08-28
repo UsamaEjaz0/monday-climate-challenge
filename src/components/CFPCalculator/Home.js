@@ -8,13 +8,13 @@ import {
 
 import { ElECTRICITY_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER, NATURAL_GAS_MULTIPLIER } from "./data"
 
-export default function Home({home, setHome}) {
+export default function Home({home, setHome, setActiveTab}) {
 
   return(
     <>
       <h3>HOW MUCH DO YOU USE IN YOUR HOME?</h3>
       <Box padding={Box.paddings.MEDIUM}>
-        <TextField 
+        <TextField
           title="Electricity"
           placeholder={`${home.electricity[0]} ($ per year) `}
           size={TextField.sizes.MEDIUM}
@@ -27,18 +27,18 @@ export default function Home({home, setHome}) {
         <label>Percent purchased from a clean energy program:
           <Label text="0%"/></label>
         <Box margin={Box.margins.SMALL}></Box>
-        <Slider 
-          size={Slider.sizes.SMALL} 
-          min={0} 
+        <Slider
+          size={Slider.sizes.SMALL}
+          min={0}
           max={100}
           step={20}
           defaulValue={0}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
-        <TextField 
+        <TextField
           title="Natural Gas"
-          placeholder={`${home.naturalGas[0]} ($ per year)`} 
+          placeholder={`${home.naturalGas[0]} ($ per year)`}
           size={TextField.sizes.MEDIUM}
           onChange={
             (value) => { setHome(prevHome => ({...prevHome, naturalGas: [value, value*NATURAL_GAS_MULTIPLIER]}))
@@ -46,9 +46,9 @@ export default function Home({home, setHome}) {
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
-        <TextField 
+        <TextField
           title="Heating Oil & Other Fuels"
-          placeholder={`${home.heatingOil[0]} ($ per year)`} 
+          placeholder={`${home.heatingOil[0]} ($ per year)`}
           size={TextField.sizes.MEDIUM}
           onChange={
             (value) => { setHome(prevHome => ({...prevHome, heatingOil: [value, value*HEATING_OIL_MULTIPLIER]}))
@@ -56,9 +56,9 @@ export default function Home({home, setHome}) {
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
-        <TextField 
+        <TextField
           title="Living Space Area"
-          placeholder={`${home.livingSpace[0]} m2`} 
+          placeholder={`${home.livingSpace[0]} m2`}
           size={TextField.sizes.MEDIUM}
           onChange={
             (value) => { setHome(prevHome => ({...prevHome, livingSpace: [value, value*LIVING_AREA_MULTIPLIER]}))
@@ -66,8 +66,8 @@ export default function Home({home, setHome}) {
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
-        <Button>Previous</Button>
-        <Button style={{float: "right"}}>Next</Button>
+        <Button  onClick={() => {setActiveTab(1)}}>Previous</Button>
+        <Button style={{float: "right"}}  onClick={() => {setActiveTab(3)}}>Next</Button>
       </Box>
     </>
   )

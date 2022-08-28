@@ -1,11 +1,11 @@
-import { 
-  Slider, 
-  TextField,
-  Box,
-  Button,
+import {
+    Slider,
+    TextField,
+    Box,
+    Button, Heading, Flex, Label,
 } from "monday-ui-react-core";
 
-export default function GetStarted({ setAnnualIncome }) {
+export default function GetStarted({ setAnnualIncome, setActiveTab }) {
   function handleChange(value) {
     setAnnualIncome(value)
   }
@@ -13,20 +13,14 @@ export default function GetStarted({ setAnnualIncome }) {
   return(
     <>
       <h3>START WITH A QUICK CARBON FOOTPRINT ESTIMATE</h3>
-      <Box padding={Box.paddings.MEDIUM}>
-        <TextField 
-          title="1. Where do you live?"
-          placeholder="Please enter city or zip code" 
-          size={TextField.sizes.MEDIUM}
-        />
-      </Box>
+
       <Box padding={Box.paddings.MEDIUM}>
         <label>2. What is your gross annual household income?</label>
-        <Box margin={Box.margins.SMALL}></Box>
-        <Slider 
+        <Box margin={Box.margins.SMALL}/>
+        <Slider
           defaultValue={0}
-          size={Slider.sizes.SMALL} 
-          min={0} 
+          size={Slider.sizes.SMALL}
+          min={0}
           max={10}
           valueFormatter = { value => {
               if (value === 0) {
@@ -34,7 +28,7 @@ export default function GetStarted({ setAnnualIncome }) {
               }
               if (value === 1) {
                 return "< 10K"
-              } 
+              }
               if (value === 8) {
                 return `${value*10}K`
               }
@@ -50,8 +44,30 @@ export default function GetStarted({ setAnnualIncome }) {
           onChange={ handleChange }
         />
       </Box>
+        <Box padding={Box.paddings.MEDIUM}>
+            <div style={{textAlign: "center"}}>
+
+                <Heading  type={Heading.types.h2} bold value="Assumption values" />
+            </div>
+
+            <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} gap={Flex.gaps.SMALL}>
+                <Flex justify={Flex.justify.SPACE_BETWEEN}>
+                    Price of gasoline
+                    <Label kind={Label.kinds.LINE} text="$ 0.92 per L" />
+                </Flex>
+                <Flex justify={Flex.justify.SPACE_BETWEEN}>
+                    Electricity price
+                    <Label kind={Label.kinds.LINE}  text="10.0 cents/ kWh" />
+                </Flex>
+                <Flex justify={Flex.justify.SPACE_BETWEEN}>
+                    Electricity emission factor
+                    <Label kind={Label.kinds.LINE}  text="590 gCO2/ kWh" />
+                </Flex>
+            </Flex>
+
+        </Box>
       <Box padding={Box.paddings.MEDIUM}>
-        <Button style={{float: "right"}}>Refine Your Estimate</Button>
+        <Button style={{float: "right"}} onClick={() => {setActiveTab(1)}}>Refine Your Estimate</Button>
       </Box>
     </>
   )

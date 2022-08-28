@@ -245,6 +245,7 @@ class Leaderboard extends React.Component {
                     }`
             monday.api(query)
                 .then((res) => {
+                    // eslint-disable-next-line no-unused-vars
                     const id = res.data.change_multiple_column_values.id
                     const insertionProgress = 30 / this.state.users.length
                     this.setState({progressVal: this.state.progressVal + insertionProgress, currentAction: "Inserting data..."},  console.log(this.state.progressVal))

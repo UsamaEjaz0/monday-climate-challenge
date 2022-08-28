@@ -1,7 +1,7 @@
 import {useState} from "react";
 
-import { 
-  Button, 
+import {
+  Button,
   Box,
   Dropdown,
   Flex,
@@ -9,7 +9,7 @@ import {
 } from "monday-ui-react-core";
 import { DIESEL_MULTIPLIER, GASOLINE_MULTIPLIER } from "./data";
 
-export default function Travel({ travel, setTravel}) {
+export default function Travel({ travel, setTravel, setActiveTab}) {
   const [distanceCovered, setDistanceCovered] = useState(travel.personalVehicle[0])
 
   let averageDiesel = travel.personalVehicle[0] * DIESEL_MULTIPLIER + 0.63;
@@ -61,9 +61,9 @@ export default function Travel({ travel, setTravel}) {
       label: "Electric"
     }]
     return (<div style={{width: "200px"}}>
-      <Dropdown 
-        defaultValue={[options[0]]} 
-        options={options} 
+      <Dropdown
+        defaultValue={[options[0]]}
+        options={options}
         onChange={ handleVehicleTypeChange }
       />
     </div>)
@@ -76,24 +76,24 @@ export default function Travel({ travel, setTravel}) {
           <Box marginBottom={Box.marginBottoms.SMALL}>Your Vehicle</Box>
           <Flex>
             {CarsDropdown()}
-            <TextField 
-              placeholder={`${travel.personalVehicle[0]} (km/year)`} 
+            <TextField
+              placeholder={`${travel.personalVehicle[0]} (km/year)`}
               size={TextField.sizes.MEDIUM}
               onChange={handleChange}
               id="distanceCovered"
             />
-          </Flex> 
+          </Flex>
           <Box marginBottom={Box.marginBottoms.LARGE}></Box>
-          <TextField 
+          <TextField
             title="Public Transit"
-            placeholder={`${travel.publicTransit[0]} (km/year)`}  
+            placeholder={`${travel.publicTransit[0]} (km/year)`}
             size={TextField.sizes.MEDIUM}
             onChange={
               (value) => {setTravel(prevTravel => ({...prevTravel, publicTransit: [value, value*0.00014]}))}
             }
           />
           <Box marginBottom={Box.marginBottoms.LARGE}></Box>
-          <TextField 
+          <TextField
             title="Air Travel"
             placeholder={`${travel.airTravel[0]} (km/year)`}
             size={TextField.sizes.MEDIUM}
@@ -103,8 +103,8 @@ export default function Travel({ travel, setTravel}) {
           />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
-        <Button>Previous</Button>
-        <Button style={{float: "right"}}>Next</Button>
+        <Button  onClick={() => {setActiveTab(0)}} >Previous</Button>
+        <Button style={{float: "right"}}  onClick={() => {setActiveTab(2)}}>Next</Button>
       </Box>
     </>
   )
