@@ -5,6 +5,8 @@ import {
   Label,
   Box,
   Button,
+  Flex,
+  Heading
 } from "monday-ui-react-core";
 
 export default function Shopping({ shopping, setShopping, goods, services, setActiveTab }) {
@@ -30,7 +32,7 @@ export default function Shopping({ shopping, setShopping, goods, services, setAc
 
   return(
     <>
-      <h3>HOW MUCH DO YOU SPEND ON EACH OF THE FOLLOWING?</h3>
+      <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="How much do you spend on?" /></Flex>
       <Box padding={Box.paddings.MEDIUM} >
         <label>Goods&nbsp;
           <Label

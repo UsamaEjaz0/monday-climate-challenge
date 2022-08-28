@@ -1,22 +1,21 @@
 import {
     Slider,
-    TextField,
     Box,
-    Button, Heading, Flex, Label,
+    Button, Heading, Flex,
 } from "monday-ui-react-core";
 
-export default function GetStarted({ setAnnualIncome, setActiveTab }) {
+export default function GetStarted({ setAnnualIncome }) {
   function handleChange(value) {
     setAnnualIncome(value)
   }
 
   return(
     <>
-      <h3>START WITH A QUICK CARBON FOOTPRINT ESTIMATE</h3>
+        <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Start with a quick estimate?" /></Flex>
 
-      <Box padding={Box.paddings.MEDIUM}>
+        <Box padding={Box.paddings.MEDIUM}>
         <label>2. What is your gross annual household income?</label>
-        <Box margin={Box.margins.SMALL}/>
+        <Box margin={Box.margins.SMALL}></Box>
         <Slider
           defaultValue={0}
           size={Slider.sizes.SMALL}
@@ -44,30 +43,8 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
           onChange={ handleChange }
         />
       </Box>
-        <Box padding={Box.paddings.MEDIUM}>
-            <div style={{textAlign: "center"}}>
-
-                <Heading  type={Heading.types.h2} bold value="Assumption values" />
-            </div>
-
-            <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} gap={Flex.gaps.SMALL}>
-                <Flex justify={Flex.justify.SPACE_BETWEEN}>
-                    Price of gasoline
-                    <Label kind={Label.kinds.LINE} text="$ 0.92 per L" />
-                </Flex>
-                <Flex justify={Flex.justify.SPACE_BETWEEN}>
-                    Electricity price
-                    <Label kind={Label.kinds.LINE}  text="10.0 cents/ kWh" />
-                </Flex>
-                <Flex justify={Flex.justify.SPACE_BETWEEN}>
-                    Electricity emission factor
-                    <Label kind={Label.kinds.LINE}  text="590 gCO2/ kWh" />
-                </Flex>
-            </Flex>
-
-        </Box>
       <Box padding={Box.paddings.MEDIUM}>
-        <Button style={{float: "right"}} onClick={() => {setActiveTab(1)}}>Refine Your Estimate</Button>
+        <Button style={{float: "right"}}>Refine Your Estimate</Button>
       </Box>
     </>
   )

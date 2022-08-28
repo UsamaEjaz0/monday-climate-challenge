@@ -1,7 +1,7 @@
 import React from "react";
 import './LeaderboardApp.css'
 import mondaySdk from "monday-sdk-js";
-import {AttentionBox, Box, Clickable, Flex, Heading, Loader} from "monday-ui-react-core";
+import {Box, Clickable, Flex, Heading, Loader} from "monday-ui-react-core";
 import Leaderboard from "./leaderboard-helper/Leaderboard";
 
 const monday = mondaySdk();
@@ -43,7 +43,7 @@ class LeaderBoardApp extends React.Component {
                 console.log(`Board Exists with ID: ${board.id}`);
 
             } else {
-                console.log(`Board Doesn't exist}`);
+                console.log(`Board Doesn't exist`);
                 this.setState({boardId: 0})
             }
 
@@ -169,13 +169,12 @@ class LeaderBoardApp extends React.Component {
 
     renderLoadingScreen = () => {
         return (
-            <div className="center-item">
-                <Flex direction={Flex.directions.COLUMN}>
-                    <Heading type={Heading.types.h1} value="Loading leaderboard..."/>
-                    <Loader  size={40} />
+            <Box paddingX={Box.paddingXs.LARGE} margin={Box.margins.XL}>
+                <Flex>
+                    <Heading type={Heading.types.h1} value="Loading leaderboard..." brandFont/>
+                    <Loader  size={25} />
                 </Flex>
-
-            </div>
+            </Box>
         );
     }
 
@@ -191,16 +190,16 @@ class LeaderBoardApp extends React.Component {
 
     renderGreenBoard = () => {
         return (
-            <div>
-                <Heading className="center-item" type={Heading.types.h1} value="Green leaderboard"/>
+            <Box paddingX={Box.paddingXs.LARGE} margin={Box.margins.XL}>
+                <Heading type={Heading.types.h1} value="Green leaderboard" brandFont/>
                 {this.state.boards.map((board) => {
                     return <Box key={board} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT}
                                 rounded={Box.roundeds.MEDIUM}
-                                margin={Box.margins.LARGE}>
+                                >
                         {this.renderBoard(board)}
                     </Box>;
                 })}
-            </div>
+            </Box>
 
         )
     }

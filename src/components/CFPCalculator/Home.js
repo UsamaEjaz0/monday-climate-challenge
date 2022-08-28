@@ -3,7 +3,9 @@ import {
   TextField,
   Slider,
   Button,
-  Label
+  Label,
+  Heading,
+  Flex
 } from "monday-ui-react-core"
 
 import { ElECTRICITY_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER, NATURAL_GAS_MULTIPLIER } from "./data"
@@ -12,7 +14,7 @@ export default function Home({home, setHome, setActiveTab}) {
 
   return(
     <>
-      <h3>HOW MUCH DO YOU USE IN YOUR HOME?</h3>
+      <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="How much do you use in your home?" /></Flex>
       <Box padding={Box.paddings.MEDIUM}>
         <TextField
           title="Electricity"
