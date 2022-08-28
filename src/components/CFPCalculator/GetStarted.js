@@ -1,10 +1,10 @@
 import {
     Slider,
     Box,
-    Button, Heading, Flex,
+    Button, Heading, Flex, Label,
 } from "monday-ui-react-core";
 
-export default function GetStarted({ setAnnualIncome }) {
+export default function GetStarted({ setAnnualIncome, setActiveTab }) {
   function handleChange(value) {
     setAnnualIncome(value)
   }
@@ -42,10 +42,32 @@ export default function GetStarted({ setAnnualIncome }) {
           }
           onChange={ handleChange }
         />
-      </Box>
-      <Box padding={Box.paddings.MEDIUM}>
-        <Button style={{float: "right"}}>Refine Your Estimate</Button>
-      </Box>
+        </Box>
+        <Box padding={Box.paddings.MEDIUM}>
+            <div style={{textAlign: "center"}}>
+
+                <Heading  type={Heading.types.h2} bold value="Assumption values" />
+            </div>
+
+            <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} gap={Flex.gaps.SMALL}>
+                <Flex justify={Flex.justify.SPACE_BETWEEN}>
+                    Price of gasoline
+                    <Label kind={Label.kinds.LINE} text="$ 0.92 per L" />
+                </Flex>
+                <Flex justify={Flex.justify.SPACE_BETWEEN}>
+                    Electricity price
+                    <Label kind={Label.kinds.LINE}  text="10.0 cents/ kWh" />
+                </Flex>
+                <Flex justify={Flex.justify.SPACE_BETWEEN}>
+                    Electricity emission factor
+                    <Label kind={Label.kinds.LINE}  text="590 gCO2/ kWh" />
+                </Flex>
+            </Flex>
+
+        </Box>
+        <Box padding={Box.paddings.MEDIUM}>
+            <Button style={{float: "right"}} onClick={() => {setActiveTab(1)}}>Refine Your Estimate</Button>
+        </Box>
     </>
   )
 }
