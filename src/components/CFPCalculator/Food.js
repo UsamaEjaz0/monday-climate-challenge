@@ -5,6 +5,8 @@ import {
   Box,
   Button,
   Label,
+  Flex,
+  Heading
 } from "monday-ui-react-core";
 
 export default function Food({ setFood }) {
@@ -25,7 +27,7 @@ export default function Food({ setFood }) {
   
   return(
     <>
-      <h3>HOW MUCH DOES THE AVERAGE PERSON IN YOUR HOUSEHOLD EAT?</h3>
+      <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="How much do you eat?" /></Flex>
       <Box padding={Box.paddings.MEDIUM} >
         <label>Meat, Fish, Eggs&nbsp;
           <Label 

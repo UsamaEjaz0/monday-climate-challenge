@@ -79,9 +79,6 @@ class Leaderboard extends React.Component {
             this.setState({success: false, currentAction: "Error in fetching data - Retrying in 60 seconds"});
             setTimeout(this.syncBoardData, 60000);
         });
-
-
-
     }
 
     createBoard = () => {
@@ -178,9 +175,6 @@ class Leaderboard extends React.Component {
         });
     }
 
-    // saveBoard = () => {
-    //
-    // }
     updateAllItems = async () => {
         const userIds = this.state.users.map((user) => user.id.toString());
         const res = await findByIds(userIds);
@@ -192,10 +186,7 @@ class Leaderboard extends React.Component {
         });
 
         console.log(users);
-        users.map((user, index) => {this.updateItem(user, user.itemId, index+1)});
-
-
-
+        users.map((user, index) => this.updateItem(user, user.itemId, index+1));
     }
     createItem = async (user) => {
         const query = `mutation {
@@ -245,8 +236,9 @@ class Leaderboard extends React.Component {
                     }`
             monday.api(query)
                 .then((res) => {
+                    // eslint-disable-next-line no-unused-vars
                     const id = res.data.change_multiple_column_values.id
-                    const insertionProgress = 30 / this.state.users.length
+                    const insertionProgress = 15 / this.state.users.length
                     this.setState({progressVal: this.state.progressVal + insertionProgress, currentAction: "Inserting data..."},  console.log(this.state.progressVal))
 
                 }).catch((res) => {
@@ -268,7 +260,7 @@ class Leaderboard extends React.Component {
             <div className="leaderboard">
                 <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM}
                      margin={Box.margins.LARGE}>
-                    {this.state.loading ?  <Heading type={Heading.types.h2} value={this.state.currentAction}/>: <AttentionBox className="attention-box"
+                    {this.state.loading ?  <Heading type={Heading.types.h1} value={this.state.currentAction} brandFont /> : <AttentionBox className="attention-box"
                         description="Danger"
                         onClose={function noRefCheck(){}}
                         text="You have not created a leaderboard. Please create a leaderboard and try again."

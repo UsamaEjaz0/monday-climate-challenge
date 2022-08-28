@@ -16,7 +16,8 @@ import {
   TabPanel,
   TabPanels,
   Tab,
-  Flex
+  Flex,
+  Heading
 } from "monday-ui-react-core"
 
 import "monday-ui-style/dist/index.min.css";
@@ -121,7 +122,7 @@ export default function CFPCalculator() {
           </TabPanel>
         </TabPanels>
         <div className="Body-right">
-          <h3>YOUR CARBON FOOTPRINT</h3>
+          <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Your carbon footprint" /></Flex>
           <Flex justify={Flex.justify.CENTER} gap={Flex.gaps.MEDIUM}>
             <Flex 
               direction={Flex.directions.COLUMN}

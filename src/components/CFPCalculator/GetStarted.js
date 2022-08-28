@@ -2,6 +2,8 @@ import {
   Slider, 
   TextField,
   Box,
+  Heading, 
+  Flex,
   Button,
 } from "monday-ui-react-core";
 
@@ -12,7 +14,7 @@ export default function GetStarted({ setAnnualIncome }) {
 
   return(
     <>
-      <h3>START WITH A QUICK CARBON FOOTPRINT ESTIMATE</h3>
+      <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Start with a quick estimate?" /></Flex>
       <Box padding={Box.paddings.MEDIUM}>
         <TextField 
           title="1. Where do you live?"

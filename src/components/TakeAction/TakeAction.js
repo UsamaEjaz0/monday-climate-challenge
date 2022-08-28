@@ -122,7 +122,7 @@ export default function TakeAction() {
   })
 
   return (
-    <Box padding={Box.paddings.XL} margin={Box.margins.XL}>
+    <Box paddingX={Box.paddingXs.LARGE} margin={Box.margins.XL}>
       <Heading type={Heading.types.h1} value="Take action" brandFont />
       <Box marginY={Box.marginYs.MEDIUM}>
         <Flex align={Flex.align.END}><Globe />&nbsp;ECO Points:&nbsp;{points === -1 ? <Loader size={20} /> : points}</Flex>

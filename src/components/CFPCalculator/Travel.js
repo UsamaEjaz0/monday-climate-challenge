@@ -6,6 +6,7 @@ import {
   Dropdown,
   Flex,
   TextField,
+  Heading,
 } from "monday-ui-react-core";
 import { DIESEL_MULTIPLIER, GASOLINE_MULTIPLIER } from "./data";
 
@@ -71,8 +72,8 @@ export default function Travel({ travel, setTravel}) {
 
   return(
     <>
-      <Box padding={Box.paddings.MEDIUM}>
-        <h3>HOW DO YOU GET AROUND?</h3>
+      
+        <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="How do you get around?" /></Flex>
           <Box marginBottom={Box.marginBottoms.SMALL}>Your Vehicle</Box>
           <Flex>
             {CarsDropdown()}
@@ -101,7 +102,6 @@ export default function Travel({ travel, setTravel}) {
               (value) => {setTravel(prevTravel => ({...prevTravel, airTravel: [value , (value*0.00028)]}))}
             }
           />
-      </Box>
       <Box padding={Box.paddings.MEDIUM}>
         <Button>Previous</Button>
         <Button style={{float: "right"}}>Next</Button>
