@@ -4,11 +4,12 @@ import mondaySdk from "monday-sdk-js";
 import "monday-ui-react-core/dist/main.css"
 
 import {Flex} from "monday-ui-react-core";
-import BoardList from "./components/board-list/BoardList";
-import SideNav from "./components/side-nav/SideNav";
+import BoardList from "./components/board-list/boardList";
+import SideNav from "./components/side-nav/sideNav";
 import View from "./enums/view";
 import CFPCalculator from "./components/CFPCalculator/CFPCalculator";
-import LeaderBoardApp from "./components/leaderboard-app/LeaderBoardApp";
+import LeaderBoardApp from "./components/leaderboard-app/leaderBoardApp";
+import TakeAction from "./components/TakeAction/TakeAction";
 
 class App extends React.Component {
     constructor(props) {
@@ -43,6 +44,10 @@ class App extends React.Component {
         } else if (this.state.view === View.GREEN_BOARD) {
             return <div className="column right-nav">
                 <LeaderBoardApp/>
+            </div>
+        } else if (this.state.view === View.TAKE_ACTION) {
+            return <div className="column right-nav">
+                <TakeAction/>
             </div>
         }
 
