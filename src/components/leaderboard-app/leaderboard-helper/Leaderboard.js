@@ -225,7 +225,8 @@ class Leaderboard extends React.Component {
             }
             // this.setState({item_ids: {...this.state.item_ids, [`${user.id}`] : item}})
 
-
+            const insertionProgress = 15 / this.state.users.length
+            this.setState({progressVal: this.state.progressVal + insertionProgress, currentAction: "Creating items..."})
 
         }catch (e){
             this.setState({success: false, currentAction: "Error creating item - Retrying in 60 seconds"});
@@ -255,7 +256,7 @@ class Leaderboard extends React.Component {
                 }, 60000);
             });
         } else {
-            const insertionProgress = 30 / this.state.users.length
+            const insertionProgress = 15 / this.state.users.length
             this.setState({progressVal: this.state.progressVal + insertionProgress})
         }
     }
