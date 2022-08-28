@@ -1,8 +1,8 @@
 import React from "react";
-import "./boardList.css";
+import "./BoardList.css";
 import mondaySdk from "monday-sdk-js";
 import {Box, Clickable, Flex, Heading, Label, List, ListItem} from "monday-ui-react-core";
-import Board from "../board/board";
+import Board from "../board/Board";
 
 const monday = mondaySdk();
 
@@ -32,6 +32,7 @@ class BoardList extends React.Component {
             `query {
                   
                   boards(ids:[${context.boardIds}]) {
+                    id
                     name
                     
                     columns {
@@ -82,9 +83,10 @@ class BoardList extends React.Component {
                 {/*</Row>*/}
                 {/*<Flex direction={Flex.directions.ROW}>*/}
                     {this.state.boards.map((board) => {
-                        return <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM}
+                        return <Box key={board.id} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM}
                                     margin={Box.margins.LARGE}>
-                            {<Board board={board} settings={this.state.settings}/>}
+
+                            {<Board board={board.id} settings={this.state.settings}/>}
                         </Box>;
                     })}
                 {/*</Flex>*/}

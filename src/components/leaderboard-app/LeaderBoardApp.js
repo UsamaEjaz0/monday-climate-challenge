@@ -1,8 +1,8 @@
 import React from "react";
-import './leaderboardApp.css'
+import './LeaderboardApp.css'
 import mondaySdk from "monday-sdk-js";
 import {AttentionBox, Box, Clickable, Flex, Heading, Loader} from "monday-ui-react-core";
-import Leaderboard from "./leaderboard-helper/leaderboard";
+import Leaderboard from "./leaderboard-helper/Leaderboard";
 
 const monday = mondaySdk();
 
@@ -41,7 +41,6 @@ class LeaderBoardApp extends React.Component {
             if (typeof board !== 'undefined') {
                 this.setState({boardId: board.id}, this.fetchBoard)
                 console.log(`Board Exists with ID: ${board.id}`);
-
 
             } else {
                 console.log(`Board Doesn't exist}`);
@@ -120,6 +119,7 @@ class LeaderBoardApp extends React.Component {
         const {columns} = board;
         return (
             <div className="group">
+                <Heading type={Heading.types.h2} style={{color: group.color}} value={board.name}/>
                 <Flex>
                     {columns.map((column) => (
                         column.type === "name" ?
@@ -160,8 +160,8 @@ class LeaderBoardApp extends React.Component {
         const groups = this.getGroups(board);
 
         return (
-            <div className="board" style={{background: settings.color}}>
-                <Heading type={Heading.types.h2} value={board.name}/>
+            <div key={board.id} className="board" style={{background: settings.color}}>
+
                 <div className="board-groups">{groups.map((group) => this.renderGroup(board, group))}</div>
             </div>
         );
@@ -183,7 +183,7 @@ class LeaderBoardApp extends React.Component {
         return (
             <div>
 
-                <Leaderboard/>
+                <Leaderboard findBoardId={this.findBoardId.bind(this)}/>
 
             </div>
         );
@@ -194,7 +194,7 @@ class LeaderBoardApp extends React.Component {
             <div>
                 <Heading className="center-item" type={Heading.types.h1} value="Green leaderboard"/>
                 {this.state.boards.map((board) => {
-                    return <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT}
+                    return <Box key={board} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT}
                                 rounded={Box.roundeds.MEDIUM}
                                 margin={Box.margins.LARGE}>
                         {this.renderBoard(board)}

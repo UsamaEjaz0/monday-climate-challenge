@@ -1,7 +1,7 @@
 import React from "react";
-import "./board.css";
+import "./Board.css";
 import mondaySdk from "monday-sdk-js";
-import {Box, Clickable, Flex, Heading, Label, List, ListItem} from "monday-ui-react-core";
+import {Clickable, Flex, Heading, Label} from "monday-ui-react-core";
 
 const monday = mondaySdk();
 
@@ -15,10 +15,8 @@ class Board extends React.Component {
 
         return (
             <Clickable className="item" onClick={() => monday.execute('openItemCard', {itemId: item.id})}>
-
                 <div className="task" style={{borderLeft: `thick solid ${color}`}} >{item.name}</div>
                 <Label className="sentiment" text="Neutral" color={Label.colors.POSITIVE}/>
-                {/*{<div className="sentiment">Neutral</div>}*/}
             </Clickable>
         );
     };
@@ -39,19 +37,19 @@ class Board extends React.Component {
     };
 
     getColumnValue(item, columnId) {
-        return item.column_values.find((columnValue) => columnValue.id == columnId) || {};
+        return item.column_values.find((columnValue) => columnValue.id === columnId) || {};
     }
 
     getGroups = (board) => {
-        const {groupByColumn} = this.props.settings;;
+        const {groupByColumn} = this.props.settings;
         const groupByColumnId = groupByColumn ? Object.keys(groupByColumn)[0] : null;
 
         const groups = {};
         for (const item of board.items) {
             const groupId = groupByColumnId ? this.getColumnValue(item, groupByColumnId).text : item.group.id;
             if (!groups[groupId]) {
-                const groupTitle = groupByColumnId ? groupId : board.groups.find((group) => group.id == groupId).title;
-                const groupColor = groupByColumnId ? groupId : board.groups.find((group) => group.id == groupId).color;
+                const groupTitle = groupByColumnId ? groupId : board.groups.find((group) => group.id === groupId).title;
+                const groupColor = groupByColumnId ? groupId : board.groups.find((group) => group.id === groupId).color;
                 groups[groupId] = {items: [], id: groupId, title: groupTitle, color: groupColor};
             }
             groups[groupId].items.push(item);

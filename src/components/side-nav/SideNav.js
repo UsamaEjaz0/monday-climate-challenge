@@ -1,5 +1,5 @@
 import React from "react";
-import "./sideNav.css";
+import "./SideNav.css";
 import "monday-ui-react-core/dist/main.css"
 
 import {Divider, Heading, List, ListItem, ListItemIcon, Search} from "monday-ui-react-core";

@@ -1,7 +1,9 @@
 import React from "react";
-import "./leaderboard.css";
+import "./Leaderboard.css";
 import mondaySdk from "monday-sdk-js";
-import {AttentionBox, Box, Button, Flex, LinearProgressBar, Toast} from "monday-ui-react-core";
+import {AttentionBox, Box, Button, Flex, Heading, LinearProgressBar} from "monday-ui-react-core";
+import 'monday-ui-react-core/dist/main.css';
+import {findByIds, updateRecord} from "../../../services/userDataService";
 
 const monday = mondaySdk();
 
@@ -14,11 +16,12 @@ class Leaderboard extends React.Component {
             users: [],
             groupId: null,
             column_ids: [],
-            item_ids: [],
+            item_ids: {},
             boards: [],
             success: false,
             loading: false,
-            progressVal: 0
+            progressVal: 0,
+            currentAction: "Initializing...",
         }
 
     }
@@ -54,12 +57,11 @@ class Leaderboard extends React.Component {
                   boards {
                     id
                     name
-                    
                   }
                 }`
 
         ).then((res) => {
-                this.setState({progressVal: 20})
+                this.setState({progressVal: 20, currentAction: "Creating board..."})
                 this.setState({boards: res.data.boards,  users: res.data.users}, () => {
                     console.log(this.state.boards);
                     const board = this.state.boards.find(board => board.name === "Green Board");
@@ -67,15 +69,14 @@ class Leaderboard extends React.Component {
                         this.setState({boardId: board.id,}, this.createBoard)
                         console.log(`Board Exists with ID: ${board.id}`);
 
-
                     }
                     else{
                         console.log(`Board Doesn't exist}`);
                         this.setState({boardId: -1}, this.createBoard)
                     }
-
                 })
             }).catch((res) => {
+            this.setState({success: false, currentAction: "Error in fetching data - Retrying in 60 seconds"});
             setTimeout(this.syncBoardData, 60000);
         });
 
@@ -98,10 +99,10 @@ class Leaderboard extends React.Component {
             monday.api(query)
                 .then((res) => {
                     console.log(res);
-                    this.setState({progressVal: 40})
+                    this.setState({progressVal: 40, currentAction: "Created board..."})
                     this.setState({boardId: res.data.create_board.id}, this.getTopGroup);
                 }).catch((res) => {
-                this.setState({success: false});
+                this.setState({success: false, currentAction: "Error in creating board - Retrying in 60 seconds"});
                 setTimeout(this.createBoard, 60000);
             });
         }
@@ -118,10 +119,10 @@ class Leaderboard extends React.Component {
 
         monday.api(query)
             .then((res) => {
-                this.setState({progressVal: 50})
+                this.setState({progressVal: 50, currentAction: "Finding top group..."})
                 this.deleteGroup(res.data.boards[0].top_group.id);
             }).catch((res) => {
-            this.setState({success: false});
+            this.setState({success: false, currentAction: "Error in finding top group - Retrying in 60 seconds"});
             setTimeout(this.getTopGroup, 60000);
         });
     }
@@ -135,11 +136,11 @@ class Leaderboard extends React.Component {
 
         monday.api(query)
             .then((res) => {
-                this.setState({progressVal: 60})
+                this.setState({progressVal: 60, currentAction: "Deleting top group..."})
                 console.log(res);
                 this.createGroupAndColumns();
             }).catch((res) => {
-            this.setState({success: false});
+            this.setState({success: false, currentAction: "Error in deleting group - Retrying in 60 seconds"});
             setTimeout(this.deleteGroup, 60000);
         });
 
@@ -164,117 +165,123 @@ class Leaderboard extends React.Component {
         monday.api(query)
             .then((res) => {
                 console.log(res);
-                this.setState({progressVal: 70})
+                this.setState({progressVal: 70, currentAction: "Creating group and columns..."})
                 this.setState({groupId: res.data.create_group.id, column_ids: res.data}, () => {
-                    this.state.users.map((user) => {
-                            this.createItem(user)
+                    Promise.all(this.state.users.map(async (user) => this.createItem(user))).then(()=>{
+                        this.updateAllItems();
                     });
                 });
 
             }).catch((res) => {
-            this.setState({success: false});
+            this.setState({success: false, currentAction: "Error creating group & columns - Retrying in 60 seconds"});
             setTimeout(this.createGroupAndColumns, 60000);
         });
     }
 
-    saveBoard = () => {
+    // saveBoard = () => {
+    //
+    // }
+    updateAllItems = async () => {
+        const userIds = this.state.users.map((user) => user.id.toString());
+        const res = await findByIds(userIds);
+        const users = res.data.documents;
+
+        users.sort(function(a, b) {
+            let x = a["points"]; let y = b["points"];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
+
+        console.log(users);
+        users.map((user, index) => {this.updateItem(user, user.itemId, index+1)});
+
+
 
     }
-
-    createItem = (user) => {
+    createItem = async (user) => {
         const query = `mutation {
-                create_item (board_id: ${this.state.boardId}, group_id: "${this.state.groupId}", item_name: "Ranking", 
-                        column_values: "{ \\"${this.state.column_ids.person.id}\\" : {\\"personsAndTeams\\":[{\\"id\\":${user.id},\\"kind\\":\\"person\\"}]} }" ) {
+                create_item (board_id: ${this.state.boardId}, group_id: "${this.state.groupId}", item_name: "-", 
+                        column_values: "{ \\"person\\" : {\\"personsAndTeams\\":[{\\"id\\":${user.id},\\"kind\\":\\"person\\"}]} }" ) {
                             id
                 }
         }`
-        monday.api(query)
-            .then((res) => {
-                const itemId = res.data.create_item.id
-                this.state.users.map((u) => {
-                    if (u.id === user.id) u.itemId = itemId
+
+        try{
+
+            const res = await monday.api(query);
+            const item = res.data.create_item.id;
+
+            const updatedRes = await updateRecord({
+                id: user.id.toString(),
+                itemId: item.toString()
+            })
+
+            if (updatedRes.modifiedCount === 0){
+                await updateRecord({
+                    id: user.id.toString(),
+                    cfp: -1,
+                    itemId: item.toString(),
+                    points: -1,
                 })
-                this.updateItem(user.id, itemId)
-            }).catch((res) => {
-            this.setState({success: false});
+            }
+            // this.setState({item_ids: {...this.state.item_ids, [`${user.id}`] : item}})
 
+
+
+        }catch (e){
+            this.setState({success: false, currentAction: "Error creating item - Retrying in 60 seconds"});
             setTimeout(() => {this.createItem(user)}, 60000);
-        });
-    }
-
-    updateItem = (userId, itemId) => {
-        const userData = this.getUserData(userId)
-        if (typeof userData !== "undefined"){
-            const query = `
-                    mutation {
-                      change_multiple_column_values(item_id:${parseInt(itemId)}, board_id:${this.state.boardId}, column_values: "{\\"name\\" : \\"Ranking will appear here\\", \\"${this.state.column_ids.eco_points.id}\\" : \\"${userData.ecoPoints}\\", \\"${this.state.column_ids.carbon_emissions.id}\\" : \\"${userData.carbonEmissions}\\"}") {
-                        id
-                      }
-                    }`
-
-            monday.api(query)
-                .then((res) => {
-                    const insertionProgress = 30/this.state.users.length
-                    this.setState({progressVal: this.state.progressVal + insertionProgress})
-                    console.log(res)
-                }).catch((res) => {
-                this.setState({success: false});
-                setTimeout(() => {this.updateItem(userId, itemId)}, 60000);
-            });
-        }else{
-            const insertionProgress = 30/this.state.users.length
-            this.setState({progressVal: this.state.progressVal + insertionProgress})
         }
 
     }
 
-    getUserData = (userId) => {
-        const users =
-            [
-                {
-                    id: 33386038,
-                    name: "Usama",
-                    ecoPoints: 200,
-                    carbonEmissions: 300
-                },
-                {
-                    id: 33387933,
-                    name: "Mubashir Ahmed",
-                    ecoPoints: 100,
-                    carbonEmissions: 350
-                }
-            ]
+    updateItem = async (user, itemId, ranking) => {
+        if (user != null) {
+            const query = `
+                    mutation {
+                      change_multiple_column_values(item_id:${parseInt(itemId)}, board_id:${this.state.boardId}, column_values: "{\\"name\\" : \\"${ranking}\\", \\"eco_points\\" : \\"${user.points}\\", \\"carbon_emissions\\" : \\"${user.cfp}\\"}") {
+                        id
+                      }
+                    }`
+            monday.api(query)
+                .then((res) => {
+                    const id = res.data.change_multiple_column_values.id
+                    const insertionProgress = 30 / this.state.users.length
+                    this.setState({progressVal: this.state.progressVal + insertionProgress, currentAction: "Inserting data..."},  console.log(this.state.progressVal))
 
-        return users.find(user => user.id === userId)
-
+                }).catch((res) => {
+                this.setState({success: false, currentAction: "Error inserting data - Retrying in 60 seconds"});
+                setTimeout(() => {
+                    this.updateItem(user, itemId, ranking)
+                }, 60000);
+            });
+        } else {
+            const insertionProgress = 30 / this.state.users.length
+            this.setState({progressVal: this.state.progressVal + insertionProgress})
+        }
     }
+
+
 
     render() {
         return (
             <div className="leaderboard">
                 <Box style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM}
                      margin={Box.margins.LARGE}>
-                    <AttentionBox className="attention-box"
+                    {this.state.loading ?  <Heading type={Heading.types.h2} value={this.state.currentAction}/>: <AttentionBox className="attention-box"
                         description="Danger"
                         onClose={function noRefCheck(){}}
                         text="You have not created a leaderboard. Please create a leaderboard and try again."
                         title="Leaderboard not found"
-                    />
+                    />}
                     {this.state.progressVal < 99.5 ?
                     <Flex>
                         {this.state.loading ?
-
-                         <LinearProgressBar
-                            className="linear-progress-bar_small-wrapper"
-                            size="large"
-                            value={this.state.progressVal}
-                        />: <Button onClick={this.syncBoardData} loading={this.state.loading}>
+                                <LinearProgressBar value={this.state.progressVal} size={LinearProgressBar.sizes.LARGE} barStyle={LinearProgressBar.styles.POSITIVE} />
+                            : <Button onClick={this.syncBoardData} loading={this.state.loading}>
                                 Create Board
                             </Button>}
                     </Flex>
-                        : <Toast open type={Toast.types.POSITIVE}  autoHideDuration={5000} >
-                            Board created successfully
-                        </Toast>
+                        : <div>{this.props.findBoardId()}</div>
 
                     }
                 </Box>
