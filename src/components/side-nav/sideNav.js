@@ -41,6 +41,9 @@ class SideNav extends React.Component {
                 <ListItem >
                     Eco Points
                 </ListItem>
+                <ListItem onClick={() => handleToUpdate(View.TAKE_ACTION)}>
+                    Take Action
+                </ListItem>
                 <ListItem>
                     FAQs
                 </ListItem>

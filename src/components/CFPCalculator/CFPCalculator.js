@@ -100,7 +100,6 @@ export default function CFPCalculator() {
           <Tab>Home</Tab>
           <Tab>Food</Tab>
           <Tab>Shopping</Tab>
-          <Tab>Take Action</Tab>
         </TabList>
         <TabPanels className="Body-left">
           <TabPanel><GetStarted setAnnualIncome={setAnnualIncome}/></TabPanel>
