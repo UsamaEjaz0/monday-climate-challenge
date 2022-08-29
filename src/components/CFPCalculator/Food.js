@@ -38,13 +38,14 @@ export default function Food({ setFood, setActiveTab }) {
         </label>
         <Box margin={Box.margins.SMALL}></Box>
         <Slider
+          indicateSelection={true}
           defaultValue={1}
           size={Slider.sizes.SMALL}
           min={0}
           max={3}
           valueFormatter={value => {
             if (value === 1) {
-              return "Average"
+              return "Avg"
             }
             return `${value}x`
           }}
@@ -68,11 +69,12 @@ export default function Food({ setFood, setActiveTab }) {
           max={3}
           valueFormatter={value => {
             if (value === 1) {
-              return "Average"
+              return "Avg"
             }
             return `${value}x`
           }}
           onChange={(value) => handleChange(1, value)}
+          indicateSelection={true}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
@@ -92,11 +94,12 @@ export default function Food({ setFood, setActiveTab }) {
           max={3}
           valueFormatter={value => {
             if (value === 1) {
-              return "Average"
+              return "Avg"
             }
             return `${value}x`
           }}
           onChange={(value) => handleChange(2, value)}
+          indicateSelection={true}
         />
       </Box>
       <Box padding={Box.paddings.MEDIUM}>
@@ -116,10 +119,11 @@ export default function Food({ setFood, setActiveTab }) {
           max={3}
           valueFormatter={value => {
             if (value === 1) {
-              return "Average"
+              return "Avg"
             }
             return `${value}x`
           }}
+          indicateSelection={true}
           onChange={(value) => handleChange(3, value)}
         />
       </Box>
@@ -140,10 +144,11 @@ export default function Food({ setFood, setActiveTab }) {
           max={3}
           valueFormatter={value => {
             if (value === 1) {
-              return "Average"
+              return "Avg"
             }
             return `${value}x`
           }}
+          indicateSelection={true}
           onChange={(value) => handleChange(4, value)}
         />
       </Box>

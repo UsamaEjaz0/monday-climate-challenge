@@ -44,12 +44,13 @@ export default function Shopping({ shopping, setShopping, goods, services, setAc
         <Box margin={Box.margins.SMALL}></Box>
         <Slider
           defaultValue={1}
+          indicateSelection={true}
           size={Slider.sizes.SMALL}
           min={0}
           max={3}
           valueFormatter={value => {
             if (value === 1) {
-              return "Average"
+              return "Avg"
             }
             return `${value}x`
           }}
@@ -71,9 +72,10 @@ export default function Shopping({ shopping, setShopping, goods, services, setAc
           size={Slider.sizes.SMALL}
           min={0}
           max={3}
+          indicateSelection={true}
           valueFormatter={value => {
             if (value === 1) {
-              return "Average"
+              return "Avg"
             }
             return `${value}x`
           }}

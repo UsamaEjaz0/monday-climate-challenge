@@ -43,5 +43,4 @@ export async function updateRecord  (user) {
         body: JSON.stringify(user)
     });
     return await res.json();
-
 }

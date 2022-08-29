@@ -1,6 +1,6 @@
-import {useState} from "react"
-import mondaySdk from "monday-sdk-js";
+import { useState } from "react"
 import { Globe } from "monday-ui-react-core/dist/allIcons";
+import { UserContext } from "../../userContext";
 import {
   Box,
   Flex,
@@ -8,21 +8,18 @@ import {
   Loader,
   Heading
 } from "monday-ui-react-core"
-import { useEffect } from "react"
-
-const monday = mondaySdk();
+import { useEffect, useContext } from "react"
 const STORAGE_KEY = "is-claimed"
 
 export default function TakeAction() {
+  const {id} = useContext(UserContext)
   const [points, setPoints] = useState(-1)
-  const [id, setId] = useState()
   const [dailyRewards, setDailyRewards] = useState({
     isClaimed: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).isClaimed : [false, false, false, false, false],
     claimDay: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay : new Date().getDay()
   })
 
   useEffect(() => {
-
     if (localStorage.getItem(STORAGE_KEY)) {
       const currentDay = new Date().getDay()
       if (JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay !== currentDay) {
@@ -35,27 +32,14 @@ export default function TakeAction() {
       }
     }
 
-    monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
-
-    monday.api(
-      `query {
-        me {
-          id
-        }            
-      }`
-    ).then(res => {
-      setId(res.data.me.id.toString())
-      fetch("https://www.car7parts.ae/monday/user-data/find", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            id: res.data.me.id.toString(),
-        })
-      }).then(res => res.json()).then(data => setPoints(data.data.document.points))
-    })
-  }, [])
+    fetch("https://www.car7parts.ae/monday/user-data/find", {
+      method: "POST",
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({id})
+    }).then(res => res.json()).then(data => setPoints(data.data.document.points))
+  }, [id])
 
   function updatePoints(saves, index) {
     fetch("https://www.car7parts.ae/monday/user-data/update", {
@@ -107,12 +91,10 @@ export default function TakeAction() {
 
   const displayActions = actions.map((action, index) => {
     return(
-        <div style={{backgroundColor: "#f5f6f8"}}>
+        <div style={{backgroundColor: "#f5f6f8"}} key={action.id}>
           <Box
               padding={Box.paddings.MEDIUM}
               rounded={Box.roundeds.SMALL}
-              // border={Box.borders.DEFAULT}
-              key={action.id}
           >
             <Flex  gap={Flex.gaps.MEDIUM} justify={Flex.justify.SPACE_BETWEEN}>
               <span>{action.task} & save <b>{action.saves} kg CO<sub>2</sub></b></span>
@@ -120,7 +102,6 @@ export default function TakeAction() {
             </Flex>
           </Box>
         </div>
-
     )
   })
 
