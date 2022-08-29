@@ -18,6 +18,7 @@
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
     "eslint-config-react-app": "^7.0.1",
+    "ml-classify-text": "^2.0.0",
     "moment": "^2.29.4",
     "monday-sdk-js": "^0.1.2",
     "monday-ui-react-core": "^1.54.0",

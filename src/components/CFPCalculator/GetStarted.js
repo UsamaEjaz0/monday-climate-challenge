@@ -12,7 +12,6 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
   return(
     <>
         <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Start with a quick estimate?" /></Flex>
-
         <Box padding={Box.paddings.MEDIUM}>
         <label>2. What is your gross annual household income?</label>
         <Box margin={Box.margins.SMALL}></Box>

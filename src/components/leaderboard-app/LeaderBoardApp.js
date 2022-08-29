@@ -13,7 +13,7 @@ class LeaderBoardApp extends React.Component {
     }
 
     componentDidMount() {
-        monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
+        monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3Nzg1NTE2MywidWlkIjozMzM4NzkzMywiaWFkIjoiMjAyMi0wOC0yOFQyMzo0NDo0MC42OTlaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.u7GMxmr8IbGIG-XIb4McmLKfSZ6cPTLQGL6uHtxnbCc');
         monday.listen("settings", this.getSettings);
         // monday.listen("context", this.getContext);
         this.findBoardId()
@@ -47,6 +47,8 @@ class LeaderBoardApp extends React.Component {
                 this.setState({boardId: 0})
             }
 
+        }).catch((err) => {
+            setTimeout(this.findBoardId, 5000)
         });
 
 
@@ -89,7 +91,10 @@ class LeaderBoardApp extends React.Component {
                 
                 `;
         monday.api(query)
-            .then((res) => this.setState({boards: res.data.boards}));
+            .then((res) => this.setState({boards: res.data.boards}))
+            .catch((err) => {
+                setTimeout(this.fetchBoard, 5000)
+            });
     };
 
     renderCell = (board, column, item) => {
@@ -181,9 +186,7 @@ class LeaderBoardApp extends React.Component {
     renderBoardCreationScreen = () => {
         return (
             <div>
-
                 <Leaderboard findBoardId={this.findBoardId.bind(this)}/>
-
             </div>
         );
     }

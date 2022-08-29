@@ -6,7 +6,7 @@ import {Clickable, Flex, Heading, Label} from "monday-ui-react-core";
 const monday = mondaySdk();
 
 export default function Board(props) {
-   
+
     const renderItem = (color, board, item) => {
         return (
             <Clickable className="item" onClick={() => monday.execute('openItemCard', {itemId: item.id})}>

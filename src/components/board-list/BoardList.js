@@ -7,11 +7,11 @@ import Board from "../board/Board";
 const monday = mondaySdk();
 
 export default function BoardList(props) {
-    
+
     const [state, setState] = useState({
-        settings: {}, 
-        context: {}, 
-        me: {}, 
+        settings: {},
+        context: {},
+        me: {},
         boards: []
     })
 
@@ -25,7 +25,7 @@ export default function BoardList(props) {
             fetchBoards(res.data)
         });
     }, [])
-   
+
     const fetchBoards = (context) => {
         monday.api(
             `query {
@@ -57,9 +57,12 @@ export default function BoardList(props) {
                   }
                 } 
     `
-        ).then((res) => setState(prevState => ({ ...prevState, boards: res.data.boards})));
+        ).then((res) => setState(prevState => ({ ...prevState, boards: res.data.boards})))
+            .catch((err) => {
+                fetchBoards(context);
+            });
     };
-  
+
     return (
         <div className="monday-app">
             {state.boards.map((board) => {

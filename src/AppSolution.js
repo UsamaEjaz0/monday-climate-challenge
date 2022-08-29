@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import mondaySdk from "monday-sdk-js";
 const monday = mondaySdk();
-
+const { Classifier } = require('ml-classify-text')
 
 function AppSolution() {
   const [mondayData, setMondayData] = useState({
@@ -10,7 +10,7 @@ function AppSolution() {
     context: {},
     name: "",
     boards: []
-  }) 
+  })
 
   useEffect(() => {
     monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
