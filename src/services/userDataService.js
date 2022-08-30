@@ -44,3 +44,15 @@ export async function updateRecord  (user) {
     });
     return await res.json();
 }
+
+export async function compareCFP (cfp) {
+    let res = await fetch("https://www.car7parts.ae/monday/user-data/compare-cfp", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cfp)
+    });
+    return await res.json();
+
+}

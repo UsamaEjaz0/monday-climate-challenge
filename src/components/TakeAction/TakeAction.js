@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { Globe } from "monday-ui-react-core/dist/allIcons";
+import { Globe, Help } from "monday-ui-react-core/dist/allIcons";
 import { UserContext } from "../../userContext";
 import {
   Box,
   Flex,
   Button,
   Loader,
-  Heading
+  Heading,
 } from "monday-ui-react-core"
 import { useEffect, useContext } from "react"
 const STORAGE_KEY = "is-claimed"
