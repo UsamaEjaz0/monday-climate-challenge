@@ -20,10 +20,10 @@ function SideNav(props) {
             setCurrentItems(items)
             return
         }
-        
+
         let filtered = []
         for (let i = 0; i < items.length; i++) {
-            if (items[i][0].includes(item)) {
+            if (items[i][0].toLowerCase().includes(item.toLowerCase())) {
                 filtered.push([items[i][0], items[i][1]])
             }
         }

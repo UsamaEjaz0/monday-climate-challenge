@@ -24,13 +24,14 @@ export default function BoardList(props) {
             setState(prevState => ({...prevState, context: res.data}))
             fetchBoards(res.data)
         });
+        fetchBoards(0);
     }, [])
 
     const fetchBoards = (context) => {
         monday.api(
             `query {
                   
-                  boards(ids:[${context.boardIds}]) {
+                  boards {
                     id
                     name
                     

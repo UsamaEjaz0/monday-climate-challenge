@@ -9,15 +9,23 @@ import {
   Heading
 } from "monday-ui-react-core"
 import { useEffect, useContext } from "react"
+import mondaySdk from "monday-sdk-js";
+const monday = mondaySdk();
+
+
 const STORAGE_KEY = "is-claimed"
 
 export default function TakeAction() {
-  const {id} = useContext(UserContext)
+  const {id, boardId, name} = useContext(UserContext)
   const [points, setPoints] = useState(-1)
   const [dailyRewards, setDailyRewards] = useState({
     isClaimed: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).isClaimed : [false, false, false, false, false],
     claimDay: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay : new Date().getDay()
   })
+
+  useEffect(() => {
+    monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3Nzg1NTE2MywidWlkIjozMzM4NzkzMywiaWFkIjoiMjAyMi0wOC0yOFQyMzo0NDo0MC42OTlaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.u7GMxmr8IbGIG-XIb4McmLKfSZ6cPTLQGL6uHtxnbCc');
+  }, [])
 
   useEffect(() => {
     if (localStorage.getItem(STORAGE_KEY)) {
@@ -51,7 +59,11 @@ export default function TakeAction() {
             id,
             points: points + Math.round(saves)
         })
-    }).then(res => res.json()).then(data => setPoints(prevPoints => prevPoints + Math.round(saves)))
+    }).then(res => res.json()).then(data => {
+      updateBoard(points + Math.round(saves));
+      setPoints(prevPoints => prevPoints + Math.round(saves));
+      }
+    )
 
     setDailyRewards(prevDailyRewards => {
       const isClaimed = [...prevDailyRewards.isClaimed]
@@ -60,6 +72,7 @@ export default function TakeAction() {
       return {...prevDailyRewards, isClaimed}
     })
   }
+
 
   const actions = [
     {
@@ -104,6 +117,91 @@ export default function TakeAction() {
         </div>
     )
   })
+
+
+  function updateBoard(points) {
+    if (boardId !== -1) {
+      monday.api(
+          `query {
+              boards(ids: ${boardId}) {
+                items{
+                id
+                  column_values(ids: person){
+                    value
+                  }
+                 }
+                }  
+           }
+    `
+      ).then((res) => {
+        console.log(res);
+        const users = res.data.boards[0].items.filter((item) => {
+          const data = JSON.parse(item.column_values[0].value)
+          if (data.personsAndTeams[0].id.toString() === id) {
+            return id
+          }
+        })
+
+        if (users.length === 0) {
+          createUser(points);
+        } else {
+          const user = users[0];
+          updateUser(user.id, points)
+        }
+      })
+
+    }
+  }
+
+  function createUser(points) {
+    const query = `mutation {
+                create_item (board_id: ${boardId}, group_id: "ranking", item_name: "${name}", 
+                        column_values: "{ \\"person\\" : {\\"personsAndTeams\\":[{\\"id\\":${id},\\"kind\\":\\"person\\"}]}, \\"carbon_emissions\\" : \\"0\\", \\"eco_points\\" : \\"${points}\\" }" ) {
+                            id
+                }
+        }`
+
+    monday.api(query).then((res) => {
+      console.log(res)
+      if ('error_code' in res) {
+        if (res.error_code === 'ComplexityException') {
+          console.log("Here")
+          throw 'Complexity Exception'
+        }
+
+
+      }
+    }).catch((err) => {
+      setTimeout(() => {
+        this.createItem(points)
+      }, 10000);
+    });
+  }
+
+  function updateUser(itemId, points) {
+    const query = `
+                    mutation {
+                      change_multiple_column_values(item_id:${parseInt(itemId)}, board_id:${boardId}, column_values: "{\\"eco_points\\" : \\"${points}\\"}") {
+                        id
+                      }
+                    }`
+    monday.api(query)
+        .then((res) => {
+          console.log(res)
+          if ('error_code' in res) {
+            if (res.error_code === 'ComplexityException') {
+              console.log("Here")
+              throw 'Complexity Exception'
+            }
+          }
+
+        }).catch((res) => {
+      console.log("Retrying");
+      setTimeout(() => {
+        this.updateItem(itemId, points)
+      }, 5000);
+    });
+  }
 
   return (
     <Box padding={Box.paddings.MEDIUM} margin={Box.margins.XL} >

@@ -3,6 +3,7 @@ import './LeaderboardApp.css'
 import mondaySdk from "monday-sdk-js";
 import {Box, Clickable, Flex, Heading, Loader} from "monday-ui-react-core";
 import Leaderboard from "./leaderboard-helper/Leaderboard";
+import {UserContext} from "../../userContext";
 
 const monday = mondaySdk();
 
@@ -13,7 +14,7 @@ class LeaderBoardApp extends React.Component {
     }
 
     componentDidMount() {
-        monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3Nzg1NTE2MywidWlkIjozMzM4NzkzMywiaWFkIjoiMjAyMi0wOC0yOFQyMzo0NDo0MC42OTlaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.u7GMxmr8IbGIG-XIb4McmLKfSZ6cPTLQGL6uHtxnbCc');
+        monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
         monday.listen("settings", this.getSettings);
         // monday.listen("context", this.getContext);
         this.findBoardId()
@@ -41,10 +42,13 @@ class LeaderBoardApp extends React.Component {
             if (typeof board !== 'undefined') {
                 this.setState({boardId: board.id}, this.fetchBoard)
                 console.log(`Board Exists with ID: ${board.id}`);
+                this.context.setBoardId(board.id);
+
 
             } else {
                 console.log(`Board Doesn't exist`);
                 this.setState({boardId: 0})
+                this.context.setBoardId(-1);
             }
 
         }).catch((err) => {
@@ -111,9 +115,10 @@ class LeaderBoardApp extends React.Component {
                     {columns.map((column) => (
                         column.type === "name" ?
                             <div className="task-leaderboard"
-                                 style={{borderLeft: `thick solid ${color}`}}>{this.renderCell(board, column, item)}</div>
+                                 style={{borderLeft: `thick solid #057e4c`}}>{this.renderCell(board, column, item)}</div>
                             :
-                            <div className="cell-leaderboard">{this.renderCell(board, column, item)}</div>
+                            column.type !== "multiple-person"?
+                                <div className="cell-leaderboard">{this.renderCell(board, column, item)}</div>: <div></div>
                     ))}
                 </div>
             </Clickable>
@@ -124,11 +129,14 @@ class LeaderBoardApp extends React.Component {
         const {columns} = board;
         return (
             <div className="group">
-                <Heading type={Heading.types.h2} style={{color: group.color}} value={board.name}/>
+                <Heading type={Heading.types.h2} style={{color: "#057e4c"}} value={board.name}/>
                 <Flex>
                     {columns.map((column) => (
+
                         column.type === "name" ?
-                            <div className="task-leaderboard">{group.title}</div> : <div className="cell-leaderboard">{column.title}</div>
+                            <div className="task-leaderboard">Person</div> :
+                            column.type !== "multiple-person"?
+                            <div className="cell-leaderboard">{column.title}</div> : <div></div>
                     ))}
                 </Flex>
                 <div
@@ -219,5 +227,6 @@ class LeaderBoardApp extends React.Component {
         );
     }
 }
+LeaderBoardApp.contextType = UserContext;
 
 export default LeaderBoardApp;
