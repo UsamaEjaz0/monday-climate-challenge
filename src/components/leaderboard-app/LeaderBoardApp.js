@@ -3,7 +3,7 @@ import './LeaderboardApp.css'
 import mondaySdk from "monday-sdk-js";
 import {Box, Clickable, Flex, Heading, Loader} from "monday-ui-react-core";
 import Leaderboard from "./leaderboard-helper/Leaderboard";
-import {UserContext} from "../../userContext";
+import {UserContext} from "../../context/userContext";
 
 const monday = mondaySdk();
 

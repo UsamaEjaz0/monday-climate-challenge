@@ -1,15 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import { Box, Flex, Tooltip, Icon } from "monday-ui-react-core"
-import { compareCFP } from "../../services/userDataService";
+import { useContext, useState } from "react";
+import { Box, Flex } from "monday-ui-react-core"
 import { 
   NavigationChevronRight,
   NavigationChevronLeft,
-  Help
 } from "monday-ui-react-core/dist/allIcons";
 import happy from "../../images/happy.png"
 import sad from "../../images/sad.png"
 import './Widget.css'
-import { UserContext } from "../../userContext";
+import { UserContext } from "../../context/userContext";
 
 const TIPS = [
   "Eat more vegetables",
@@ -19,12 +17,8 @@ const TIPS = [
 ]
 
 export default function Widget() {
-  const {id} = useContext(UserContext)
+  const {percentage} = useContext(UserContext)
   const [tipIndex, setTipIndex] = useState(0)
-
-  useEffect(() => {
-    compareCFP()
-  })
 
   const nextTip = () => {
     setTipIndex(prevTipIndex => (prevTipIndex + 1)% TIPS.length)
@@ -39,19 +33,13 @@ export default function Widget() {
       <Box border={Box.borders.DEFAULT} margin={Box.margins.MEDIUM}
         padding={Box.paddings.MEDIUM}
       >
-        <div className="monday-storybook-tooltip_box">
-        <Tooltip content="Heavy information and facts for big brain people">
-          <div className="monday-storybook-tooltip_icon-wrapper">
-            <Icon icon={Help} />
-          </div>
-        </Tooltip>
-      </div>
         <Flex gap={Flex.gaps.MEDIUM} direction={Flex.directions.COLUMN}>
           <Flex>
-            <img src={happy} alt="emoji"/>
+            <img src={percentage > 50 ? happy : sad} alt="emoji"/>
           </Flex>
           <Flex direction={Flex.directions.COLUMN}>
-            <span>Your Carbon footprint is  <b>better than 69%</b> people in the Green board</span>
+            <span>Your Carbon footprint is  <b>
+            { percentage > 50 ? `better than ${percentage}%` : `worse than ${100-percentage}%`}</b> people in the Green board</span>
           </Flex>
         </Flex>
         <Box marginTop={Box.marginTops.XL}>

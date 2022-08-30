@@ -4,7 +4,7 @@ import mondaySdk from "monday-sdk-js";
 import {AttentionBox, Box, Button, Flex, Heading, LinearProgressBar} from "monday-ui-react-core";
 import 'monday-ui-react-core/dist/main.css';
 import {findByIds, updateRecord} from "../../../services/userDataService";
-import {UserContext} from "../../../userContext";
+import {UserContext} from "../../../context/userContext";
 
 // import {UserContext} from "../../../userContext";
 
