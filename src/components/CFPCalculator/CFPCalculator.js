@@ -26,7 +26,7 @@ import {
 import "monday-ui-style/dist/index.min.css";
 import './CFPCalculator.css'
 import {useContext} from "react";
-import {UserContext} from "../../userContext";
+import {UserContext} from "../../context/userContext";
 
 const monday = mondaySdk();
 
@@ -154,8 +154,6 @@ export default function CFPCalculator() {
                     console.log("Here")
                     throw 'Complexity Exception'
                 }
-
-
             }
         }).catch((err) => {
             setTimeout(() => {
@@ -201,7 +199,6 @@ export default function CFPCalculator() {
         })
         updateBoard(cfp);
     }
-
 
     return (
         <div className="CFPCalculator">

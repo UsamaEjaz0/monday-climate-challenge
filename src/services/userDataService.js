@@ -51,7 +51,7 @@ export async function compareCFP (cfp) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(cfp)
+        body: JSON.stringify({cfp})
     });
     return await res.json();
 

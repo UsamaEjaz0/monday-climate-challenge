@@ -9,6 +9,7 @@ import CFPCalculator from "./components/CFPCalculator/CFPCalculator";
 import LeaderBoardApp from "./components/leaderboard-app/LeaderBoardApp";
 import TakeAction from "./components/TakeAction/TakeAction";
 import SideNav from "./components/side-nav/SideNav";
+import Widget from "./components/Widget/Widget";
 // import {neg_tweets, neutral_tweets, positive_tweets} from "./data";
 // import * as fs from "fs";
 const { Classifier } = require('ml-classify-text')
@@ -68,8 +69,6 @@ class App extends React.Component {
                 </Flex>
             </div>
             {this.renderView()}
-
-
         </div>;
     }
 }

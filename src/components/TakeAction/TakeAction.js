@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Globe, Help } from "monday-ui-react-core/dist/allIcons";
-import { UserContext } from "../../userContext";
+import { UserContext } from "../../context/userContext";
 import {
   Box,
   Flex,
