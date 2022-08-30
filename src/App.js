@@ -11,7 +11,7 @@ import TakeAction from "./components/TakeAction/TakeAction";
 import SideNav from "./components/side-nav/SideNav";
 // import {neg_tweets, neutral_tweets, positive_tweets} from "./data";
 // import * as fs from "fs";
-// const { Classifier } = require('ml-classify-text')
+const { Classifier } = require('ml-classify-text')
 
 
 class App extends React.Component {
@@ -31,38 +31,9 @@ class App extends React.Component {
 
     componentDidMount() {
         // TODO: set up event listeners
-        // const classifier = new Classifier()
-        // let positive = positive_tweets;
-        //
-        // let negative = neg_tweets;
-        // let neutral = neutral_tweets;
-        //
-        // console.log("Training")
-        // classifier.train(positive, 'positive')
-        // classifier.train(negative, 'negative')
-        // classifier.train(neutral, 'neutral')
-        // console.log("Trained")
-        // classifier.model = require('./model-new.json')
-        // let predictions = classifier.predict('Man has no significant effect on climate! Hence the name change from global warming hoax to climate change hoax')
-        // if (predictions.length) {
-        //     predictions.forEach(prediction => {
-        //         console.log(`${prediction.label} (${prediction.confidence})`)
-        //     })
-        // } else {
-        //     console.log('No predictions returned')
-        // }
+
     }
 
-    exportToTxt = (data) => {
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], {
-            type: "text/plain"
-        }));
-        a.setAttribute("download", "model-new.txt");
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    }
 
     renderView = () => {
         if (this.state.view === View.SENTIMENT_ANALYSIS) {

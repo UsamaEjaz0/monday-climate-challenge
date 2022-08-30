@@ -3,6 +3,7 @@ import "./BoardList.css";
 import mondaySdk from "monday-sdk-js";
 import {Box} from "monday-ui-react-core";
 import Board from "../board/Board";
+import {Classifier} from "ml-classify-text";
 
 const monday = mondaySdk();
 
@@ -15,6 +16,8 @@ export default function BoardList(props) {
         boards: []
     })
 
+    const [classifier, setClassifier] = useState();
+
     useEffect(() => {
         monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
         monday.listen("settings", (res) => {
@@ -24,14 +27,20 @@ export default function BoardList(props) {
             setState(prevState => ({...prevState, context: res.data}))
             fetchBoards(res.data)
         });
-        fetchBoards(0);
+        const classifier = new Classifier()
+        classifier.model = require('../../model-new.json');
+        setClassifier(classifier)
+
     }, [])
 
+
+
     const fetchBoards = (context) => {
+
         monday.api(
             `query {
                   
-                  boards {
+                  boards (ids: [${context.boardIds}]) {
                     id
                     name
                     
@@ -58,7 +67,10 @@ export default function BoardList(props) {
                   }
                 } 
     `
-        ).then((res) => setState(prevState => ({ ...prevState, boards: res.data.boards})))
+        ).then((res) => {
+            console.log(res)
+            setState(prevState => ({ ...prevState, boards: res.data.boards}))
+        })
             .catch((err) => {
                 fetchBoards(context);
             });
@@ -68,8 +80,8 @@ export default function BoardList(props) {
         <div className="monday-app">
             {state.boards.map((board) => {
                 return (
-                    <Box key={board.id} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM} margin={Box.margins.LARGE}>
-                        {<Board board={board} settings={state.settings}/>}
+                    <Box  key={board.id} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM} margin={Box.margins.LARGE}>
+                        {<Board classifier={classifier} board={board} settings={state.settings}/>}
                     </Box>
                 );
             })}

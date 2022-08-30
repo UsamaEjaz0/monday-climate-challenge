@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Box, Flex, Tooltip, Icon } from "monday-ui-react-core"
 import { compareCFP } from "../../services/userDataService";
-import { 
+import {
   NavigationChevronRight,
   NavigationChevronLeft,
   Help
@@ -19,12 +19,12 @@ const TIPS = [
 ]
 
 export default function Widget() {
-  const {id} = useContext(UserContext)
+  const id = useContext(UserContext)
   const [tipIndex, setTipIndex] = useState(0)
 
-  useEffect(() => {
-    compareCFP()
-  })
+  // useEffect(() => {
+  //   compareCFP()
+  // }, [])
 
   const nextTip = () => {
     setTipIndex(prevTipIndex => (prevTipIndex + 1)% TIPS.length)

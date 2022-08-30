@@ -12,8 +12,6 @@ const monday = mondaySdk();
 
 class Leaderboard extends React.Component {
 
-
-
     constructor(props) {
         super(props);
         this.state = {
@@ -59,7 +57,6 @@ class Leaderboard extends React.Component {
         ).then((res) => {
             if ('error_code' in res) {
                 if (res.error_code === 'ComplexityException') {
-                    console.log("Here")
                     throw 'Complexity Exception'
                 }
             }

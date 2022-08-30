@@ -7,11 +7,31 @@ const monday = mondaySdk();
 
 export default function Board(props) {
 
+    const predict = (classifier, text) => {
+        let predictions = classifier.predict(text)
+        console.log(classifier.model)
+        if (predictions.length) {
+            var label = ""
+            predictions.forEach(prediction => {
+                console.log(text);
+                console.log(`${prediction.label} (${prediction.confidence})`)
+                label = prediction.label;
+            })
+            if (label === 'positive')
+                return <Label className="sentiment" text={label} color={Label.colors.POSITIVE}/>
+            else
+                return <Label className="sentiment" text={label} color={Label.colors.NEGATIVE}/>
+
+        } else {
+            return <Label className="sentiment" text="neutral" />
+        }
+    }
+
     const renderItem = (color, board, item) => {
         return (
             <Clickable className="item" onClick={() => monday.execute('openItemCard', {itemId: item.id})}>
                 <div className="task" style={{borderLeft: `thick solid ${color}`}} >{item.name}</div>
-                <Label className="sentiment" text="Neutral" color={Label.colors.POSITIVE}/>
+                {predict(props.classifier, item.name)}
             </Clickable>
         );
     };
