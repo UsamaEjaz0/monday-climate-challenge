@@ -12,8 +12,8 @@
 .Body-left {
   /* margin-left: 19%; */
   float: left;
-  max-width:45%;
-  width: 45%;
+  max-width:47.5%;
+  width: 47.5%;
   border: 1px solid rgb(195, 198, 212);
   border-radius: 10px;
   padding: 20px;
@@ -21,8 +21,8 @@
 
 .Body-right {
   float: left;
-  max-width:45%;
-  width: 45%;
+  max-width:47.5%;
+  width: 47.5%;
   height: 500px;
   padding: 20px;
   margin-left: 5%;
@@ -41,4 +41,10 @@ h3 {
 label {
   display: flex;
   justify-content: space-between;
+}
+
+.ellipsis{
+  /*overflow: hidden;*/
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

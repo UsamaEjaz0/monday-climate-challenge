@@ -13,7 +13,7 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
     <>
         <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Start with a quick estimate?" /></Flex>
         <Box padding={Box.paddings.MEDIUM}>
-        <label>What is your gross annual household income?</label>
+        <label >What is your gross annual household income?</label>
         <Box margin={Box.margins.SMALL}></Box>
         <Slider
           defaultValue={0}
@@ -50,17 +50,17 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
             </div>
 
             <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} gap={Flex.gaps.SMALL}>
-                <Flex justify={Flex.justify.SPACE_BETWEEN}>
+                <Flex  justify={Flex.justify.SPACE_BETWEEN}>
                     Price of gasoline
-                    <Label kind={Label.kinds.LINE} text="$ 0.92 per L" />
+                    <Label className="ellipsis" kind={Label.kinds.LINE} text="$ 0.92 per L" />
                 </Flex>
                 <Flex justify={Flex.justify.SPACE_BETWEEN}>
                     Electricity price
-                    <Label kind={Label.kinds.LINE}  text="10.0 cents/ kWh" />
+                    <Label  className="ellipsis" kind={Label.kinds.LINE}  text="10.0 cents/ kWh" />
                 </Flex>
                 <Flex justify={Flex.justify.SPACE_BETWEEN}>
                     Electricity emission factor
-                    <Label kind={Label.kinds.LINE}  text="590 gCO2/ kWh" />
+                    <Label className="ellipsis" kind={Label.kinds.LINE}  text="590 gCO2/ kWh" />
                 </Flex>
             </Flex>
 

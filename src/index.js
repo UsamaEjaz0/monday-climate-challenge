@@ -3,7 +3,7 @@ import {createRoot} from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import {UserContextProvider} from "./userContext";
+import {UserContextProvider} from "../src/context/userContext";
 import Widget from "./components/Widget/Widget";
 
 const root = createRoot(document.getElementById("root"));

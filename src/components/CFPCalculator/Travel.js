@@ -72,7 +72,7 @@ export default function Travel({ travel, setTravel, setActiveTab}) {
 
   return(
     <>
-      
+
         <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="How do you get around?" /></Flex>
           <Box marginBottom={Box.marginBottoms.SMALL}>Your Vehicle</Box>
           <Flex>
@@ -93,7 +93,7 @@ export default function Travel({ travel, setTravel, setActiveTab}) {
               (value) => {setTravel(prevTravel => ({...prevTravel, publicTransit: [value, value*0.00014]}))}
             }
           />
-          <Box marginBottom={Box.marginBottoms.LARGE}></Box>
+          <Box marginBottom={Box.marginBottoms.LARGE}/>
           <TextField
             title="Air Travel"
             placeholder={`${travel.airTravel[0]} (km/year)`}
@@ -102,7 +102,7 @@ export default function Travel({ travel, setTravel, setActiveTab}) {
               (value) => {setTravel(prevTravel => ({...prevTravel, airTravel: [value , (value*0.00028)]}))}
             }
           />
-      <Box padding={Box.paddings.MEDIUM}>
+      <Box marginTop={Box.marginTops.LARGE} >
         <Button  onClick={() => {setActiveTab(0)}} >Previous</Button>
         <Button style={{float: "right"}}  onClick={() => {setActiveTab(2)}}>Next</Button>
       </Box>

@@ -25,18 +25,7 @@ export default function Home({home, setHome, setActiveTab}) {
           }
         />
       </Box>
-      <Box padding={Box.paddings.MEDIUM} >
-        <label>Percent purchased from a clean energy program:
-          <Label text="0%"/></label>
-        <Box margin={Box.margins.SMALL}></Box>
-        <Slider
-          size={Slider.sizes.SMALL}
-          min={0}
-          max={100}
-          step={20}
-          defaulValue={0}
-        />
-      </Box>
+
       <Box padding={Box.paddings.MEDIUM}>
         <TextField
           title="Natural Gas"

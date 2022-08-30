@@ -10,9 +10,7 @@ import LeaderBoardApp from "./components/leaderboard-app/LeaderBoardApp";
 import TakeAction from "./components/TakeAction/TakeAction";
 import SideNav from "./components/side-nav/SideNav";
 import Widget from "./components/Widget/Widget";
-// import {neg_tweets, neutral_tweets, positive_tweets} from "./data";
-// import * as fs from "fs";
-const { Classifier } = require('ml-classify-text')
+
 
 
 class App extends React.Component {
@@ -22,17 +20,18 @@ class App extends React.Component {
         this.state = {
             settings: {},
             name: "",
-            view: 1
+            view: 2,
+            matches: window.matchMedia("(min-width: 650px)").matches
         };
+    }
+
+    componentDidMount() {
+        const handler = e => this.setState({matches: e.matches});
+        window.matchMedia("(min-width: 650px)").addEventListener('change', handler);
     }
 
     handleToUpdate(someArg) {
         this.setState({view: someArg});
-    }
-
-    componentDidMount() {
-        // TODO: set up event listeners
-
     }
 
 
@@ -62,14 +61,16 @@ class App extends React.Component {
 
     render() {
         const handleToUpdate = this.handleToUpdate;
-        return <div>
+
+        return  this.state.matches ?<div>
             <div className="column left-nav">
                 <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} >
                     <SideNav handleToUpdate={handleToUpdate.bind(this)}/>
                 </Flex>
             </div>
             {this.renderView()}
-        </div>;
+        </div> : <Widget></Widget>
+
     }
 }
 

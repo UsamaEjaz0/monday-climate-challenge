@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import "./SideNav.css";
 import "monday-ui-react-core/dist/main.css"
-import { Heading, List, ListItem, Search } from "monday-ui-react-core";
+import {Heading, Label, List, ListItem, Search} from "monday-ui-react-core";
 import View from "../../enums/view";
 
 const items = [
-    ["Analyze Work", View.SENTIMENT_ANALYSIS],
+
     ["Carbon Footprint", View.CFP_CALCULATOR],
     ["Green Board", View.GREEN_BOARD],
-    ["Take Action", View.TAKE_ACTION]
+    ["Take Action", View.TAKE_ACTION],
+    ["Analyze Work", View.SENTIMENT_ANALYSIS],
 ]
 
 function SideNav(props) {
@@ -31,14 +32,16 @@ function SideNav(props) {
     }
 
     const displayList = currentItems.map((listItem) =>
-        <ListItem onClick={() => handleToUpdate(listItem[1])}>
-            {listItem[0]}
+        <ListItem  className="ellipsis" onClick={() => handleToUpdate(listItem[1])}>
+            {listItem[0]} &nbsp; {listItem[0] === "Analyze Work" ?
+            <Label text="Beta" />: <div></div>}
         </ListItem>
     )
 
     return <div className="side-nav">
-        <Heading type={Heading.types.h1} value="App Name" brandFont />
+        <Heading type={Heading.types.h1} value="Climatio" brandFont />
         <Search placeholder="Search" onChange={filterList}/>
+        <p/>
         <List>{displayList}</List>
     </div>;
 }

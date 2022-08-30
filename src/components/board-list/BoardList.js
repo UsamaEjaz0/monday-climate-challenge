@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import "./BoardList.css";
 import mondaySdk from "monday-sdk-js";
-import {Box} from "monday-ui-react-core";
+import {Box, Flex, Heading, Loader} from "monday-ui-react-core";
 import Board from "../board/Board";
 import {Classifier} from "ml-classify-text";
 
@@ -13,20 +13,21 @@ export default function BoardList(props) {
         settings: {},
         context: {},
         me: {},
-        boards: []
+        boards: [],
+
     })
+
+    const [loading, setLoading] = useState(true);
 
     const [classifier, setClassifier] = useState();
 
     useEffect(() => {
         monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
-        monday.listen("settings", (res) => {
-            setState(prevState => ({...prevState, settings: res.data}))
-        });
         monday.listen("context", (res) => {
             setState(prevState => ({...prevState, context: res.data}))
             fetchBoards(res.data)
         });
+        fetchBoards()
         const classifier = new Classifier()
         classifier.model = require('../../model-new.json');
         setClassifier(classifier)
@@ -40,7 +41,7 @@ export default function BoardList(props) {
         monday.api(
             `query {
                   
-                  boards (ids: [${context.boardIds}]) {
+                  boards  {
                     id
                     name
                     
@@ -69,22 +70,48 @@ export default function BoardList(props) {
     `
         ).then((res) => {
             console.log(res)
+            if ('error_code' in res) {
+                if (res.error_code === 'ComplexityException') {
+                    console.log("Here")
+                    throw 'Complexity Exception'
+                }
+            }
             setState(prevState => ({ ...prevState, boards: res.data.boards}))
+            setLoading(false);
         })
             .catch((err) => {
-                fetchBoards(context);
+                setTimeout(() => {
+                    fetchBoards()
+                }, 20000);
             });
     };
 
+    const renderBoards = () => {
+        return state.boards.map((board) => {
+             return (
+                 <Box key={board.id} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT}
+                      rounded={Box.roundeds.MEDIUM} marginBottom={Box.marginBottoms.MEDIUM}>
+                     {<Board classifier={classifier} board={board} settings={state.settings}/>}
+                 </Box>
+             );
+         });
+    }
+
     return (
         <div className="monday-app">
-            {state.boards.map((board) => {
-                return (
-                    <Box  key={board.id} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT} rounded={Box.roundeds.MEDIUM} margin={Box.margins.LARGE}>
-                        {<Board classifier={classifier} board={board} settings={state.settings}/>}
-                    </Box>
-                );
-            })}
+            <Box padding={Box.paddings.SMALL} margin={Box.margins.XL}>
+                {
+                    loading === true? <Flex>
+                            <Heading type={Heading.types.h1} value="Loading boards..." brandFont/>
+                            <Loader  size={20} />
+                        </Flex> :
+                        <Heading type={Heading.types.h1} value="Analyze work" brandFont/>
+                }
+
+                {renderBoards()}
+            </Box>
+
+
         </div>
     );
 }

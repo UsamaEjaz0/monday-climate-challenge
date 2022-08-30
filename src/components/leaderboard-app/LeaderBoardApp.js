@@ -185,7 +185,7 @@ class LeaderBoardApp extends React.Component {
             <Box paddingX={Box.paddingXs.LARGE} margin={Box.margins.XL}>
                 <Flex>
                     <Heading type={Heading.types.h1} value="Loading leaderboard..." brandFont/>
-                    <Loader  size={25} />
+                    <Loader  size={20} />
                 </Flex>
             </Box>
         );
@@ -201,15 +201,16 @@ class LeaderBoardApp extends React.Component {
 
     renderGreenBoard = () => {
         return (
-            <Box paddingX={Box.paddingXs.LARGE} margin={Box.margins.XL}>
+            <Box paddingX={Box.paddingXs.MEDIUM} margin={Box.margins.XL}>
                 <Heading type={Heading.types.h1} value="Green leaderboard" brandFont/>
                 {this.state.boards.map((board) => {
                     return <Box key={board} style={{minWidth: '50%'}} padding={Box.paddings.LARGE} border={Box.borders.DEFAULT}
-                                rounded={Box.roundeds.MEDIUM}
-                                >
+                                rounded={Box.roundeds.MEDIUM}>
                         {this.renderBoard(board)}
                     </Box>;
-                })}
+                })
+                }
+
             </Box>
 
         )

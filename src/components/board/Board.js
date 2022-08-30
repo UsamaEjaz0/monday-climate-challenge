@@ -9,12 +9,9 @@ export default function Board(props) {
 
     const predict = (classifier, text) => {
         let predictions = classifier.predict(text)
-        console.log(classifier.model)
         if (predictions.length) {
             var label = ""
             predictions.forEach(prediction => {
-                console.log(text);
-                console.log(`${prediction.label} (${prediction.confidence})`)
                 label = prediction.label;
             })
             if (label === 'positive')
@@ -44,7 +41,6 @@ export default function Board(props) {
                     {<div className="task">Task</div>}
                     {<div className="sentiment">Sentiment</div>}
                 </Flex>
-
                 <div
                     className="group-items">{group.items.map((item) => renderItem(group.color, board, item))}</div>
             </div>

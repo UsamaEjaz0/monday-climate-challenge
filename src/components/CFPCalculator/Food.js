@@ -31,6 +31,7 @@ export default function Food({ setFood, setActiveTab }) {
       <Box padding={Box.paddings.MEDIUM} >
         <label>Meat, Fish, Eggs&nbsp;
           <Label
+              className="ellipsis"
             kind={Label.kinds.LINE}
             text={`${(2.6*foodMultiplier[0]).toPrecision(3)} daily servings`}
             isAnimationDisabled={true}
@@ -56,6 +57,7 @@ export default function Food({ setFood, setActiveTab }) {
         <label>
           Grains & baked Goods
           <Label
+              className="ellipsis"
             kind={Label.kinds.LINE}
             text={`${(4.5*foodMultiplier[1]).toPrecision(3)} daily servings`}
             isAnimationDisabled={true}
@@ -80,7 +82,7 @@ export default function Food({ setFood, setActiveTab }) {
       <Box padding={Box.paddings.MEDIUM}>
         <label>
           Dairy
-          <Label
+          <Label className="ellipsis"
             isAnimationDisabled={true}
             kind={Label.kinds.LINE}
             text={`${(2.4*foodMultiplier[2]).toPrecision(3)} daily servings`}
@@ -106,6 +108,7 @@ export default function Food({ setFood, setActiveTab }) {
         <label>
           Snacks, drinks, etc...
           <Label
+              className="ellipsis"
             kind={Label.kinds.LINE}
             isAnimationDisabled={true}
             text={`${(3.7*foodMultiplier[3]).toPrecision(3)} daily servings`}
@@ -131,6 +134,7 @@ export default function Food({ setFood, setActiveTab }) {
         <label>
           Fruits & Vegetables
           <Label
+              className="ellipsis"
             kind={Label.kinds.LINE}
             text={`${(5.1*foodMultiplier[4]).toPrecision(3)} daily servings`}
             isAnimationDisabled={true}
