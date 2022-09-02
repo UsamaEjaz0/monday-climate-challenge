@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react"
-import mondaySdk from "monday-sdk-js"
 import { compareCFP, findById } from "../services/userDataService";
-const monday = mondaySdk()
+import {findGreenBoardService, getCurrentUserService} from "../services/mondayService";
 
 const UserContext = React.createContext()
 function UserContextProvider(props) {
@@ -11,41 +10,55 @@ function UserContextProvider(props) {
   const [cfp, setCfp] = useState(-1)
   const [percentage, setPercentage] = useState("-")
 
-  useEffect(() => {
-    monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s');
+  async function findGreenBoard (boardName) {
+    const boardId = await findGreenBoardService("Green Board");
+    if (boardId === null) {
+    } else if (boardId === 'ComplexityException') {
+      setTimeout(() => {
+        this.findGreenBoard(boardName)
+      }, 10000);
+    } else {
+      setBoardId(boardId);
+      return boardId;
+    }
+  }
 
-    monday.api(
-      `query {
-        me {
-        name
-          id
-        }   
-        boards {
-          id
-          name
-        } 
-                
-      }`
-    ).then(res => {
-      const board = res.data.boards.find(board => board.name === "Green Board");
-      if (typeof board !== 'undefined') {
-        setBoardId(board.id);
-      }
-      setId(res.data.me.id.toString());
-      findById(res.data.me.id.toString()).then(res =>  {
-        setCfp(res.data.document.cfp)
-        compareCFP(res.data.document.cfp).then(res => {
-          if (res.data.total === 0) {
-            setPercentage(0)
-          } else if (res.data.total === 1) {
-            setPercentage(100)
-          } else {
-            setPercentage(Math.round((res.data.countGreater/--res.data.total)*100))
-          }
+  async function getCurrentUser(){
+    const res = await getCurrentUserService();
+    if (res === null) {
+    } else if (res === 'ComplexityException') {
+      setTimeout(() => {
+        getCurrentUser()
+      }, 10000);
+    } else {
+      setName(res.name)
+      setId(res.id)
+
+      return res
+    }
+  }
+  useEffect(() => {
+
+      findGreenBoard("Green Board").then((boardId)=> {
+
+      });
+
+      getCurrentUser().then((res) => {
+        findById(res.id.toString()).then(res =>  {
+          setCfp(res.data.document.cfp)
+          compareCFP(res.data.document.cfp).then(res => {
+            if (res.data.total === 0) {
+              setPercentage(0)
+            } else if (res.data.total === 1) {
+              setPercentage(100)
+            } else {
+              setPercentage(Math.round((res.data.countGreater/--res.data.total)*100))
+            }
+          })
         })
       })
-      setName(res.data.me.name);
-    })
+
+
   }, [])
 
   return (

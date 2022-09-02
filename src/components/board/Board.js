@@ -1,11 +1,37 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./Board.css";
-import mondaySdk from "monday-sdk-js";
-import {Clickable, Flex, Heading, Label} from "monday-ui-react-core";
+import {Clickable, Flex, Heading, Label, Skeleton} from "monday-ui-react-core";
+import {fetchBoardService, openModalService} from "../../services/mondayService";
 
-const monday = mondaySdk();
 
 export default function Board(props) {
+
+    const [render, setRender] = useState(false);
+    const [board, setBoard] = useState({});
+
+    useEffect(()=>{
+        fetchBoard(props.boardId)
+    }, [])
+
+    function fetchBoard(boardId) {
+        fetchBoardService(boardId).then((res) => {
+            if (res == null){
+                console.log("Something went wrong")
+            }else if (res === 'ComplexityException'){
+                setTimeout(()=> {
+                    fetchBoard(boardId)
+                }, 15000)
+            }else if (res === -1){
+                console.log("Board not found")
+            }
+            else {
+                setBoard(res);
+                setRender(true);
+            }
+        });
+
+
+    }
 
     const predict = (classifier, text) => {
         let predictions = classifier.predict(text)
@@ -26,7 +52,7 @@ export default function Board(props) {
 
     const renderItem = (color, board, item) => {
         return (
-            <Clickable className="item" onClick={() => monday.execute('openItemCard', {itemId: item.id})}>
+            <Clickable className="item" onClick={() => openModalService(item.id)}>
                 <div className="task" style={{borderLeft: `thick solid ${color}`}} >{item.name}</div>
                 {predict(props.classifier, item.name)}
             </Clickable>
@@ -52,8 +78,7 @@ export default function Board(props) {
     }
 
     const getGroups = (board) => {
-        const {groupByColumn} = props.settings;
-        const groupByColumnId = groupByColumn ? Object.keys(groupByColumn)[0] : null;
+        const groupByColumnId = null;
 
         const groups = {};
         for (const item of board.items) {
@@ -70,11 +95,21 @@ export default function Board(props) {
     };
 
 
-    const groups = getGroups(props.board);
+    const renderGroups = () => {
+        const groups = getGroups(board);
+        return <div className="board-groups">
+            <Heading type={Heading.types.h2} value={board.name}/>
+            {groups.map((group) => renderGroup(props.board, group))}
+        </div>
+    }
+
     return (
         <div className="board">
-            <Heading type={Heading.types.h2} value={props.board.name}/>
-            <div className="board-groups">{groups.map((group) => renderGroup(props.board, group))}</div>
+            {render ? renderGroups() : <div>
+                <Skeleton type="text"/>
+                <p/>
+                <Skeleton width={2000}/>
+            </div>}
         </div>
     );
 }

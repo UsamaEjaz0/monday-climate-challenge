@@ -2,13 +2,18 @@
     /*position: fixed;*/
     position: fixed;
     padding: 16px;
-    background-color: #f6f6fb;
+    background-color: white;
     height: 100%;
     top:0; left:0; width:20%;
     overflow:auto;
+    /*border: 1px solid #333;*/
+    box-shadow: 10px 0 5px -12px #888;
 }
 
-
+/*.search{*/
+/*    margin-left: 10px;*/
+/*    margin-right: 10px;*/
+/*}*/
 .ellipsis{
     /*overflow: hidden;*/
     white-space: nowrap;

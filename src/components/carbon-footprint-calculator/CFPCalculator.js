@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react"
-import {updateRecord} from "../../services/userDataService";
+import {findById, updateRecord} from "../../services/userDataService";
 import {
     GOODS, SERVICES, TRAVEL, HOME, AVERAGES, TOTAL_AVERAGES,
     ElECTRICITY_MULTIPLIER, NATURAL_GAS_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER
@@ -10,7 +10,6 @@ import Home from "./Home";
 import Food from "./Food";
 import Shopping from "./Shopping";
 import Graph from "./Graph";
-import mondaySdk from "monday-sdk-js";
 
 import {
     TabsContext,
@@ -27,8 +26,8 @@ import "monday-ui-style/dist/index.min.css";
 import './CFPCalculator.css'
 import {useContext} from "react";
 import {UserContext} from "../../context/userContext";
-
-const monday = mondaySdk();
+import {createItemService, findUserItemInBoardService, updateUserCFPService} from "../../services/mondayService";
+import getEmissionStatus from "../../utils/statusMapper";
 
 
 export default function CFPCalculator() {
@@ -57,10 +56,6 @@ export default function CFPCalculator() {
         goods: [755, 4.5],
         services: [1567, 4.57]
     })
-
-    useEffect(() => {
-        monday.setToken('eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3Nzg1NTE2MywidWlkIjozMzM4NzkzMywiaWFkIjoiMjAyMi0wOC0yOFQyMzo0NDo0MC42OTlaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.u7GMxmr8IbGIG-XIb4McmLKfSZ6cPTLQGL6uHtxnbCc');
-    }, [])
 
     useEffect(() => {
 
@@ -105,99 +100,69 @@ export default function CFPCalculator() {
         )
     }
 
-    function updateBoard(cfp) {
-        console.log(boardId)
-        if (boardId !== -1) {
-            monday.api(
-                `query {
-              boards(ids: ${boardId}) {
-                items{
-                id
-                  column_values(ids: person){
-                    value
-                  }
-                 }
-                }  
+    async function updateBoard(boardId, user, cfp) {
+        if (boardId !== -1){
+           const userItemId =  await findUserItemInBoardService(boardId, user.id);
+           if (userItemId == null){
+               console.log("Something went wrong");
+           } else if (userItemId === 'ComplexityException'){
+               setTimeout(() => {updateBoard(boardId, user, cfp)}, 10000);
            }
-    `
-            ).then((res) => {
-                const users = res.data.boards[0].items.filter((item) => {
-                    const data = JSON.parse(item.column_values[0].value)
-                    if (data.personsAndTeams[0].id.toString() === id) {
-                        return id
-                    }
-                })
-
-                if (users.length === 0) {
-                    createUser(cfp);
-                } else {
-                    const user = users[0];
-                    updateUser(user.id, cfp)
-                }
-            })
-
+           else if (userItemId === -1){
+               let baseUser = {
+                   points: 0,
+                   ...user,
+               }
+               const res = await findById(user.id);
+               if (res == null) {
+               } else {
+                   const userInDb = res.data.document;
+                   if (userInDb != null) {
+                       baseUser = {
+                           ...baseUser,
+                           ...userInDb,
+                           cfp: user.cfp,
+                           status: user.status
+                       }
+                   }
+               }
+               return await createUser(baseUser, "ranking", boardId);
+           }else {
+               return await updateUser(boardId, userItemId, cfp, user.status)
+           }
+           return false;
         }
     }
 
-    function createUser(cfp) {
-        const query = `mutation {
-                create_item (board_id: ${boardId}, group_id: "ranking", item_name: "${name}", 
-                        column_values: "{ \\"person\\" : {\\"personsAndTeams\\":[{\\"id\\":${id},\\"kind\\":\\"person\\"}]}, \\"eco_points\\" : \\"0\\", \\"carbon_emissions\\" : \\"${cfp}\\" }" ) {
-                            id
-                }
-        }`
-
-        monday.api(query).then((res) => {
-            console.log(res)
-            if ('error_code' in res) {
-                if (res.error_code === 'ComplexityException') {
-                    console.log("Here")
-                    throw 'Complexity Exception'
-                }
-            }
-        }).catch((err) => {
-            setTimeout(() => {
-                this.createItem(cfp)
-            }, 10000);
-        });
+    async function createUser(user, groupId, boardId) {
+        const res = await createItemService(user, groupId, boardId)
+        if (res === null) console.log("Something went wrong")
+        else if (res === 'ComplexityException') setTimeout(()=>{createUser(user, groupId, boardId)}, 10000);
+        else return true;
     }
 
-    function updateUser(itemId, cfp) {
-        const query = `
-                    mutation {
-                      change_multiple_column_values(item_id:${parseInt(itemId)}, board_id:${boardId}, column_values: "{\\"carbon_emissions\\" : \\"${cfp}\\"}") {
-                        id
-                      }
-                    }`
-        monday.api(query)
-            .then((res) => {
-                console.log(res)
-                if ('error_code' in res) {
-                    if (res.error_code === 'ComplexityException') {
-                        console.log("Here")
-                        throw 'Complexity Exception'
-                    }
-                }
+    async function updateUser(boardId, itemId, cfp, status) {
 
-            }).catch((res) => {
-            console.log("Retrying");
-            setTimeout(() => {
-                this.updateItem(itemId, cfp)
-            }, 5000);
-        });
+        const res = await updateUserCFPService(boardId, itemId, cfp, status);
+        if (res === null) console.log("Something went wrong")
+        else if (res === 'ComplexityException') setTimeout(()=>{updateUserCFPService(boardId, itemId, cfp, status)}, 10000);
+        else return true;
     }
 
-    function saveToDatabase() {
+    async function saveToDatabase() {
         setLoading(true)
         const cfp = calculateTotalCFP();
+        const status = getEmissionStatus(parseFloat(cfp));
+
         const user = {
-            id,
-            cfp: cfp
+            id: id.toString(),
+            name,
+            cfp,
+            status,
         }
-        updateRecord(user).then(() => {
-            setLoading(false)
-        })
-        updateBoard(cfp);
+        await updateRecord(user);
+        const updated = await updateBoard(boardId, user, cfp);
+        if (updated) setLoading(false)
     }
 
     return (
@@ -240,14 +205,12 @@ export default function CFPCalculator() {
                     </Flex>
                     <Flex justify={Flex.justify.CENTER} gap={Flex.gaps.MEDIUM}>
                         <Flex
-                            direction={Flex.directions.COLUMN}
-                        >
+                            direction={Flex.directions.COLUMN}>
                             <b>{calculateTotalCFP()}</b>
                             <span style={{fontSize: "14px"}}>tons CO2eq/year</span>
                         </Flex>
                         <Flex
-                            direction={Flex.directions.COLUMN}
-                        >
+                            direction={Flex.directions.COLUMN}>
                             {compareWithAverage()}
                         </Flex>
                     </Flex>
@@ -258,8 +221,7 @@ export default function CFPCalculator() {
                             food={food}
                             goods={shopping.goods}
                             services={shopping.services}
-                            averages={AVERAGES[annualIncome]}
-                        />
+                            averages={AVERAGES[annualIncome]}/>
                     </div>
                 </div>
             </ TabsContext>

@@ -5,9 +5,9 @@ import "monday-ui-react-core/dist/main.css"
 import {Flex, Icon} from "monday-ui-react-core";
 import BoardList from "./components/board-list/BoardList";
 import View from "./enums/view";
-import CFPCalculator from "./components/CFPCalculator/CFPCalculator";
+import CFPCalculator from "./components/carbon-footprint-calculator/CFPCalculator";
 import LeaderBoardApp from "./components/leaderboard-app/LeaderBoardApp";
-import TakeAction from "./components/TakeAction/TakeAction";
+import TakeAction from "./components/take-action/TakeAction";
 import SideNav from "./components/side-nav/SideNav";
 import Widget from "./components/Widget/Widget";
 
