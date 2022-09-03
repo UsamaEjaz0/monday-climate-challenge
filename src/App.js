@@ -10,6 +10,7 @@ import LeaderBoardApp from "./components/leaderboard-app/LeaderBoardApp";
 import TakeAction from "./components/take-action/TakeAction";
 import SideNav from "./components/side-nav/SideNav";
 import Widget from "./components/widget/Widget";
+import News from "./components/news/News";
 
 
 
@@ -54,6 +55,10 @@ class App extends React.Component {
         } else if (this.state.view === View.TAKE_ACTION) {
             return <div className="column right-nav">
                 <TakeAction/>
+            </div>
+        } else if (this.state.view === View.NEWS) {
+            return <div className="column right-nav">
+                <News/>
             </div>
         }
 

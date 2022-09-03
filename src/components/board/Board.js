@@ -3,7 +3,6 @@ import "./Board.css";
 import {Clickable, Flex, Heading, Label, Skeleton} from "monday-ui-react-core";
 import {fetchBoardService, openModalService} from "../../services/mondayService";
 
-
 function Board(props) {
 
     const [render, setRender] = useState(false);
@@ -29,8 +28,6 @@ function Board(props) {
                 setRender(true);
             }
         });
-
-
     }
 
     const predict = (classifier, text) => {

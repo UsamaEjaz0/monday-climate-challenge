@@ -12,6 +12,7 @@ function SideNav(props) {
         ["Carbon Footprint", View.CFP_CALCULATOR],
         ["Green Board", View.GREEN_BOARD],
         ["Take Action", View.TAKE_ACTION],
+        ["News", View.NEWS],
         ["Analyze Work", View.SENTIMENT_ANALYSIS],
     ]
     const [currentItems, setCurrentItems] = useState(items)
