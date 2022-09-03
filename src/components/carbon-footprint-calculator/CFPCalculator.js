@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react"
+import {memo, useEffect, useState} from "react"
 import {findById, updateRecord} from "../../services/userDataService";
 import {
     GOODS, SERVICES, TRAVEL, HOME, AVERAGES, TOTAL_AVERAGES,
@@ -30,7 +30,7 @@ import {createItemService, findUserItemInBoardService, updateUserCFPService} fro
 import getEmissionStatus from "../../utils/statusMapper";
 
 
-export default function CFPCalculator() {
+function CFPCalculator() {
     const {id, boardId, name} = useContext(UserContext);
     const [annualIncome, setAnnualIncome] = useState(0)
     const [activeTab, setActiveTab] = useState(0)
@@ -229,3 +229,4 @@ export default function CFPCalculator() {
     )
 }
 
+export default memo(CFPCalculator)

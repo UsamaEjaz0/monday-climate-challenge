@@ -9,6 +9,8 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
     setAnnualIncome(value)
   }
 
+  // console.log("GetStarted rendered..")
+
   return(
     <>
         <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Start with a quick estimate?" /></Flex>

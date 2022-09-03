@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 
 import {
   Slider,
@@ -9,7 +9,7 @@ import {
   Heading
 } from "monday-ui-react-core";
 
-export default function Food({ setFood, setActiveTab }) {
+function Food({ setFood, setActiveTab }) {
   const FOOD_FACTOR = [1.1, 0.35, 0.42, 0.6, 0.33]
   const [foodMultiplier, setFoodMultiplier] = useState([1, 1, 1, 1, 1])
 
@@ -24,6 +24,8 @@ export default function Food({ setFood, setActiveTab }) {
     }
     setFood(food)
   }
+
+  // console.log("Food rendered..")
 
   return(
     <>
@@ -163,3 +165,5 @@ export default function Food({ setFood, setActiveTab }) {
     </>
   )
 }
+
+export default memo(Food)

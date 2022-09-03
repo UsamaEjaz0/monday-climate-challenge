@@ -6,7 +6,7 @@ import {findSageMakerInference} from "../../services/awsPredictionService";
 
 // import AsyncChild from 'react-async-child';
 
-export default function Board(props) {
+function Board(props) {
 
     const [render, setRender] = useState(false);
     const [board, setBoard] = useState({});
@@ -125,3 +125,5 @@ export default function Board(props) {
         </div>
     );
 }
+
+export default Board

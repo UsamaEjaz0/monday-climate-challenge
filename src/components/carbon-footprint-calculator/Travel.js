@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {memo, useState} from "react";
 
 import {
   Button,
@@ -10,7 +10,7 @@ import {
 } from "monday-ui-react-core";
 import { DIESEL_MULTIPLIER, GASOLINE_MULTIPLIER } from "./data";
 
-export default function Travel({ travel, setTravel, setActiveTab}) {
+function Travel({ travel, setTravel, setActiveTab}) {
   const [distanceCovered, setDistanceCovered] = useState(travel.personalVehicle[0])
 
   let averageDiesel = travel.personalVehicle[0] * DIESEL_MULTIPLIER + 0.63;
@@ -70,6 +70,8 @@ export default function Travel({ travel, setTravel, setActiveTab}) {
     </div>)
   }
 
+  // console.log("Travel rendered..")
+
   return(
     <>
 
@@ -109,3 +111,5 @@ export default function Travel({ travel, setTravel, setActiveTab}) {
     </>
   )
 }
+
+export default memo(Travel)
