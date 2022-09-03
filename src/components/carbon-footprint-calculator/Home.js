@@ -1,16 +1,17 @@
 import {
   Box,
   TextField,
-  Slider,
   Button,
-  Label,
   Heading,
   Flex
 } from "monday-ui-react-core"
+import { memo } from "react"
 
 import { ElECTRICITY_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER, NATURAL_GAS_MULTIPLIER } from "./data"
 
-export default function Home({home, setHome, setActiveTab}) {
+function Home({home, setHome, setActiveTab}) {
+
+  // console.log("Home rendered..")
 
   return(
     <>
@@ -63,3 +64,5 @@ export default function Home({home, setHome, setActiveTab}) {
     </>
   )
 }
+
+export default memo(Home)

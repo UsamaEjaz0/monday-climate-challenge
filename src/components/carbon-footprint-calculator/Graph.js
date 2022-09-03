@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { memo } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -42,7 +43,7 @@ const options = {
 
 const labels = ['Travel', 'Food', 'Home', 'Goods', 'Services'];
 
-export default function Graph({travel, home, food, goods, services, averages}) {
+function Graph({travel, home, food, goods, services, averages}) {
 
   const BLUE = "rgb(53, 162, 235)";
   const GREEN = "rgb(75, 192, 192)";
@@ -108,5 +109,8 @@ export default function Graph({travel, home, food, goods, services, averages}) {
     ],
   };
 
+  console.log("Graph rendered..")
   return <Bar options={options} data={data} />;
 }
+
+export default memo(Graph)

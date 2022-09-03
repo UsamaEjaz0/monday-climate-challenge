@@ -4,7 +4,7 @@ import {Clickable, Flex, Heading, Label, Skeleton} from "monday-ui-react-core";
 import {fetchBoardService, openModalService} from "../../services/mondayService";
 
 
-export default function Board(props) {
+function Board(props) {
 
     const [render, setRender] = useState(false);
     const [board, setBoard] = useState({});
@@ -113,3 +113,5 @@ export default function Board(props) {
         </div>
     );
 }
+
+export default Board

@@ -15,11 +15,11 @@ const TIPS = [
   "Speak up",
   "Throw away less food",
   "Switch to an electric vehicle",
-    "Change your home's source of energy",
-    "Choose eco-friendly products",
-    "Reduce, reuse, repair, recycle",
-    "Walk, bike or take public transport",
-    "Consider your travel"
+  "Change your home's source of energy",
+  "Choose eco-friendly products",
+  "Reduce, reuse, repair, recycle",
+  "Walk, bike or take public transport",
+  "Consider your travel"
 ]
 
 

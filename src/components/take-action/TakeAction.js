@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 import { Globe} from "monday-ui-react-core/dist/allIcons";
 import { UserContext } from "../../context/userContext";
 import {
@@ -14,13 +14,13 @@ import {
   findUserItemInBoardService,
   updateUserPointsService
 } from "../../services/mondayService";
-import {findById} from "../../services/userDataService";
+import {findById, updateRecord} from "../../services/userDataService";
 import getEmissionStatus from "../../utils/statusMapper";
 import './TakeAction.css'
 
 const STORAGE_KEY = "is-claimed"
 
-export default function TakeAction() {
+function TakeAction() {
   const {id, boardId, name} = useContext(UserContext)
   const [points, setPoints] = useState(-1)
   const [dailyRewards, setDailyRewards] = useState({
@@ -42,30 +42,15 @@ export default function TakeAction() {
       }
     }
 
-    fetch("https://www.car7parts.ae/monday/user-data/find", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({id})
-    }).then(res => res.json()).then(data => setPoints(data.data.document.points))
+    findById(id).then(data => setPoints(data.data.document.points))
   }, [id])
 
   function updatePoints(saves, index) {
-    fetch("https://www.car7parts.ae/monday/user-data/update", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        id,
-        points: points + Math.round(saves)
-      })
-    }).then(res => res.json()).then(data => {
-          updateBoard(boardId, points + Math.round(saves));
-          setPoints(prevPoints => prevPoints + Math.round(saves));
-        }
-    )
+    const updates = {id, points: points + Math.round(saves)}
+    updateRecord(updates).then(() => {
+      updateBoard(boardId, points + Math.round(saves));
+      setPoints(prevPoints => prevPoints + Math.round(saves));
+    })
 
     setDailyRewards(prevDailyRewards => {
       const isClaimed = [...prevDailyRewards.isClaimed]
@@ -188,6 +173,7 @@ export default function TakeAction() {
 
   }
 
+  console.log("TakeAction rendered..")
   return (
       <Box padding={Box.paddings.MEDIUM} margin={Box.margins.XL} >
         <Heading type={Heading.types.h1} value="Take action" brandFont />
@@ -206,3 +192,4 @@ export default function TakeAction() {
   )
 }
 
+export default memo(TakeAction)

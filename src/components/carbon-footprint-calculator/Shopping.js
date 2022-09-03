@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 
 import {
   Slider,
@@ -9,7 +9,7 @@ import {
   Heading
 } from "monday-ui-react-core";
 
-export default function Shopping({ shopping, setShopping, goods, services, setActiveTab }) {
+function Shopping({ shopping, setShopping, goods, services, setActiveTab }) {
   const [shoppingMultiplier, setShoppingMultiplier] = useState([1, 1])
 
   function handleChange(index, value) {
@@ -29,6 +29,8 @@ export default function Shopping({ shopping, setShopping, goods, services, setAc
       setShopping(prevShopping => ({...prevShopping, services: newServices}))
     }
   }
+
+  // console.log("Shopping rendered..")
 
   return(
     <>
@@ -88,3 +90,5 @@ export default function Shopping({ shopping, setShopping, goods, services, setAc
     </>
   )
 }
+
+export default memo(Shopping)
