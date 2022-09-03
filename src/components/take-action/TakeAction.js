@@ -180,7 +180,6 @@ function TakeAction() {
         <Box marginY={Box.marginYs.MEDIUM}>
           <Flex align={Flex.align.END}>
             <Globe/>
-            {/*<Heading type={Heading.types.h4} value="Eco-points" brandFont />*/}
             &nbsp; Eco Points &nbsp;
             {points === -1 ? <Loader size={15} /> : points}
           </Flex>
