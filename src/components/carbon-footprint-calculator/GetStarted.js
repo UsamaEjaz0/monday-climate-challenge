@@ -12,11 +12,11 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
   // console.log("GetStarted rendered..")
 
   return(
-    <>
+    <Box>
         <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="Start with a quick estimate?" /></Flex>
         <Box padding={Box.paddings.MEDIUM}>
         <label >What is your gross annual household income?</label>
-        <Box margin={Box.margins.SMALL}></Box>
+        <Box margin={Box.margins.SMALL}/>
         <Slider
           defaultValue={0}
           size={Slider.sizes.SMALL}
@@ -24,21 +24,12 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
           max={10}
           indicateSelection={true}
           valueFormatter = { value => {
-              if (value === 0) {
-                return "Avg"
-              }
-              if (value === 1) {
-                return "< 10K"
-              }
-              if (value === 8) {
-                return `${value*10}K`
-              }
-              if (value === 9) {
-                return `${(value+1)*10}K`
-              }
-              if (value === 10) {
-                return `${value*10 + 20}K+`
-              }
+              if (value === 0) return "Avg"
+              if (value === 1) return "< 10K"
+              if (value === 8) return `${value*10}K`
+              if (value === 9) return `${(value+1)*10}K`
+              if (value === 10) return `${value*10 + 20}K+`
+
               return `${value*10-10}K`
             }
           }
@@ -54,7 +45,7 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
             <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} gap={Flex.gaps.SMALL}>
                 <Flex  justify={Flex.justify.SPACE_BETWEEN}>
                     Price of gasoline
-                    <Label className="ellipsis" kind={Label.kinds.LINE} text="$ 0.92 per L" />
+                    <Label className="ellipsis" kind={Label.kinds.LINE} text="$0.92 per L" />
                 </Flex>
                 <Flex justify={Flex.justify.SPACE_BETWEEN}>
                     Electricity price
@@ -70,6 +61,6 @@ export default function GetStarted({ setAnnualIncome, setActiveTab }) {
         <Box padding={Box.paddings.MEDIUM}>
             <Button style={{float: "right"}} onClick={() => {setActiveTab(1)}}>Refine Your Estimate</Button>
         </Box>
-    </>
+    </Box>
   )
 }

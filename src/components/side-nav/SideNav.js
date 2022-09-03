@@ -1,19 +1,20 @@
 import React, {useState} from "react";
 import "./SideNav.css";
 import "monday-ui-react-core/dist/main.css"
-import {Flex, Heading, List, ListItem, Search} from "monday-ui-react-core";
+import {Flex, Heading, List, ListItem, ListItemIcon, Search} from "monday-ui-react-core";
 import View from "../../enums/view";
 import logo from "../../images/logo.png"
+import {Broom, TurnInto, Board, Robot, Announcement} from "monday-ui-react-core/icons";
 
 function SideNav(props) {
     const [selected, setSelected] = useState(0);
     const handleToUpdate = props.handleToUpdate;
     const items = [
-        ["Carbon Footprint", View.CFP_CALCULATOR],
-        ["Green Board", View.GREEN_BOARD],
-        ["Take Action", View.TAKE_ACTION],
-        ["News", View.NEWS],
-        ["Analyze Work", View.SENTIMENT_ANALYSIS],
+        ["Carbon Footprint", View.CFP_CALCULATOR, TurnInto],
+        ["Green Board", View.GREEN_BOARD, Board],
+        ["Take Action", View.TAKE_ACTION, Broom],
+        ["News", View.NEWS, Announcement],
+        ["Analyze Work", View.SENTIMENT_ANALYSIS, Robot],
     ]
     const [currentItems, setCurrentItems] = useState(items)
 
@@ -35,13 +36,15 @@ function SideNav(props) {
     const displayList = () => {
         return <List>
             {currentItems.map((listItem, index) =>
+
+
                 <ListItem key={index.toString()} selected={index === selected} size={ListItem.sizes.MEDIUM}
                           className="ellipsis"
                           onClick={() => {
                               setSelected(index);
                               handleToUpdate(listItem[1])
                           }}>
-
+                    <ListItemIcon icon={listItem[2]} />
                     {listItem[0]}
                 </ListItem>
             )}

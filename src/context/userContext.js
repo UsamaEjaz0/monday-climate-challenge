@@ -45,16 +45,32 @@ function UserContextProvider(props) {
 
       getCurrentUser().then((res) => {
         findById(res.id.toString()).then(res =>  {
-          setCfp(res.data.document.cfp)
-          compareCFP(res.data.document.cfp).then(res => {
-            if (res.data.total === 0) {
-              setPercentage(0)
-            } else if (res.data.total === 1) {
-              setPercentage(100)
-            } else {
-              setPercentage(Math.round((res.data.countGreater/--res.data.total)*100))
-            }
-          })
+
+          if(!res){
+
+          }
+          else if (!res.data.document){
+            setCfp(0)
+          }
+          else if (!res.data.document.cfp){
+            setCfp(0)
+          }
+          else{
+            setCfp(res.data.document.cfp)
+            compareCFP(res.data.document.cfp).then(res => {
+              if (!res){
+                if (res.data.total === 0) {
+                  setPercentage(0)
+                } else if (res.data.total === 1) {
+                  setPercentage(100)
+                } else {
+                  setPercentage(Math.round((res.data.countGreater/--res.data.total)*100))
+                }
+              }
+            })
+          }
+
+
         })
       })
 

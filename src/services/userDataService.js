@@ -79,6 +79,7 @@ export async function compareCFP (cfp) {
         return await res.json();
     }catch (e) {
         console.log("[MongoDb] compareCFP(): ", e)
+        return null;
     }
 
 

@@ -132,6 +132,7 @@ function CFPCalculator() {
            }
            return false;
         }
+        return true;
     }
 
     async function createUser(user, groupId, boardId) {
@@ -207,7 +208,7 @@ function CFPCalculator() {
                         <Flex
                             direction={Flex.directions.COLUMN}>
                             <b>{calculateTotalCFP()}</b>
-                            <span style={{fontSize: "14px"}}>tons CO2eq/year</span>
+                            <span style={{fontSize: "14px"}}>Tons CO<sub>2</sub> eq/year</span>
                         </Flex>
                         <Flex
                             direction={Flex.directions.COLUMN}>

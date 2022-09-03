@@ -1,26 +1,20 @@
 .Action-box {
-    line-height: 22.5px;
+    line-height: 23px;
     font-size: 19px;
-    width: 280px;
+    width: 31%;
     height: 220px;
-    transition: all 1s linear;
-    /*box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);*/
+    transition: all 0.1s linear;
 }
 
 .Action-box:hover{
-    line-height: 22.5px;
-    font-size: 19px;
-    width: 280px;
-    height: 220px;
     box-shadow: 0 3px 5px rgb(0 0 0 / 0.2);
 }
 
 .Action-text {
     font-weight: lighter;
-    margin-top: 10px;
-    margin-bottom: 70px;
 }
 
 .Action-button {
     height: 35px;
+    width: 100%
 }
