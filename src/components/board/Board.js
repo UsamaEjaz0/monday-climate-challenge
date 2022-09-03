@@ -2,14 +2,20 @@ import React, {useEffect, useState} from "react";
 import "./Board.css";
 import {Clickable, Flex, Heading, Label, Skeleton} from "monday-ui-react-core";
 import {fetchBoardService, openModalService} from "../../services/mondayService";
+import {findSageMakerInference} from "../../services/awsPredictionService";
 
+// import AsyncChild from 'react-async-child';
 
 export default function Board(props) {
 
     const [render, setRender] = useState(false);
     const [board, setBoard] = useState({});
+    const [positive, setPositive] = useState(false);
+    const [negative, setNegative] = useState(false);
+
 
     useEffect(()=>{
+
         fetchBoard(props.boardId)
     }, [])
 
@@ -34,24 +40,30 @@ export default function Board(props) {
     }
 
     const predict = (classifier, text) => {
-        let predictions = classifier.predict(text)
-        if (predictions.length) {
-            var label = ""
-            predictions.forEach(prediction => {
-                label = prediction.label;
-            })
-            if (label === 'positive')
-                return <Label className="sentiment" text={label} color={Label.colors.POSITIVE}/>
-            else
-                return <Label className="sentiment" text={label} color={Label.colors.NEGATIVE}/>
+        // const input = {
+        //     "inputs": text
+        // }
+        // findSageMakerInference(input).then((pred)=>{
+        //     if (pred == null){
+        //         // return <Label className="sentiment" text="" color={Label.colors.DARK}/>
+        //     }
+        //     else {
+        //         if (pred.label === 'POSITIVE'){
+        //             setPositive(true)
+        //         }else{
+        //             setNegative(true);
+        //             // return <Label className="sentiment" text="Negative" color={Label.colors.NEGATIVE}/>
+        //         }
+        //     }
+        // });
 
-        } else {
-            return <Label className="sentiment" text="neutral" />
-        }
+        return <Label className="sentiment" text="Negative" color={Label.colors.NEGATIVE}/>
+
     }
 
     const renderItem = (color, board, item) => {
         return (
+
             <Clickable className="item" onClick={() => openModalService(item.id)}>
                 <div className="task" style={{borderLeft: `thick solid ${color}`}} >{item.name}</div>
                 {predict(props.classifier, item.name)}

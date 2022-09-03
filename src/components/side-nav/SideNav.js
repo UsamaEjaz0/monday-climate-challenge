@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import "./SideNav.css";
 import "monday-ui-react-core/dist/main.css"
-import {Heading, List, ListItem, Search} from "monday-ui-react-core";
+import {Flex, Heading, List, ListItem, Search} from "monday-ui-react-core";
 import View from "../../enums/view";
-
+import logo from "../../images/logo.png"
 
 function SideNav(props) {
     const [selected, setSelected] = useState(0);
@@ -50,7 +50,10 @@ function SideNav(props) {
 
 
     return <div className="side-nav">
-        <Heading type={Heading.types.h1} value="Climatio" brandFont/>
+        <Flex align={Flex.align.CENTER}>
+            <img className="logo" src={logo} />
+            <Heading type={Heading.types.h1} value="Climatio" brandFont/>
+        </Flex>
         <Search className="search" placeholder="Search" onChange={filterList} size={Search.sizes.MEDIUM}/>
         <p/>
         {displayList()}

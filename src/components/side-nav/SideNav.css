@@ -10,10 +10,12 @@
     box-shadow: 10px 0 5px -12px #888;
 }
 
-/*.search{*/
-/*    margin-left: 10px;*/
-/*    margin-right: 10px;*/
-/*}*/
+.logo{
+    height: 50px;
+    width: 50px;
+    margin-bottom: 8px
+}
+
 .ellipsis{
     /*overflow: hidden;*/
     white-space: nowrap;

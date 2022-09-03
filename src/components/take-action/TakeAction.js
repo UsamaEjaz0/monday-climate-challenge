@@ -189,7 +189,7 @@ export default function TakeAction() {
   }
 
   return (
-      <Box padding={Box.paddings.MEDIUM} margin={Box.margins.XL} >
+      <Box padding={Box.paddings.MEDIUM} margin={Box.margins.MEDIUM} >
         <Heading type={Heading.types.h1} value="Take action" brandFont />
         <Box marginY={Box.marginYs.MEDIUM}>
           <Flex align={Flex.align.END}>
