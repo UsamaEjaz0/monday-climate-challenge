@@ -148,7 +148,7 @@ function TakeAction() {
                         disabled={dailyRewards.isClaimed[index]}
                         onClick={() => updatePoints(action.saves, index)}
                     >
-                        I did this today
+                        I did
                     </Button>
 
 
