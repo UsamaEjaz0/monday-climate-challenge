@@ -1,14 +1,16 @@
 .News-card  {
   overflow: hidden;
   min-width: 230px;
-  max-width: 300px;
+  max-width: 310px;
   width: 100%;
   color: #141414;
   line-height: 1.4em;
+  height: 390px;
 }
 
 .News-card > img {
   max-width: 100%;
+  height: 185px;
   vertical-align: top;
 }
 
