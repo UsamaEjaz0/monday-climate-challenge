@@ -115,7 +115,7 @@ function TakeAction() {
 
         {
             icon: Home,
-            id: 4,
+            id: 5,
             heading: "Teleworker",
             task: "Telecommute to work",
             saves: 2.74,
@@ -148,7 +148,7 @@ function TakeAction() {
                         disabled={dailyRewards.isClaimed[index]}
                         onClick={() => updatePoints(action.saves, index)}
                     >
-                        I did
+                        I did this today
                     </Button>
 
 
