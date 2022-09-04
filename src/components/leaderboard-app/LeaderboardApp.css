@@ -28,3 +28,24 @@
     display: flex;
     justify-content: center;
 }
+
+
+.green{
+    background-color: #03c776;
+    color: white;
+}
+
+.red{
+    background-color: #e2435c;
+    color: white;
+}
+
+.yellow{
+    background-color: #fdaa3d;
+    color: white;
+}
+
+.gray{
+    background-color: #c4c4c4;
+    color: white;
+}

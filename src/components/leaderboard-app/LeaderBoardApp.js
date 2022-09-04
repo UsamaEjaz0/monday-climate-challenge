@@ -4,6 +4,7 @@ import {Box, Flex, Heading, Loader} from "monday-ui-react-core";
 import GreenBoardCreator from "../greenboard-creator/GreenBoardCreator";
 import {UserContext} from "../../context/userContext";
 import {fetchBoardService, findGreenBoardService} from "../../services/mondayService";
+import getEmissionStatus from "../../utils/statusMapper";
 
 
 class LeaderBoardApp extends React.Component {
@@ -61,19 +62,29 @@ class LeaderBoardApp extends React.Component {
         return column.type === "name" ? item.name : columnValue && columnValue.text;
     };
 
+    getStatusColor = (cfp) => {
+        const status = getEmissionStatus(cfp)
+        if ( status=== 'Average') return "yellow"
+        else if (status === 'Bad') return "red"
+        else if (status === 'Good' || status === 'Great') return "green";
+        return "gray";
+    }
+
     renderItem = (color, board, item, index) => {
         const {columns} = board;
-
+        const colorClass = this.getStatusColor(parseFloat(item.column_values[2].text))
         return (
                 <div key={index} className="item">
                     {columns.map((column, index) => (
                         column.type === "name" ?
                             <div key={index} className="task-leaderboard"
-                                 style={{borderLeft: `thick solid #057e4c`}}>{this.renderCell(board, column, item)}</div>
-                            :
-                            column.type !== "multiple-person" ?
-                                <div key={index} className="cell-leaderboard">{this.renderCell(board, column, item)}</div> :
-                                <div key={index}/>
+                                 style={{borderLeft: `thick solid #057e4c`}}>{this.renderCell(board, column, item)}</div> :
+                            column.id === "person" ?
+                                <div key={index}/>:
+                                column.id === "eco_status"?
+                                    <div key={index} className={`cell-leaderboard ${colorClass}`}>{this.renderCell(board, column, item)}</div>:
+                                    <div key={index} className="cell-leaderboard">{this.renderCell(board, column, item)}</div>
+
                     ))}
                 </div>
         );
@@ -92,8 +103,10 @@ class LeaderBoardApp extends React.Component {
                                 <div key={index} className="cell-leaderboard">{column.title}</div> : <div key={index}/>
                     ))}
                 </Flex>
+
                 <div
-                    className="group-items">{group.items.map((item, index) => this.renderItem(group.color, board, item, index))}</div>
+                    className="row">{group.items.map((item, index) => this.renderItem(group.color, board, item, index))}
+                </div>
             </div>
         );
     };
