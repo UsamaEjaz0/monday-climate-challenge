@@ -1,4 +1,4 @@
-import {Box, Tab, TabList, TabPanel, TabPanels, TabsContext} from "monday-ui-react-core"
+import {Tab, TabList, TabPanel, TabPanels, TabsContext} from "monday-ui-react-core"
 import './Widget.css'
 import CFPMini from "./cfp-mini/CFPMini";
 import Quotes from "./quotes/Quotes";
@@ -16,7 +16,6 @@ export default function Widget() {
                   <Tab>Quotes</Tab>
                   <Tab>Carbon Footprint</Tab>
                   <Tab>Points</Tab>
-                  <Tab>News</Tab>
               </TabList>
               <TabPanels >
                   <TabPanel>
@@ -27,12 +26,6 @@ export default function Widget() {
                   </TabPanel>
                   <TabPanel>
                       <Points/>
-                  </TabPanel>
-                  <TabPanel>
-                      <div>
-                          To be determined later
-                      </div>
-
                   </TabPanel>
 
               </TabPanels>
