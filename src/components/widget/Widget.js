@@ -10,27 +10,25 @@ import Points from "./points/Points";
 export default function Widget() {
 
   return (
-      <div className="Widget">
-          <TabsContext >
-              <TabList  className="Tag-list">
-                  <Tab>Quotes</Tab>
-                  <Tab>Carbon Footprint</Tab>
-                  <Tab>Points</Tab>
-              </TabList>
-              <TabPanels >
-                  <TabPanel>
-                      <Quotes/>
-                  </TabPanel>
-                  <TabPanel>
-                      <CFPMini/>
-                  </TabPanel>
-                  <TabPanel>
-                      <Points/>
-                  </TabPanel>
-
-              </TabPanels>
-
-          </ TabsContext>
+    <div className="Widget">
+      <TabsContext >
+        <TabList  className="Tag-list">
+          <Tab>Quotes</Tab>
+          <Tab>Carbon Footprint</Tab>
+          <Tab>Points</Tab>
+        </TabList>
+          <TabPanels >
+            <TabPanel>
+              <Quotes/>
+            </TabPanel>
+            <TabPanel>
+              <CFPMini/>
+            </TabPanel>
+            <TabPanel>
+              <Points/>
+            </TabPanel>
+          </TabPanels>
+        </ TabsContext>
       </div>
 
   )

@@ -1,21 +1,12 @@
 .Widget {
-  /*width: 100%;*/
-  /*height: 100vh;*/
-  /*text-align: center;*/
-
+  display: flex;
+  justify-content: center;
 }
 
-/**{*/
-/*  background-color: #e2ece2;*/
-/*}*/
-
-.Tip {
-  width: 100%;
-  margin-left: 20px;
-  margin-right: 20px;
-  text-align: center;
+.Tag-list {
+  display: flex;
+  justify-content: center;
 }
-
 
 .box{
 background-color: #f5f6f8;

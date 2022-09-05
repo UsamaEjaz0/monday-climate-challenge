@@ -78,6 +78,20 @@ export async function compareCFP (cfp) {
         console.log("[MongoDb] compareCFP(): ", e)
         return null;
     }
+}
 
-
+export async function average (field) {
+    try{
+        let res = await fetch("https://www.car7parts.ae/monday/user-data/average", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({field})
+        });
+        return await res.json();
+    }catch (e) {
+        console.log("[MongoDb] average(): ", e)
+        return null;
+    }
 }
