@@ -45,7 +45,7 @@ export default function Quotes() {
         <Box>
             <Flex direction={Flex.directions.COLUMN}>
 
-            <img src={Logo} height={50} />
+            <img src={Logo} height={120}  alt=""/>
 
             <div className="quote">
 

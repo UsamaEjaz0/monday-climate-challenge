@@ -79,7 +79,6 @@ class App extends React.Component {
 
     render() {
         const handleToUpdate = this.handleToUpdate;
-
         return this.state.viewMode === "widget"?  <Widget/> :
         <div>
             <div className="column left-nav">
@@ -89,7 +88,6 @@ class App extends React.Component {
             </div>
             {this.renderView()}
         </div>
-
 
     }
 }

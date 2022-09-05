@@ -7,8 +7,6 @@ function UserContextProvider(props) {
   const [id, setId] = useState();
   const [name, setName] = useState();
   const [boardId, setBoardId] = useState(-1);
-  const [cfp, setCfp] = useState(-1)
-  const [percentage, setPercentage] = useState("-")
 
   async function findGreenBoard (boardName) {
     const boardId = await findGreenBoardService("Green Board");
@@ -44,40 +42,14 @@ function UserContextProvider(props) {
       });
 
       getCurrentUser().then((res) => {
-        findById(res.id.toString()).then(res =>  {
-          if(!res){
 
-          }
-          else if (!res.data.document){
-            setCfp(0)
-          }
-          else if (!res.data.document.cfp){
-            setCfp(0)
-          }
-          else{
-            setCfp(res.data.document.cfp)
-            compareCFP(res.data.document.cfp).then(res => {
-
-              if (res){
-                console.log(res)
-                if (res.data.total === 0) {
-                  setPercentage(0)
-                } else if (res.data.total === 1) {
-                  setPercentage(100)
-                } else {
-                  setPercentage(Math.round((res.data.countGreater/--res.data.total)*100))
-                }
-              }
-            })
-          }
-        })
       })
 
 
   }, [])
 
   return (
-    <UserContext.Provider value={{id, name, cfp, percentage, boardId, setBoardId}}>
+    <UserContext.Provider value={{id, name, boardId, setBoardId}}>
         {props.children}
     </UserContext.Provider>
   )
