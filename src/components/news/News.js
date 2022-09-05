@@ -7,6 +7,7 @@ import
 } from "monday-ui-react-core"
 import {useEffect, useState} from "react"
 import {findRecords} from "../../services/newsDataService"
+import defaultImage from "../../images/default.jpg"
 
 import './News.css'
 
@@ -25,10 +26,15 @@ function News() {
         return (
             <Box border={Box.borders.DEFAULT} className="News-card"
                  padding={Box.paddings.SMALL}>
-                <img src={news.image} alt={news.title}/>
+                <object data={news.image} type="image/jpeg">
+                    <img src={defaultImage} />
+                </object>
                 <Heading type={Heading.types.h3} value={news.title}/>
                 <p>{news.description.slice(0, 60)}...</p>
                 <Button
+                    onClick={
+                        () => window.open(news.url, '_blank', 'noopener,noreferrer')
+                    }
                     className="Action-button"
                     kind={Button.kinds.SECONDARY}>
                     Read more
@@ -41,15 +47,15 @@ function News() {
             <p/>
             <Skeleton type="text"/>
             <p/>
-            <Skeleton width={290}/>
+            <Skeleton width={275}/>
             <p/>
-            <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={290} />
+            <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={275} />
             <p/>
             <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={250} />
             <p/>
-            <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={290} />
+            <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={275} />
             <p/>
-            <Skeleton width={290} height={30}/>
+            <Skeleton width={275} height={30}/>
         </Box>)
 
     return (

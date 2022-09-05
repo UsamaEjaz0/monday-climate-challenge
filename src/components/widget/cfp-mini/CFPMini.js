@@ -5,9 +5,11 @@ import Earth from '../../../images/earth.png';
 import {useContext} from "react";
 import {UserContext} from "../../../context/userContext";
 import {findById} from "../../../services/userDataService";
+import happy from "../../../images/happy.png"
+import sad from "../../../images/sad.png"
 
 export default function CFPMini() {
-
+    const {percentage} = useContext(UserContext)
     const {id} = useContext(UserContext);
     const [hasCFP, setHasCFP] = useState(false);
     const [cfp, setCFP] = useState(0);
@@ -16,22 +18,28 @@ export default function CFPMini() {
         findById(id).then((res) => {
             if (res == null){
                 console.log("Something went wrong")
-            }
-            if (!res.data.document)
+            } else if (!res.data.document)
                 console.log("User doesn't exist in database")
             else if (!res.data.document.cfp)
                 console.log("User exists but cfp doesn't exist in database")
-            else{
+            else {
                 setHasCFP(true)
                 setCFP(res.data.document.cfp)
             }
-
         })
     }, [id])
 
     return (<div>{
             hasCFP ?
-                <span>CFP: {cfp}</span> :
+                <Box >
+                    <Flex align={Flex.align.CENTER} direction={Flex.directions.COLUMN}>
+                        <img src={percentage <= 50 ? sad : happy} alt="emoji" width={100}/>
+                        <Box margin={Box.margins.MEDIUM}/>
+                        <span><span style={{fontSize: "80px", color: "green"}}>{cfp}</span> CO<sub>2</sub> eq/year</span>
+                        <Heading type={Heading.types.h3} size="small" value={`Your Carbon footprint is ${ percentage > 50 ? `better than ${percentage}%` : percentage === "-" ? "calculating...": `worse than ${100-percentage}%`} ${percentage === "-" ? "": "people in the Green board"}`}/>
+                        <span className="center"> Go fullscreen to recalcluate your carbon footprint!</span>
+                    </Flex>
+                </Box> :
                 <Box >
                     <Flex align={Flex.align.CENTER} direction={Flex.directions.COLUMN}>
                         <img src={Earth} height={70}/>
