@@ -45,7 +45,6 @@ function UserContextProvider(props) {
 
       getCurrentUser().then((res) => {
         findById(res.id.toString()).then(res =>  {
-
           if(!res){
 
           }
@@ -71,8 +70,6 @@ function UserContextProvider(props) {
               }
             })
           }
-
-
         })
       })
 

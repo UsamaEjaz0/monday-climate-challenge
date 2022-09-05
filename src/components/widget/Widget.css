@@ -1,8 +1,13 @@
 .Widget {
-  width: 100%;
-  height: 100vh;
-  text-align: center;
+  /*width: 100%;*/
+  /*height: 100vh;*/
+  /*text-align: center;*/
+
 }
+
+/**{*/
+/*  background-color: #e2ece2;*/
+/*}*/
 
 .Tip {
   width: 100%;
