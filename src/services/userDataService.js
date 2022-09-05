@@ -1,6 +1,3 @@
-
-
-
 export async function findById (id){
     try {
         let res = await fetch("https://www.car7parts.ae/monday/user-data/find", {
