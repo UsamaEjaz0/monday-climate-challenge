@@ -11,8 +11,6 @@ import { ElECTRICITY_MULTIPLIER, HEATING_OIL_MULTIPLIER, LIVING_AREA_MULTIPLIER,
 
 function Home({home, setHome, setActiveTab}) {
 
-  // console.log("Home rendered..")
-
   return(
     <>
       <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="How much do you use in your home?" /></Flex>

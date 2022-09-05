@@ -11,6 +11,9 @@ import TakeAction from "./components/take-action/TakeAction";
 import SideNav from "./components/side-nav/SideNav";
 import Widget from "./components/widget/Widget";
 import News from "./components/news/News";
+import mondaySdk from "monday-sdk-js";
+
+const monday = mondaySdk();
 
 
 class App extends React.Component {
@@ -18,7 +21,7 @@ class App extends React.Component {
         super(props);
         this.handleToUpdate.bind(this);
         this.state = {
-            settings: {},
+            viewMode: "widget",
             name: "",
             view: 2,
             matches: window.matchMedia("(min-width: 650px)").matches
@@ -26,9 +29,20 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+
+        const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s"
+        // const TOKEN2 = "eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3ODY4NTYzNiwidWlkIjozMzY3MDEwMCwiaWFkIjoiMjAyMi0wOS0wMVQxNTowOToyMC4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.KyArAeAxG2O6-RdVW1jf4QLRXheyD2eGhR-pekPpKPU";
+        monday.setToken(TOKEN);
+        monday.listen("context", this.setContext);
         const handler = e => this.setState({matches: e.matches});
         window.matchMedia("(min-width: 650px)").addEventListener('change', handler);
     }
+
+    setContext = (res) => {
+        if (res.data.viewMode !== this.state.viewMode){
+            this.setState({viewMode: res.data.viewMode})
+        }
+    };
 
     handleToUpdate(someArg) {
         this.setState({view: someArg});
@@ -66,14 +80,16 @@ class App extends React.Component {
     render() {
         const handleToUpdate = this.handleToUpdate;
 
-        return  this.state.matches ?<div>
+        return this.state.viewMode === "widget"?  <Widget/> :
+        <div>
             <div className="column left-nav">
                 <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} >
                     <SideNav handleToUpdate={handleToUpdate.bind(this)}/>
                 </Flex>
             </div>
             {this.renderView()}
-        </div> : <Widget></Widget>
+        </div>
+
 
     }
 }

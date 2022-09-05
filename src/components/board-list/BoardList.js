@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./BoardList.css";
-import mondaySdk from "monday-sdk-js";
 import {Box, Flex, Heading, Loader} from "monday-ui-react-core";
 import Board from "../board/Board";
-import {Classifier} from "ml-classify-text";
 import {findBoardListService} from "../../services/mondayService";
 
 
@@ -15,7 +13,6 @@ export default function BoardList(props) {
 
     useEffect(() => {
         findBoardList()
-
     }, [])
 
     const findBoardList = () => {

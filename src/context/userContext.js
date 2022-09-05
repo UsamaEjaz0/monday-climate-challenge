@@ -58,7 +58,9 @@ function UserContextProvider(props) {
           else{
             setCfp(res.data.document.cfp)
             compareCFP(res.data.document.cfp).then(res => {
-              if (!res){
+
+              if (res){
+                console.log(res)
                 if (res.data.total === 0) {
                   setPercentage(0)
                 } else if (res.data.total === 1) {

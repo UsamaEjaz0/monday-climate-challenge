@@ -36,8 +36,6 @@ function SideNav(props) {
     const displayList = () => {
         return <List>
             {currentItems.map((listItem, index) =>
-
-
                 <ListItem key={index.toString()} selected={index === selected} size={ListItem.sizes.MEDIUM}
                           className="ellipsis"
                           onClick={() => {

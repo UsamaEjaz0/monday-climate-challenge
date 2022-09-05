@@ -25,7 +25,6 @@ function Food({ setFood, setActiveTab }) {
     setFood(food)
   }
 
-  // console.log("Food rendered..")
 
   return(
     <>
@@ -39,7 +38,7 @@ function Food({ setFood, setActiveTab }) {
             isAnimationDisabled={true}
           />
         </label>
-        <Box margin={Box.margins.SMALL}></Box>
+        <Box margin={Box.margins.SMALL}/>
         <Slider
           indicateSelection={true}
           defaultValue={1}
@@ -90,7 +89,7 @@ function Food({ setFood, setActiveTab }) {
             text={`${(2.4*foodMultiplier[2]).toPrecision(3)} daily servings`}
           />
         </label>
-        <Box margin={Box.margins.SMALL}></Box>
+        <Box margin={Box.margins.SMALL}/>
         <Slider
           defaultValue={1}
           size={Slider.sizes.SMALL}
@@ -116,7 +115,7 @@ function Food({ setFood, setActiveTab }) {
             text={`${(3.7*foodMultiplier[3]).toPrecision(3)} daily servings`}
             />
         </label>
-        <Box margin={Box.margins.SMALL}></Box>
+        <Box margin={Box.margins.SMALL}/>
         <Slider
           defaultValue={1}
           size={Slider.sizes.SMALL}

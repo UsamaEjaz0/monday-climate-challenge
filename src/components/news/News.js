@@ -30,28 +30,26 @@ function News() {
                 <p>{news.description.slice(0, 60)}...</p>
                 <Button
                     className="Action-button"
-                    kind={Button.kinds.SECONDARY}
-                    style={{float: "right"}}
-                >
+                    kind={Button.kinds.SECONDARY}>
                     Read more
                 </Button>
             </Box>
         )
     }) : [...Array(10)].map((el, index) =>
         <Box border={Box.borders.DEFAULT} className="News-card"
-             padding={Box.paddings.SMALL}>
+             padding={Box.paddings.MEDIUM}>
             <p/>
             <Skeleton type="text"/>
             <p/>
-            <Skeleton width={300}/>
+            <Skeleton width={290}/>
             <p/>
-            <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={300} />
+            <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={290} />
             <p/>
             <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={250} />
             <p/>
-            <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={300} />
+            <Skeleton type={Skeleton.types.TEXT} size={Skeleton.sizes.TEXT.SMALL} width={290} />
             <p/>
-            <Skeleton width={300} height={30}/>
+            <Skeleton width={290} height={30}/>
         </Box>)
 
     return (

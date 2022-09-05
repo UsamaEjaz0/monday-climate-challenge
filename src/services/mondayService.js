@@ -158,7 +158,7 @@ export async function createItemService(user, groupId, boardId) {
 export async function fetchBoardService(boardId) {
     const query = `
                 query {
-                  
+                 
                   
                   boards(ids: ${boardId}) {
                     name
@@ -175,7 +175,7 @@ export async function fetchBoardService(boardId) {
                       id
                     }
                     
-                    items {
+                    items (limit:100){
                       id
                       name
                       group {

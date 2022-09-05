@@ -5,12 +5,10 @@
 
 .Tag-list {
   display: flex;
-  /* margin-left: 19%; */
   justify-content: center;
 }
 
 .Body-left {
-  /* margin-left: 19%; */
   float: left;
   max-width:47.5%;
   width: 47.5%;
@@ -45,7 +43,6 @@ label {
 }
 
 .ellipsis{
-  /*overflow: hidden;*/
   white-space: nowrap;
   text-overflow: ellipsis;
 }

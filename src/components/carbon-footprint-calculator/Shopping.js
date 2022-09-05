@@ -30,8 +30,6 @@ function Shopping({ shopping, setShopping, goods, services, setActiveTab }) {
     }
   }
 
-  // console.log("Shopping rendered..")
-
   return(
     <>
       <Flex justify={Flex.justify.CENTER}><Heading type={Heading.types.h2} value="How much do you spend on?" /></Flex>
@@ -43,7 +41,7 @@ function Shopping({ shopping, setShopping, goods, services, setActiveTab }) {
             isAnimationDisabled={true}
             />
         </label>
-        <Box margin={Box.margins.SMALL}></Box>
+        <Box margin={Box.margins.SMALL}/>
         <Slider
           defaultValue={1}
           indicateSelection={true}
@@ -68,7 +66,7 @@ function Shopping({ shopping, setShopping, goods, services, setActiveTab }) {
             text={`$${shopping.services[0]} / month`}
           />
         </label>
-        <Box margin={Box.margins.SMALL}></Box>
+        <Box margin={Box.margins.SMALL}/>
         <Slider
           defaultValue={1}
           size={Slider.sizes.SMALL}

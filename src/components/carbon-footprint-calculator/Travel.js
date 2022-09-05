@@ -70,8 +70,6 @@ function Travel({ travel, setTravel, setActiveTab}) {
     </div>)
   }
 
-  // console.log("Travel rendered..")
-
   return(
     <>
 
@@ -86,7 +84,7 @@ function Travel({ travel, setTravel, setActiveTab}) {
               id="distanceCovered"
             />
           </Flex>
-          <Box marginBottom={Box.marginBottoms.LARGE}></Box>
+          <Box marginBottom={Box.marginBottoms.LARGE}/>
           <TextField
             title="Public Transit"
             placeholder={`${travel.publicTransit[0]} (km/year)`}

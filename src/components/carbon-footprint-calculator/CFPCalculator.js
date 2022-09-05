@@ -91,7 +91,6 @@ function CFPCalculator() {
                 </>
             )
         }
-
         return (
             <>
                 <b>{(averageCFP - currentCFP).toPrecision(2)} %</b>

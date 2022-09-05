@@ -1,18 +1,14 @@
 import React, {useEffect, useState} from "react";
 import "./Board.css";
-import {Clickable, Flex, Heading, Label, Skeleton} from "monday-ui-react-core";
-import {fetchBoardService, openModalService} from "../../services/mondayService";
-import {findSageMakerInference} from "../../services/awsPredictionService";
-import {findInference} from "../../services/inferenceService";
+import {Flex, Heading, Skeleton} from "monday-ui-react-core";
+import {fetchBoardService} from "../../services/mondayService";
+import Item from "./item/Item";
 
-// import AsyncChild from 'react-async-child';
 
 function Board(props) {
 
     const [render, setRender] = useState(false);
     const [board, setBoard] = useState({});
-    const [positive, setPositive] = useState(false);
-    const [negative, setNegative] = useState(false);
 
 
     useEffect(()=>{
@@ -34,51 +30,13 @@ function Board(props) {
                 setBoard(res);
                 setRender(true);
             }
+
         });
 
-
     }
-
-    const predict = ( text) => {
-        const input = {
-            "inputs": text
-        }
-        findInference(input).then((pred)=>{
-
-            if (pred == null){
-                // return <Label className="sentiment" text="" color={Label.colors.DARK}/>
-            }
-            else {
-                if ('error' in pred){
-                    console.log("waiting 20 secs")
-                    setTimeout(()=> {
-                        predict(text)
-                    }, 21000)
-                }
-                else{
-
-                    console.log(input, pred)
-                }
-                // if (pred.label === 'POSITIVE'){
-                //     setPositive(true)
-                // }else{
-                //     setNegative(true);
-                //     // return <Label className="sentiment" text="Negative" color={Label.colors.NEGATIVE}/>
-                // }
-            }
-        });
-
-        return <Label className="sentiment" text="Negative" color={Label.colors.NEGATIVE}/>
-
-    }
-
-    const renderItem = (color, board, item) => {
+    const renderItem = (color, item, sentiment) => {
         return (
-
-            <Clickable className="item" onClick={() => openModalService(item.id)}>
-                <div className="task" style={{borderLeft: `thick solid ${color}`}} >{item.name}</div>
-                {predict( item.name)}
-            </Clickable>
+            <Item color={color} item={item} sentiment={sentiment}/>
         );
     };
 
@@ -90,8 +48,10 @@ function Board(props) {
                     {<div className="task">Task</div>}
                     {<div className="sentiment">Sentiment</div>}
                 </Flex>
-                <div
-                    className="group-items">{group.items.map((item) => renderItem(group.color, board, item))}</div>
+                <div className="group-items">{group.items.map((item) => {
+
+                    return renderItem(group.color, item, "N/A")
+                })}</div>
             </div>
         );
     };
@@ -117,11 +77,10 @@ function Board(props) {
         return Object.values(groups);
     };
 
-
     const renderGroups = () => {
         const groups = getGroups(board);
         return <div className="board-groups">
-            <Heading type={Heading.types.h2} value={board.name}/>
+            <Heading type={Heading.types.h2} value={board.name} />
             {groups.map((group) => renderGroup(props.board, group))}
         </div>
     }
