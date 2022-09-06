@@ -168,14 +168,17 @@ function CFPCalculator() {
     return (
         <div className="CFPCalculator">
             <TabsContext activeTabId={activeTab}>
-                <TabList activeTabId={activeTab} className="Tag-list">
+                <TabList activeTabId={activeTab} className="Tag-list"
+                    style={{paddingInlineStart: 0}}
+                >
                     <Tab>Get Started</Tab>
                     <Tab>Travel</Tab>
                     <Tab>Home</Tab>
                     <Tab>Food</Tab>
                     <Tab>Shopping</Tab>
                 </TabList>
-                <TabPanels activeTabId={activeTab} className="Body-left">
+                <TabPanels activeTabId={activeTab} className="Body-left" 
+                    >
                     <TabPanel><GetStarted setActiveTab={setActiveTab} setAnnualIncome={setAnnualIncome}/></TabPanel>
                     <TabPanel>
                         <Travel

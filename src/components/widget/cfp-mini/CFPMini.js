@@ -1,12 +1,11 @@
-import './CFPMini.css'
+import GaugeChart from 'react-gauge-chart'
 import {useEffect, useState} from "react";
-import {Box, Flex, Heading} from "monday-ui-react-core";
+import {Box, Flex} from "monday-ui-react-core";
 import Earth from '../../../images/earth.png';
 import {useContext} from "react";
 import {UserContext} from "../../../context/userContext";
 import {compareCFP, findById} from "../../../services/userDataService";
-import happy from "../../../images/happy.png"
-import sad from "../../../images/sad.png"
+import './CFPMini.css'
 
 export default function CFPMini() {
     const [percentage, setPercentage] = useState("-")
@@ -45,26 +44,40 @@ export default function CFPMini() {
     return (<div>{
             hasCFP ?
                 <Box>
-                    <Flex align={Flex.align.CENTER} direction={Flex.directions.COLUMN}>
-                        <img src={percentage <= 50 ? sad : happy} alt="emoji" width={140}/>
+                    <Flex direction={Flex.directions.COLUMN}>
+                        <Box className="Gauge-chart">
+                            <GaugeChart 
+                                colors={["#ffca00", "#ff3d57","#00d748"]} 
+                                animate={true} 
+                                needleColor="#434343"
+                                hideText={true}
+                                needleBaseColor="#434343" 
+                                percent={percentage === "-" ? 0 : percentage/100}
+                            />
+                        </Box>
                         <Box margin={Box.margins.MEDIUM}/>
                         <span> <b> <span>{cfp}</span> CO<sub>2</sub></b> eq/year</span>
                         <p/>
-                        <span> {`Your carbon footprint is ${percentage > 50 ? `better than ${percentage}%` : percentage === "-" ? "calculating..." : `worse than ${100 - percentage}%`} ${percentage === "-" ? "" : "people in the green board"}`}</span>
-                        <span className="center"> Go fullscreen to recalculate your carbon footprint!</span>
+                        <span>
+                            Your carbon footprint is {
+                            percentage > 50 ? 
+                                <><b>better than </b>{percentage}% </> 
+                                : percentage === "-" 
+                                    ? "calculating..." 
+                                    : <><b>worse than</b>{100 - percentage}% </>
+                            } 
+                            people in the Green board.
+                        </span>
                     </Flex>
                 </Box> :
                 <Box>
                     <Flex align={Flex.align.CENTER} direction={Flex.directions.COLUMN}>
-                        <img src={Earth} height={70}/>
+                        <img src={Earth} height={70} alt="climatio" />
                         <Box margin={Box.margins.MEDIUM}/>
-                        <Heading type={Heading.types.h3} size="small"
-                                 value="It is the total greenhouse gas (GHG) emissions caused by an individual"/>
+                        <span>It is the total greenhouse gas (GHG) emissions caused by an individual </span>
                         <span className="center"> Go fullscreen to find out your carbon footprint!</span>
                     </Flex>
                 </Box>}
         </div>
     )
-
-
 }

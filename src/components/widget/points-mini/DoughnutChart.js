@@ -21,13 +21,13 @@ const options = {
 export default function DoughnutChart({points, averagePoints}) {
 
   const data = {
-    labels: ['Your Points', 'Average Points'],
+    labels: ['You', 'Average'],
     datasets: [
       {
         label: '# of Votes',
         data: [parseFloat(points), parseFloat(averagePoints)],
         backgroundColor: [
-          'rgb(255, 99, 132)',
+          '#ff3d57',
           'rgb(53, 162, 235)',
         ],
         borderWidth: 0,

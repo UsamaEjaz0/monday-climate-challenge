@@ -1,13 +1,7 @@
 .Widget {
   display: flex;
   justify-content: center;
-}
-
-.Tag-list {
-  display: flex;
-  justify-content: center;
-}
-
-.box{
-background-color: #f5f6f8;
+  text-align: center;
+  padding-left: 30px;
+  padding-right: 30px;
 }

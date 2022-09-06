@@ -44,27 +44,23 @@ export default function Quotes() {
     return (
         <Box>
             <Flex direction={Flex.directions.COLUMN}>
+                <img src={Logo} height={120}  alt=""/>
+                <div className="quote">
+                    <blockquote className="carousel__quote">
+                        <cite>
+                            <span className="carousel__name">{reviews[activeSlide].name}</span>
+                        </cite>
+                        <p>"{reviews[activeSlide].quote}"</p>
+                    </blockquote>
 
-            <img src={Logo} height={120}  alt=""/>
-
-            <div className="quote">
-
-                <blockquote className="carousel__quote">
-                    <cite>
-                        <span className="carousel__name">{reviews[activeSlide].name}</span>
-                    </cite>
-                    <p>"{reviews[activeSlide].quote}"</p>
-                </blockquote>
-
-                <div className="carousel__indicator">
-                    <span onClick={() => setActiveSlide(0)} className={`carousel__dot${activeSlide === 0 ? " active" : ""}`}/>
-                    <span onClick={() => setActiveSlide(1)} className={`carousel__dot${activeSlide === 1 ? " active" : ""}`}/>
-                    <span onClick={() => setActiveSlide(2)} className={`carousel__dot${activeSlide === 2 ? " active" : ""}`}/>
-                    <span onClick={() => setActiveSlide(3)} className={`carousel__dot${activeSlide === 3 ? " active" : ""}`}/>
-                    <span onClick={() => setActiveSlide(4)} className={`carousel__dot${activeSlide === 4 ? " active" : ""}`}/>
+                    <div className="carousel__indicator">
+                        <span onClick={() => setActiveSlide(0)} className={`carousel__dot${activeSlide === 0 ? " active" : ""}`}/>
+                        <span onClick={() => setActiveSlide(1)} className={`carousel__dot${activeSlide === 1 ? " active" : ""}`}/>
+                        <span onClick={() => setActiveSlide(2)} className={`carousel__dot${activeSlide === 2 ? " active" : ""}`}/>
+                        <span onClick={() => setActiveSlide(3)} className={`carousel__dot${activeSlide === 3 ? " active" : ""}`}/>
+                        <span onClick={() => setActiveSlide(4)} className={`carousel__dot${activeSlide === 4 ? " active" : ""}`}/>
+                    </div>
                 </div>
-        </div>
-
             </Flex>
         </Box>
     );

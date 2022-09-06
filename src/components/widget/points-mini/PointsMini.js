@@ -1,4 +1,4 @@
-import './Points.css'
+import './PointsMini.css'
 import {useState} from "react";
 import {Box, Flex, Heading} from "monday-ui-react-core";
 import Electricity from "../../../images/electricity.png";
@@ -8,7 +8,7 @@ import {UserContext} from "../../../context/userContext";
 import {findById, average} from "../../../services/userDataService";
 
 
-export default function Points() {
+export default function PointsMini() {
     const {id} = useContext(UserContext);
     const [hasPoints, setHasPoints] = useState(false);
     const [points, setPoints] = useState(0);
@@ -41,25 +41,21 @@ export default function Points() {
 
     return (<div>{
             hasPoints ?
-                <Box >
-                    <Flex align={Flex.align.CENTER} direction={Flex.directions.COLUMN} justify={Flex.justify.START}>
-                        <Flex>
-                            
-                            <Box className="Doughnut-chart">
-                                <DoughnutChart
-                                    points={points} 
-                                    averagePoints={averagePoints}
-                                />
-                            </Box>
-                        </Flex>
-                       
+                <Box>
+                    <Flex direction={Flex.directions.COLUMN}>
+                        <Box className="Doughnut-chart">
+                            <DoughnutChart
+                                points={points} 
+                                averagePoints={averagePoints}
+                            />
+                        </Box>
                         <Box margin={Box.margins.MEDIUM}/>
-                        <Heading type={Heading.types.h2} size="small" value="Your Points Compared With Others"/>
+                        Your Eco points compared to the other members of Green board.
                     </Flex>
                 </Box> :
-                <Box >
+                <Box>
                     <Flex align={Flex.align.CENTER} direction={Flex.directions.COLUMN}>
-                        <img src={Electricity} height={70}/>
+                        <img src={Electricity} height={70} alt="climatio"/>
                         <Box margin={Box.margins.MEDIUM}/>
                         <Heading type={Heading.types.h3} size="small" value="Points are gained by performing daily activities"/>
                         <span className="center"> Go fullscreen to find out your points!</span>
@@ -67,6 +63,4 @@ export default function Points() {
                 </Box>}
         </div>
     )
-
-
 }

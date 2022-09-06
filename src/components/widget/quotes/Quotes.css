@@ -6,17 +6,7 @@
     justify-content: center;
 
 }
-.carousel__list {
-    align-items: center;
-    display: grid;
-    grid-row-gap: 1.25rem;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto;
-    max-width: 40rem;
-    overflow: hidden;
-    padding: 1rem 2rem;
-    list-style-type: none;
-}
+
 .carousel__item {
     grid-column: 1;
     grid-row: 1;
@@ -46,12 +36,7 @@
 .carousel__dot.active {
     background-color: #696a6b;
 }
-.carousel__citation {
-    display: block;
-    font-size: 0.875rem;
-    font-style: normal;
-    margin-bottom: 1.25rem;
-}
+
 .carousel__name {
     display: block;
     font-style: normal;
