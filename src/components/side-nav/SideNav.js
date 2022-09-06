@@ -36,14 +36,20 @@ function SideNav(props) {
     const displayList = () => {
         return <List>
             {currentItems.map((listItem, index) =>
-                <ListItem key={index.toString()} selected={index === selected} size={ListItem.sizes.MEDIUM}
-                          className="ellipsis"
-                          onClick={() => {
-                              setSelected(index);
-                              handleToUpdate(listItem[1])
-                          }}>
+                <ListItem 
+                    key={index.toString()} selected={index === selected} 
+                    size={ListItem.sizes.MEDIUM}
+                    className="ellipsis"
+                    onClick={() => {
+                        setSelected(index);
+                        handleToUpdate(listItem[1])
+                    }}
+                    component={<h1>Hello Turd</h1>}
+                >
+                    <>
                     <ListItemIcon icon={listItem[2]} />
                     {listItem[0]}
+                    </>
                 </ListItem>
             )}
 
@@ -53,7 +59,7 @@ function SideNav(props) {
 
     return <div className="side-nav">
         <Flex align={Flex.align.CENTER}>
-            <img className="logo" src={logo} />
+            <img className="logo" src={logo} alt="Climatio logo" />
             <Heading type={Heading.types.h1} value="Climatio" brandFont/>
         </Flex>
         <Search className="search" placeholder="Search" onChange={filterList} size={Search.sizes.MEDIUM}/>
