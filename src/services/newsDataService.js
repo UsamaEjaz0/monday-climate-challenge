@@ -5,16 +5,10 @@ export async function findRecords() {
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({id: getDateId()})
       })
       return await res.json()
   }catch (e) {
       console.log("[MongoDb] findRecords(): ", e)
       return null;
   }
-}
-
-const getDateId = () => {
-  var date = new Date();
-  return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 }
