@@ -43,7 +43,7 @@ function Board(props) {
     const renderGroup = (board, group) => {
         return (
             <div className="group">
-                <Heading className={{}} style={{color: group.color}} type={Heading.types.h5} value={group.title}/>
+                <Heading style={{color: group.color}} type={Heading.types.h5} value={group.title}/>
                 <Flex direction={Flex.directions.ROW}>
                     {<div className="task">Task</div>}
                     {<div className="sentiment">Sentiment</div>}

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import "./BoardList.css";
 import {Box, Flex, Heading, Loader} from "monday-ui-react-core";
 import Board from "../board/Board";
 import {findBoardListService} from "../../services/mondayService";

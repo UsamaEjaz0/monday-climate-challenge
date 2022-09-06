@@ -20,12 +20,15 @@ function News() {
             setNews(data.data.documents)
             setRender(true)
         })
-    })
+    }, [])
 
     const displayNews = render ? news.map((news) => {
         return (
-            <Box border={Box.borders.DEFAULT} className="News-card"
-                 padding={Box.paddings.SMALL}>
+            <Box   
+                key={news._id} 
+                border={Box.borders.DEFAULT} className="News-card"
+                padding={Box.paddings.SMALL}
+            >
                 <object data={news.image} type="image/jpeg">
                     <img src={defaultImage} />
                 </object>
@@ -41,9 +44,11 @@ function News() {
                 </Button>
             </Box>
         )
-    }) : [...Array(10)].map((el, index) =>
-        <Box border={Box.borders.DEFAULT} className="News-card"
-             padding={Box.paddings.MEDIUM}>
+    }) : [...Array(10)].map((_, index) =>
+        <Box
+            key={index} 
+            border={Box.borders.DEFAULT} className="News-card"
+            padding={Box.paddings.MEDIUM}>
             <p/>
             <Skeleton type="text"/>
             <p/>
