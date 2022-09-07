@@ -30,9 +30,9 @@ class App extends React.Component {
 
     componentDidMount() {
 
-        // const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s"
+        const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3NjMzMzUyMiwidWlkIjozMzM4NjAzOCwiaWFkIjoiMjAyMi0wOC0xOFQyMjozMzowOS4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.gai4a2YB1yJhoqJ-mGIX2pBNF91iArRerKqbB6n3u0s"
         // const TOKEN2 = "eyJhbGciOiJIUzI1NiJ9.eyJ0aWQiOjE3ODY4NTYzNiwidWlkIjozMzY3MDEwMCwiaWFkIjoiMjAyMi0wOS0wMVQxNTowOToyMC4wMDBaIiwicGVyIjoibWU6d3JpdGUiLCJhY3RpZCI6MTMxNDQ3NTYsInJnbiI6InVzZTEifQ.KyArAeAxG2O6-RdVW1jf4QLRXheyD2eGhR-pekPpKPU";
-        // monday.setToken(TOKEN);
+        monday.setToken(TOKEN);
         monday.listen("context", this.setContext);
         const handler = e => this.setState({matches: e.matches});
         window.matchMedia("(min-width: 650px)").addEventListener('change', handler);
