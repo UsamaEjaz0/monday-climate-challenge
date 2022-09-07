@@ -30,9 +30,15 @@ function TakeAction() {
     const {id, boardId, name} = useContext(UserContext)
     const [points, setPoints] = useState(0)
     const [loading, setLoading] = useState(true);
-    const [dailyRewards, setDailyRewards] = useState({
-        isClaimed: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).isClaimed : [false, false, false, false, false],
-        claimDay: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay : new Date().getDay()
+    const [dailyRewards, setDailyRewards] = useState(() => {
+        try { 
+            return {
+            isClaimed: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).isClaimed : [false, false, false, false, false],
+            claimDay: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay : new Date().getDay()
+            }
+         } catch (err) {
+            return {isClaimed: [false, false, false, false, false], claimDay: new Date().getDay()}
+        }
     })
 
 
@@ -41,13 +47,18 @@ function TakeAction() {
     useEffect(() => {
         if (localStorage.getItem(STORAGE_KEY)) {
             const currentDay = new Date().getDay()
-            if (JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay !== currentDay) {
-                const newDailyRewards = {
-                    isClaimed: [false, false, false, false, false],
-                    claimDay: currentDay
+            const newDailyRewards = {
+                isClaimed: [false, false, false, false, false],
+                claimDay: currentDay
+            }
+            try {
+                if (JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay !== currentDay) {
+                    
+                    setDailyRewards(newDailyRewards)
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(newDailyRewards))
                 }
+            } catch (err) {
                 setDailyRewards(newDailyRewards)
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(newDailyRewards))
             }
         }
         console.log(id);
@@ -76,10 +87,14 @@ function TakeAction() {
         })
 
         setDailyRewards(prevDailyRewards => {
-            const isClaimed = [...prevDailyRewards.isClaimed]
-            isClaimed[index] = true
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({isClaimed, claimDay: prevDailyRewards.claimDay}))
-            return {...prevDailyRewards, isClaimed}
+            try {
+                const isClaimed = [...prevDailyRewards.isClaimed]
+                isClaimed[index] = true
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({isClaimed, claimDay: prevDailyRewards.claimDay}))
+                return {...prevDailyRewards, isClaimed}
+            } catch (err) {
+                return prevDailyRewards
+            }
         })
     }
 

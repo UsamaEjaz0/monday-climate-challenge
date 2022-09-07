@@ -79,7 +79,7 @@ class App extends React.Component {
 
     render() {
         const handleToUpdate = this.handleToUpdate;
-        return this.state.viewMode === "widget"?  <Widget/> :
+        return this.state.viewMode === "widget1"?  <Widget/> :
         <div>
             <div className="column left-nav">
                 <Flex direction={Flex.directions.COLUMN} align={Flex.align.STRETCH} >
