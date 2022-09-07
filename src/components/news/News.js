@@ -24,8 +24,8 @@ function News() {
 
     const displayNews = render ? news.map((news) => {
         return (
-            <Box   
-                key={news._id} 
+            <Box
+                key={news._id}
                 border={Box.borders.DEFAULT} className="News-card"
                 padding={Box.paddings.SMALL}
             >
@@ -46,7 +46,7 @@ function News() {
         )
     }) : [...Array(10)].map((_, index) =>
         <Box
-            key={index} 
+            key={index}
             border={Box.borders.DEFAULT} className="News-card"
             padding={Box.paddings.MEDIUM}>
             <p/>
@@ -65,7 +65,7 @@ function News() {
 
     return (
         <Box padding={Box.paddings.MEDIUM} margin={Box.margins.XL}>
-            <Heading type={Heading.types.h1} value="News Heading" brandFont/>
+            <Heading type={Heading.types.h1} value="News " brandFont/>
             <Flex wrap={true} gap={Flex.gaps.MEDIUM}>
                 {displayNews}
             </Flex>

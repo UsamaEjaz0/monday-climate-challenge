@@ -31,39 +31,39 @@ function TakeAction() {
     const [points, setPoints] = useState(0)
     const [loading, setLoading] = useState(true);
     const [dailyRewards, setDailyRewards] = useState(() => {
-        try { 
+        try {
             return {
-            isClaimed: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).isClaimed : [false, false, false, false, false],
-            claimDay: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay : new Date().getDay()
+                isClaimed: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).isClaimed : [false, false, false, false, false],
+                claimDay: localStorage.getItem(STORAGE_KEY) ? JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay : new Date().getDay()
             }
-         } catch (err) {
+        } catch (err) {
             return {isClaimed: [false, false, false, false, false], claimDay: new Date().getDay()}
         }
     })
 
 
-
-
     useEffect(() => {
-        if (localStorage.getItem(STORAGE_KEY)) {
-            const currentDay = new Date().getDay()
-            const newDailyRewards = {
-                isClaimed: [false, false, false, false, false],
-                claimDay: currentDay
-            }
-            try {
+        const currentDay = new Date().getDay()
+        const newDailyRewards = {
+            isClaimed: [false, false, false, false, false],
+            claimDay: currentDay
+        }
+        try {
+            if (localStorage.getItem(STORAGE_KEY)) {
                 if (JSON.parse(localStorage.getItem(STORAGE_KEY)).claimDay !== currentDay) {
-                    
+
                     setDailyRewards(newDailyRewards)
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(newDailyRewards))
                 }
-            } catch (err) {
-                setDailyRewards(newDailyRewards)
             }
+        } catch (err) {
+            setDailyRewards(newDailyRewards)
         }
         console.log(id);
         findById(id).then(data => {
-            if (!data.data.document)
+            if (data == null)
+                setPoints(0)
+            else if (!data.data.document)
                 setPoints(0)
             else if (!data.data.document.points)
                 setPoints(0)
