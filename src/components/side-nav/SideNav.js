@@ -44,7 +44,6 @@ function SideNav(props) {
                         setSelected(index);
                         handleToUpdate(listItem[1])
                     }}
-                    component={<h1>Hello Turd</h1>}
                 >
                     <>
                     <ListItemIcon icon={listItem[2]} />
