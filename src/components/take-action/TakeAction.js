@@ -36,6 +36,8 @@ function TakeAction() {
     })
 
 
+
+
     useEffect(() => {
         if (localStorage.getItem(STORAGE_KEY)) {
             const currentDay = new Date().getDay()

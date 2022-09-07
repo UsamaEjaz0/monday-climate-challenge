@@ -1,7 +1,7 @@
 import './PointsMini.css'
 import {useState} from "react";
 import {Box, Flex, Heading} from "monday-ui-react-core";
-import Electricity from "../../../images/electricity.png";
+import EarthIllustration from "../../../images/green.png";
 import DoughnutChart from "./DoughnutChart"
 import {useContext, useEffect} from "react";
 import {UserContext} from "../../../context/userContext";
@@ -43,19 +43,22 @@ export default function PointsMini() {
             hasPoints ?
                 <Box>
                     <Flex direction={Flex.directions.COLUMN}>
-                        <Box className="Doughnut-chart">
+                        <Box className="Doughnut-chart" marginTop={Box.marginTops.SMALL}>
                             <DoughnutChart
-                                points={points} 
+                                points={points}
                                 averagePoints={averagePoints}
                             />
                         </Box>
                         <Box margin={Box.margins.MEDIUM}/>
-                        Your Eco points compared to the other members of Green board.
+                        <span>Eco Points:  <b> <span>{points}</span> </b></span>
+                        <Box margin={Box.margins.MEDIUM}/>
+                        <em>Your Eco Points compared to the other members of Green board.</em>
                     </Flex>
                 </Box> :
                 <Box>
                     <Flex align={Flex.align.CENTER} direction={Flex.directions.COLUMN}>
-                        <img src={Electricity} height={70} alt="climatio"/>
+                        <Box margin={Box.margins.XS}/>
+                        <img src={EarthIllustration} height={110} alt="climatio"/>
                         <Box margin={Box.margins.MEDIUM}/>
                         <Heading type={Heading.types.h3} size="small" value="Points are gained by performing daily activities"/>
                         <span className="center"> Go fullscreen to find out your points!</span>

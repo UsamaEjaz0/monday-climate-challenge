@@ -1,7 +1,7 @@
 import GaugeChart from 'react-gauge-chart'
 import {useEffect, useState} from "react";
-import {Box, Flex} from "monday-ui-react-core";
-import Earth from '../../../images/earth.png';
+import {Box, Flex, Heading} from "monday-ui-react-core";
+import EarthIllustration from '../../../images/earth_illustration.png';
 import {useContext} from "react";
 import {UserContext} from "../../../context/userContext";
 import {compareCFP, findById} from "../../../services/userDataService";
@@ -45,13 +45,13 @@ export default function CFPMini() {
             hasCFP ?
                 <Box>
                     <Flex direction={Flex.directions.COLUMN}>
-                        <Box className="Gauge-chart">
-                            <GaugeChart 
-                                colors={["#ffca00", "#ff3d57","#00d748"]} 
-                                animate={true} 
+                        <Box className="Gauge-chart" marginTop={Box.marginTops.LARGE}>
+                            <GaugeChart
+                                colors={["#ffca00", "#ff3d57","#00d748"]}
+                                animate={true}
                                 needleColor="#434343"
                                 hideText={true}
-                                needleBaseColor="#434343" 
+                                needleBaseColor="#434343"
                                 percent={percentage === "-" ? 0 : percentage/100}
                             />
                         </Box>
@@ -59,22 +59,22 @@ export default function CFPMini() {
                         <span> <b> <span>{cfp}</span> CO<sub>2</sub></b> eq/year</span>
                         <p/>
                         <span>
+                            <em>
                             Your carbon footprint is {
-                            percentage > 50 ? 
-                                <><b>better than </b>{percentage}% </> 
-                                : percentage === "-" 
-                                    ? "calculating..." 
-                                    : <><b>worse than</b>{100 - percentage}% </>
-                            } 
-                            people in the Green board.
+                            percentage > 50 ?
+                                <><b>better than </b>{percentage}% </>
+                                : percentage === "-"
+                                    ? "calculating..."
+                                    : <><b>worse than </b>{100 - percentage}% </>
+                            }
+                            people in the Green board.</em>
                         </span>
                     </Flex>
                 </Box> :
                 <Box>
                     <Flex align={Flex.align.CENTER} direction={Flex.directions.COLUMN}>
-                        <img src={Earth} height={70} alt="climatio" />
-                        <Box margin={Box.margins.MEDIUM}/>
-                        <span>It is the total greenhouse gas (GHG) emissions caused by an individual </span>
+                        <img src={EarthIllustration} height={150} alt="climatio" />
+                        <Heading type={Heading.types.h3} size="small" value="It is the total greenhouse gas (GHG) emissions caused by an individual "/>
                         <span className="center"> Go fullscreen to find out your carbon footprint!</span>
                     </Flex>
                 </Box>}

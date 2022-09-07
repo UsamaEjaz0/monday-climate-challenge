@@ -11,8 +11,8 @@ function SideNav(props) {
     const handleToUpdate = props.handleToUpdate;
     const items = [
         ["Carbon Footprint", View.CFP_CALCULATOR, TurnInto],
-        ["Green Board", View.GREEN_BOARD, Board],
         ["Take Action", View.TAKE_ACTION, Broom],
+        ["Green Board", View.GREEN_BOARD, Board],
         ["News", View.NEWS, Announcement],
         ["Analyze Work", View.SENTIMENT_ANALYSIS, Robot],
     ]
@@ -36,8 +36,8 @@ function SideNav(props) {
     const displayList = () => {
         return <List>
             {currentItems.map((listItem, index) =>
-                <ListItem 
-                    key={index.toString()} selected={index === selected} 
+                <ListItem
+                    key={index.toString()} selected={index === selected}
                     size={ListItem.sizes.MEDIUM}
                     className="ellipsis"
                     onClick={() => {
