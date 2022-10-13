@@ -42,14 +42,18 @@ The users can read latest news related to climate change in the "News" tab. Read
 The final section of our application is the "work analyzer". Many a times, users are unware of the consequences of their actions. They unknowingly perform actions which may prove out be harmful for the climate and for the planet. Using our work analyzer, users can find if the work they are assigned has got any positive/negative impact on the climate change. For example, if someone is assigned a task that may cause damage to our environment, will be flagged as negative. A task that is beneficial for climate change will be marked as positive. The tasks which don't impact climate change will be marked as neutral.
 
 ## How we built it
-### Dashboard Widget
-We built our dashboard widget using ReactJs, MongoDb, Express and NodeJs. 
-
+We built our dashboard widget and integration using ReactJs, MongoDb, Express and NodeJs. For our machine learning classifier, we fine-tuned a distilled version of Google's Bert transformer model over a twitter climate change dataset. 
 
 ## Challenges we ran into
+Getting accustomed with monday.com API was tough. We weren't aware of the complexity problems that arise with the use of monday.com GraphQL API. We got to know about it very late. Moreover, we joined late and it was hard to put all of our ideas into the application. Moreover, with the machine learning part, we had trouble deploying huge models.
 
 ## Accomplishments that we're proud of
+We were able to create something that not only I can use but it it something which has the potential of being used by almost any monday customer. While building this application, we felt like a part of something bigger that is working on this issue. Finally, we are proud to be able to create such a mature app in this limited time.
 
 ## What we learned
+- We learnt about monday.com API and GraphQL. We hadn't worked with these before.
+- We learnt how to deploy ML models, how to create and work with APIs.
+- We learnt to create node & python servers.
 
 ## What's next for Climatio
+There is a roadmap ahead for Climatio. In the short term, we weren't able to completely write production quality code. We believe that we can improve the code quality a lot if given enough time. Our API calls can be more secured and can be made safer. In the long run, we hope to add continuous updates and features. Features like dark mode support, more actions, and some sort of game to increase awareness which we were not able to add due to the limited time and we are hoping to add these in the future. Also, we are open to user feedback and our aim is to improve continuously with time.
